@@ -206,7 +206,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
   })();
   // Créditos en el pie y nota de independencia en Anunciá
   (function(){var ft=document.querySelector('footer');if(ft&&!ft.querySelector('.cred5')){var p=document.createElement('p');p.className='cred5';p.innerHTML='<b>Dirección:</b> Amigo Camionero · <b>Comercial:</b> Savia';ft.appendChild(p);}
-    var an=document.querySelector('section[data-view="anuncia"] .an5');if(an&&!an.querySelector('.ind5')){var q=document.createElement('p');q.className='ind5';q.textContent='Los anunciantes no deciden el contenido editorial. El contenido de marca se identifica como tal.';an.appendChild(q);}})();
+    setTimeout(function(){var an=document.querySelector('.an5');if(an&&!an.querySelector('.ind5')){var q=document.createElement('p');q.className='ind5';q.textContent='Los anunciantes no deciden el contenido editorial. El contenido de marca se identifica como tal.';an.appendChild(q);}},300);})();
   // Rotación 3,5 s
   document.querySelectorAll('.r5').forEach(function(box,bi){
     var it=box.querySelectorAll(':scope>.r5i'),dt=box.querySelectorAll('.dots5 i'),i=0,hold=false;
