@@ -1,52 +1,57 @@
 [
- {
-  "id": "2026-10-20-diesel-otra-suba",
-  "estado": "publicada",
-  "fecha": "2026-10-20",
-  "cat": "Mercado y precios",
-  "titulo": "Diésel: Copetrol anticipa otra suba y la ventaja de Petropar ya es mínima",
-  "bajada": "Con el gasoil internacional en niveles de pico, los privados advierten un nuevo ajuste y la estatal admite que sostener su precio se volvió difícil. La diferencia entre ambos casi desapareció en seis meses.",
-  "autor": "Ana Paula Scacciaferro",
-  "img": "img/2026-10-20-diesel-otra-suba-1.jpg"
- },
- {
-  "id": "2026-10-20-arena-por-tren",
-  "estado": "publicada",
-  "fecha": "2026-10-20",
-  "cat": "Logística · Región",
-  "titulo": "Del camión al tren: lo que la arena de Vaca Muerta le enseña al transporte de energía",
-  "bajada": "YPF ya mueve por ferrocarril parte de la arena que usa para fracturar pozos y busca sumar rutas por agua para descomprimir las rutas. Una discusión que en Paraguay, donde el combustible llega por la hidrovía y se reparte en camión, también importa.",
-  "autor": "Ana Paula Scacciaferro",
-  "img": "img/2026-10-20-arena-por-tren-1.jpg"
- },
- {
-  "id": "2026-10-20-latitude-arpec",
-  "estado": "publicada",
-  "fecha": "2026-10-20",
-  "cat": "Novedades de la industria",
-  "titulo": "Gilbarco eligió el Foro de Energías Paraguay para presentar Latitude por primera vez en América Latina",
-  "bajada": "El nuevo surtidor de Gilbarco Veeder-Root se mostró en el stand de ARPEC Paraguay, su distribuidor en el país, que además recibió un reconocimiento durante el evento.",
-  "autor": "Ana Paula Scacciaferro",
-  "img": "img/2026-10-20-latitude-arpec-1.jpg"
- },
- {
-  "id": "2026-10-23-uranio-paraguay",
-  "estado": "publicada",
-  "fecha": "2026-10-23",
-  "cat": "Energía y minería",
-  "titulo": "Uranio en Paraguay: nueva inversión y una agenda nuclear que empieza a tomar forma",
-  "bajada": "Uranium Energy Corp anunció USD 12 millones más para sus concesiones, mientras Estados Unidos y Paraguay abren la negociación de un acuerdo de cooperación nuclear civil.",
-  "autor": "Fernando Berdichevsky",
-  "img": "img/2026-10-23-uranio-paraguay-1.jpg"
- },
- {
-  "id": "2026-10-24-sexta-suba-diesel",
-  "estado": "publicada",
-  "fecha": "2026-10-24",
-  "cat": "Mercado y precios",
-  "titulo": "Diésel: los privados aplican desde el lunes la sexta suba y la brecha con Petropar vuelve a abrirse",
-  "bajada": "Shell, Copetrol, Petrochaco, Compasa y Energy ajustan entre G. 500 y G. 600 por litro. La estatal mantiene su Diésel Porã a G. 8.785 y la diferencia vuelve a rondar los G. 700.",
-  "autor": "NdR",
-  "img": "img/2026-10-24-sexta-suba-diesel-1.jpg"
- }
+  {
+    "id": "2026-10-20-diesel-otra-suba",
+    "estado": "publicada",
+    "fecha": "2026-10-20",
+    "cat": "Mercado y precios",
+    "titulo": "Diésel: Copetrol anticipa otra suba y la ventaja de Petropar ya es mínima",
+    "bajada": "Con el gasoil internacional en niveles de pico, los privados advierten un nuevo ajuste y la estatal admite que sostener su precio se volvió difícil. La diferencia entre ambos casi desapareció en seis meses.",
+    "autor": "Ana Paula Scacciaferro",
+    "img": "img/2026-10-20-diesel-otra-suba-1.jpg",
+    "pais": "py"
+  },
+  {
+    "id": "2026-10-20-arena-por-tren",
+    "estado": "publicada",
+    "fecha": "2026-10-20",
+    "cat": "Logística · Región",
+    "titulo": "Del camión al tren: lo que la arena de Vaca Muerta le enseña al transporte de energía",
+    "bajada": "YPF ya mueve por ferrocarril parte de la arena que usa para fracturar pozos y busca sumar rutas por agua para descomprimir las rutas. Una discusión que en Paraguay, donde el combustible llega por la hidrovía y se reparte en camión, también importa.",
+    "autor": "Ana Paula Scacciaferro",
+    "img": "img/2026-10-20-arena-por-tren-1.jpg",
+    "pais": "ar"
+  },
+  {
+    "id": "2026-10-20-latitude-arpec",
+    "estado": "publicada",
+    "fecha": "2026-10-20",
+    "cat": "Novedades de la industria",
+    "titulo": "Gilbarco eligió el Foro de Energías Paraguay para presentar Latitude por primera vez en América Latina",
+    "bajada": "El nuevo surtidor de Gilbarco Veeder-Root se mostró en el stand de ARPEC Paraguay, su distribuidor en el país, que además recibió un reconocimiento durante el evento.",
+    "autor": "Ana Paula Scacciaferro",
+    "img": "img/2026-10-20-latitude-arpec-1.jpg",
+    "pais": "py"
+  },
+  {
+    "id": "2026-10-23-uranio-paraguay",
+    "estado": "publicada",
+    "fecha": "2026-10-23",
+    "cat": "Energía y minería",
+    "titulo": "Uranio en Paraguay: nueva inversión y una agenda nuclear que empieza a tomar forma",
+    "bajada": "Uranium Energy Corp anunció USD 12 millones más para sus concesiones, mientras Estados Unidos y Paraguay abren la negociación de un acuerdo de cooperación nuclear civil.",
+    "autor": "Fernando Berdichevsky",
+    "img": "img/2026-10-23-uranio-paraguay-1.jpg",
+    "pais": "py"
+  },
+  {
+    "id": "2026-10-24-sexta-suba-diesel",
+    "estado": "publicada",
+    "fecha": "2026-10-24",
+    "cat": "Mercado y precios",
+    "titulo": "Diésel: los privados aplican desde el lunes la sexta suba y la brecha con Petropar vuelve a abrirse",
+    "bajada": "Shell, Copetrol, Petrochaco, Compasa y Energy ajustan entre G. 500 y G. 600 por litro. La estatal mantiene su Diésel Porã a G. 8.785 y la diferencia vuelve a rondar los G. 700.",
+    "autor": "NdR",
+    "img": "img/2026-10-24-sexta-suba-diesel-1.jpg",
+    "pais": "py"
+  }
 ]
