@@ -1,0 +1,332 @@
+<!-- Publicidad v5 · planes 2027 (Sponsor / Oro / Plata / Bronce) + guía + Anunciá -->
+<style>
+.r5{position:relative;overflow:hidden}
+.r5>.r5i{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+.r5>.r5i.on{opacity:1;visibility:visible}
+.r5 .dots5{position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:5px;z-index:3;pointer-events:none}
+.r5 .dots5 i{width:6px;height:6px;border-radius:50%;background:#C9D3DD}
+.r5 .dots5 i.on{background:#C0252D;width:16px;border-radius:3px}
+.tag5{position:absolute;top:5px;right:8px;font:600 9px/1 'Barlow',sans-serif;letter-spacing:1.5px;color:#8A97A5;z-index:2}
+/* Sponsor (banner superior) */
+.sp5{max-width:970px;height:96px;margin:0 auto;background:#fff;border:1px solid var(--line,#DCE3EA)}
+.sp5 .r5i{display:flex;align-items:center;gap:24px;padding:0 26px 0 32px;color:#0C1A29;text-decoration:none}
+.sp5 .r5i::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--bc)}
+.sp5 img{height:62px;width:auto;max-width:220px;object-fit:contain}
+.sp5 b{display:block;font:700 22px/1.05 'Barlow Condensed',sans-serif;letter-spacing:.5px;text-transform:uppercase}
+.sp5 span.s{font-size:13px;color:#4A5B6C}
+/* Oro alto 300x420 */
+.oro5{width:100%;max-width:300px;height:420px;margin:0 auto;background:#fff;border:1px solid var(--line,#DCE3EA)}
+.sp5 a.r5i{cursor:pointer}
+.oro5 .r5i{display:flex;flex-direction:column;justify-content:space-between;padding:30px 22px 34px;text-decoration:none;color:#0C1A29;background:#fff}
+.oro5 .r5i::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:linear-gradient(90deg,#C9A227,#F2D46B)}
+.oro5 .lgw{flex:1;display:flex;align-items:center;justify-content:center}
+.oro5 .lgw img{max-width:230px;max-height:150px;width:auto;height:auto;object-fit:contain}
+.oro5 .lv{font:700 12px/1 'Barlow Condensed',sans-serif;letter-spacing:2px;color:#A8861C;text-transform:uppercase}
+.oro5 h4{margin:6px 0 4px;font:400 30px/1 'Bebas Neue','Barlow Condensed',sans-serif;letter-spacing:.5px}
+.oro5 p{margin:0;font-size:14px;color:#4A5B6C;line-height:1.35}
+.oro5 .cta{margin-top:12px;align-self:flex-start;background:#0C1A29;color:#fff;font:700 13px/1 'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;padding:9px 12px}
+/* Aryes (Oro con banner propio) */
+.oro5 .ary{background:#1D1D1B;color:#fff}
+.oro5 .ary::after{background:linear-gradient(90deg,#E6332A,#F39200)}
+.oro5 .ary img{width:170px}
+.oro5 .ary .big{font:700 34px/1 'Barlow Condensed',sans-serif;text-transform:uppercase;background:linear-gradient(90deg,#E6332A,#F39200);-webkit-background-clip:text;background-clip:text;color:transparent}
+.oro5 .ary small{display:block;margin-top:8px;font-size:14px;color:#cfcfcf}
+.oro5 .ary .ct{display:flex;flex-direction:column;gap:3px;font-size:14px}
+.oro5 .ary .ct strong{font:700 30px/1 'Barlow Condensed',sans-serif}
+.oro5 .ary .tag5{color:#9a9a9a}
+/* Oro compacto (notas) */
+.oro5.sq{height:160px}
+.oro5.sq .r5i{padding:16px 16px 24px}
+.oro5.sq .lgw img{max-height:84px;max-width:210px}
+.oro5.sq h4,.oro5.sq p,.oro5.sq .cta{display:none}
+.oro5.sq .ary img{width:120px}.oro5.sq .ary .big{font-size:20px}.oro5.sq .ary small,.oro5.sq .ary .ct span{display:none}.oro5.sq .ary .ct strong{font-size:20px}
+/* Notas: Oro x2 arriba, Plata debajo, Bronce al final */
+.nt5{max-width:760px;margin:0 auto 18px;display:flex;flex-direction:column;gap:12px}
+.nt5 .oroh5{margin-top:6px}
+.nt5 .oroh5 .rw5.dos5{grid-template-columns:repeat(2,minmax(0,1fr))}
+.nt5 .oroh5 .r5{height:170px}
+.nt5 .pb5{margin:0}
+.nt5 .pb5 .plata{height:104px}
+.nt5 .pb5 .plata .r5i img{max-height:54px}
+.nt5 .pb5 .plata .r5i span:not(.tag5){font-size:12px}
+.brl5{max-width:760px;margin:40px auto 0;border-top:1px solid var(--line,#DCE3EA);padding-top:14px}
+.brl5 .hd{font:700 11px/1 'Barlow Condensed',sans-serif;letter-spacing:2.5px;color:#A0663A;text-transform:uppercase;margin-bottom:10px}
+.brl5 .grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.brl5 a{display:flex;align-items:center;justify-content:center;height:62px;background:#fff;border:1px solid var(--line,#DCE3EA);padding:8px}
+.brl5 a:hover{border-color:#C08457}
+.brl5 img{max-width:100%;max-height:42px;width:auto;height:auto;object-fit:contain}
+@media (max-width:640px){.nt5 .oroh5 .rw5.dos5{grid-template-columns:1fr}.brl5 .grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* Plata y Bronce */
+.pb5{display:flex;flex-direction:column;gap:14px;margin:8px 0 10px}
+.pb5 .rw5{display:grid;gap:16px}
+.pb5 .pl{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pb5 .br{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pb5 .r5{background:#fff;border:1px solid var(--line,#DCE3EA)}
+.pb5 .plata{height:170px;background:linear-gradient(180deg,#F4F6F8,#fff 60%);box-shadow:0 2px 10px rgba(12,26,41,.06)}
+.pb5 .plata .r5i img{max-height:84px;max-width:58%}
+.pb5 .plata .r5i span:not(.tag5){font-size:14px;font-weight:600;color:#2B3A4A}
+.pb5 .bronce{height:112px}
+.pb5 .bronce .r5i img{max-height:52px}
+.pb5 .bronce .r5i span:not(.tag5){font-size:11px}
+/* Oro horizontal (portada, debajo de la nota principal) */
+.oroh5{margin-top:30px;display:flex;flex-direction:column;gap:10px}
+.oroh5 .hd{font:700 12px/1 'Barlow Condensed',sans-serif;letter-spacing:2.5px;color:#A8861C;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.oroh5 .hd::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#C9A227,transparent)}
+.oroh5 .rw5{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.oroh5 .r5{height:190px;background:#fff;border:1px solid var(--line,#DCE3EA);border-bottom:4px solid #C9A227}
+.oroh5 .r5i{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:18px 16px 16px;text-decoration:none;color:#0C1A29}
+.oroh5 .r5i .lgw{flex:1;width:100%;display:flex;align-items:center;justify-content:center}
+.oroh5 .r5i img{max-width:85%;max-height:78px;width:auto;height:auto;object-fit:contain}
+.oroh5 .r5i b{font:400 22px/1 'Bebas Neue','Barlow Condensed',sans-serif;letter-spacing:.5px}
+.oroh5 .r5i small{font-size:12px;color:#4A5B6C;line-height:1.3}
+.oroh5 .ary{background:#1D1D1B;color:#fff}.oroh5 .ary small{color:#cfcfcf}
+
+.pb5 a,.brl5 a,.oroh5 a,.oro5 a,.sp5 a{text-decoration:none}
+.pb5 .r5i,.nb5 .mix .r5i{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 12px 18px;text-align:center;color:#4A5B6C;font-size:12px}
+.pb5 .r5i img,.nb5 .mix .r5i img{max-width:78%;max-height:68px;width:auto;height:auto;object-fit:contain}
+.pb5 .lvl,.nb5 .lvl{position:absolute;top:5px;left:8px;font:700 9px/1 'Barlow',sans-serif;letter-spacing:1.5px;z-index:2}
+.pb5 .plata .lvl{color:#7D8A97}.pb5 .bronce .lvl{color:#A0663A}
+.pb5 .plata{border-top:3px solid #AEB8C2}.pb5 .bronce{border-top:3px solid #C08457}
+.nb5{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;width:100%}
+.nb5 .lvl{color:#7D8A97}
+.nb5 .r5{width:100%;max-width:300px;height:160px;margin:0;background:#fff;border:1px solid var(--line,#DCE3EA)}
+@media (max-width:640px){
+  .sp5{height:auto;min-height:80px}
+  .sp5 .r5i{gap:12px;padding:10px 12px 10px 20px}
+  .sp5 img{height:44px;max-width:120px}
+  .sp5 b{font-size:16px}.sp5 span.s{display:none}
+  .pb5 .pl,.pb5 .br,.oroh5 .rw5{grid-template-columns:1fr}
+  .pb5 .plata{height:140px}.pb5 .bronce{height:100px}
+  .oroh5 .r5{height:150px}
+}
+section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa5{font-weight:700;color:#0C1A29;text-decoration:underline}section[data-view="anuncia"] a.wa5{color:#1E8E4E}
+#p-list .contact a{color:#0C1A29;font-weight:600;text-decoration:underline;text-underline-offset:2px}
+#p-list .contact a.wa5{color:#1E8E4E}
+#p-list .prov.basic5{display:flex!important;flex-direction:row!important;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:2px 10px;padding:8px 12px;min-height:0;height:auto;border-width:1px;text-align:left;align-self:start}
+#p-list .basic5>*{margin:0;width:auto;flex:none;align-self:center}
+#p-list .basic5 .ct5[hidden]{display:none!important}
+#p-list .basic5 h3{margin:0;font-size:15px}
+#p-list .basic5 .c5{font:600 10px/1 'Barlow',sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#3A7D44}
+#p-list .basic5 .w5{margin-left:auto;font-size:13px;color:#0C1A29;font-weight:600}
+#p-list .basic5 .vc5{border:1px solid var(--line,#DCE3EA);background:#F0F4F8;color:#0C1A29;font:600 11px/1 'Barlow',sans-serif;padding:5px 8px;border-radius:6px;cursor:pointer}
+#p-list .basic5 .ct5{flex:1 1 100%;font-size:13px;padding-top:4px}
+#p-list .basic5 .ct5 a{color:#0C1A29;font-weight:600}
+#p-list .basic5 .ct5 a.wa5{color:#1E8E4E}
+@media (max-width:560px){#p-list .basic5 .w5{margin-left:0}}
+.how5{background:#F0F4F8;border-left:4px solid #3A7D44;padding:16px 18px}
+.how5 h3{margin:0 0 8px;font:400 26px/1 'Bebas Neue',sans-serif;letter-spacing:.5px}
+.how5 ol{margin:0;padding-left:20px;font-size:15px;line-height:1.5;color:#2B3A4A;display:flex;flex-direction:column;gap:4px}
+.cred5{max-width:1148px;margin:14px auto 0;padding:12px 16px 0;border-top:1px solid rgba(255,255,255,.15);font-size:13px;color:#AFC0D0;text-align:center}
+.cred5 b{color:#fff;font-weight:600}
+.ind5{margin:0;font-size:14px;font-weight:600;color:#0C1A29;border-top:1px solid var(--line,#DCE3EA);padding-top:10px}
+/* Anunciá v5 */
+.an5{display:flex;flex-direction:column;gap:14px}
+.an5 .free{background:#0C1A29;color:#fff;padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.an5 .free b{font:400 30px/1 'Bebas Neue',sans-serif;letter-spacing:.5px;color:#6DBB78}
+.an5 .free span{font-size:15px;color:#D7E0E8}
+.plans5{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.plans5 article{background:#fff;border:1px solid var(--line,#DCE3EA);border-top:6px solid var(--pc);padding:18px 16px;display:flex;flex-direction:column;gap:8px}
+.plans5 h3{margin:0;font:400 32px/1 'Bebas Neue',sans-serif;letter-spacing:.5px}
+.plans5 .pr{font:700 26px/1 'Barlow Condensed',sans-serif;color:#0C1A29}
+.plans5 .pr small{font-size:14px;font-weight:500;color:#4A5B6C}
+.plans5 ul{margin:0;padding-left:18px;font-size:15px;line-height:1.45;color:#2B3A4A}
+.plans5 .who{font-size:13px;color:#4A5B6C;margin-top:auto;border-top:1px solid var(--line,#DCE3EA);padding-top:8px}
+.tb5{width:100%;border-collapse:collapse;font-size:15px;background:#fff}
+.tb5 th,.tb5 td{border-bottom:1px solid var(--line,#DCE3EA);padding:10px 12px;text-align:left;vertical-align:top}
+.tb5 th{background:#F0F4F8;font:700 13px/1.2 'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.tb5 td.p{white-space:nowrap;font-weight:700}
+.dc5{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.dc5 div{background:#F0F4F8;border-top:3px solid #3A7D44;padding:14px}
+.dc5 b{display:block;font:400 34px/1 'Bebas Neue',sans-serif;color:#0C1A29}
+.dc5 span{font-size:14px;color:#4A5B6C}
+@media (max-width:900px){.plans5{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.plans5,.dc5{grid-template-columns:1fr}.tb5{font-size:14px}}
+</style>
+<script>
+(function(){
+  var L='img/logos/';
+  var SP=[{k:'shell',n:'Shell',c:'#FBCE07'},{k:'nextar',n:'Nextar',c:'#1B4F9C'}];
+  var ORO=[
+    {k:'aryes',n:'Aryes Energías',r:'Obras civiles y electromecánicas',custom:1},
+    {k:'arpec',n:'ARPEC Paraguay',r:'Surtidores, telemetría y estaciones llave en mano'},
+    {k:'aesa',n:'AESA · Atenas Energía',r:'Representante de Petrotec: surtidores'},
+    {k:'bancard',n:'El POS Azul de Bancard',r:'Medios de pago'},
+    {k:'diesa',n:'DIESA · Wayne',r:'Surtidores Wayne Fueling Systems'},
+    {k:'mgpro',n:'MG.pro',r:'Pantallas LED'}];
+  var PLATA=[{k:'petroaco',n:'Petroaço São João'},{k:'steinmaq',n:'Stein Maq S.A.'},{k:'minibank',n:'miniBANK'},{k:'deconews',n:'Deconews'},{k:'tope',n:'Tope Urbano'}];
+  var BRONCE=[{k:'guerra',n:'Guerra'},{k:'automotor',n:'AM Automotor'},{k:'indega',n:'Indega S.A.'},{k:'lumicorp',n:'Lumicorp'},{k:'rmafms',n:'RMA · FMS'},{k:'cabipal',n:'Cabipal Metalmek'},
+    {k:'nestle',n:'Nestlé'},{k:'cocacola',n:'Coca-Cola Paresa'},{k:'petropar',n:'Petropar'},{k:'cervepar',n:'Cervepar'},{k:'cafepar',n:'Cafepar'},{k:'dioverti',n:'Dioverti Catering'}];
+  var URLS={aryes:'https://www.aryesparaguay.com.py',arpec:'https://arpec-group.com/paraguay',tope:'https://topeurbano.com',minibank:'https://www.instagram.com/minibankarg/',petroaco:'https://petroacosaojoao.com.br',aesa:'https://aesa.com.py',dioverti:'https://www.instagram.com/dioverti_catering/',cabipal:'https://cabipalmetalmek.com.py/',shell:'https://www.shell.com.py',nextar:'https://www.nextar.com.py',bancard:'https://www.bancard.com.py',indega:'https://www.indega.com.py',lumicorp:'https://www.lumicorp.com.py',nestle:'https://www.nestle.com.py',petropar:'https://www.petropar.gov.py',cervepar:'https://www.cervepar.com.py',cafepar:'https://www.cafepar.com.py',cocacola:'https://www.coca-cola.com/py/es',deconews:'https://www.deconews.com.ar',automotor:'https://www.automotor.com.py',steinmaq:'https://www.instagram.com/steinmaqsa/',guerra:'https://www.instagram.com/guerra.py/',rmafms:'https://www.instagram.com/rma.py/',mgpro:'https://www.pantallasled.com.py/',diesa:'https://www.diesa.com.py/marcas/wayne/'};
+  [SP,ORO,PLATA,BRONCE].forEach(function(g){g.forEach(function(x){if(URLS[x.k])x.u=URLS[x.k];});});
+  function hr(x){return x.u?'href="'+x.u+'" target="_blank" rel="noopener sponsored"':'href="#proveedores"';}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function dots(n){var s='<div class="dots5" aria-hidden="true">';for(var i=0;i<n;i++)s+='<i></i>';return s+'</div>';}
+  function sp(){return '<div class="sp5 r5" aria-roledescription="carrusel de publicidad"><span class="tag5">PUBLICIDAD</span>'+SP.map(function(s){
+    return '<a class="r5i" '+hr(s)+' style="--bc:'+s.c+'"><img src="'+L+s.k+'.png" alt="'+s.n+'"><div><b>'+s.n+' · Sponsor oficial</b><span class="s">Energías Paraguay · La Estación del Futuro</span></div></a>';}).join('')+'</div>';}
+  function oroItem(o){
+    if(o.custom) return '<a class="r5i ary" href="https://www.aryesparaguay.com.py" target="_blank" rel="noopener"><span class="tag5">PUBLICIDAD</span><img src="logo-aryes-blanco.png" alt="Aryes Energías"><div><div class="big">Obras civiles y electromecánicas</div><small>La energía de hoy, con la experiencia de siempre.</small></div><div class="ct"><strong>0985 460 888</strong><span>www.aryesparaguay.com.py</span></div></a>';
+    return '<a class="r5i" '+hr(o)+'><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="'+L+o.k+'.png" alt="'+o.n+'"></div><div><span class="lv">Proveedor Oro</span><h4>'+o.n+'</h4><p>'+o.r+'</p><span class="cta">Ver en la guía</span></div></a>';}
+  function oro(sq){var a=shuffle(ORO);return '<div class="oro5 r5'+(sq?' sq':'')+'" aria-roledescription="carrusel de publicidad">'+a.map(oroItem).join('')+dots(a.length)+'</div>';}
+  function lg(x){return '<a class="r5i" '+hr(x)+'><span class="tag5">PUBLICIDAD</span><img src="'+L+x.k+'.png" alt="'+x.n+'"><span>'+x.n+'</span></a>';}
+  function slot(cls,lvl,arr){arr=shuffle(arr);return '<div class="r5 '+cls+'" aria-roledescription="carrusel de publicidad"><span class="lvl">'+lvl+'</span>'+arr.map(lg).join('')+dots(arr.length)+'</div>';}
+  function pb(){var p=shuffle(PLATA),b=shuffle(BRONCE);return '<div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,3))+slot('plata','PLATA',p.slice(3))+'</div><div class="rw5 br">'+slot('bronce','BRONCE',b.slice(0,4))+slot('bronce','BRONCE',b.slice(4,8))+slot('bronce','BRONCE',b.slice(8))+'</div></div>';}
+  function hItem(o){
+    if(o.custom) return '<a class="r5i ary" href="https://www.aryesparaguay.com.py" target="_blank" rel="noopener"><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="logo-aryes-blanco.png" alt="Aryes Energías"></div><b>Aryes Energías</b><small>Obras civiles y electromecánicas · 0985 460 888</small></a>';
+    return '<a class="r5i" '+hr(o)+'><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="'+L+o.k+'.png" alt="'+o.n+'"></div><b>'+o.n+'</b><small>'+o.r+'</small></a>';}
+  function notaTop(){var a=shuffle(ORO),p=shuffle(PLATA);
+    var o=function(g){return '<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(g.length)+'</div>';};
+    return '<div class="nt5"><div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5 dos5">'+o(a.slice(0,3))+o(a.slice(3))+'</div></div><div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,3))+slot('plata','PLATA',p.slice(3))+'</div></div></div>';}
+  function bronceList(){return '<div class="brl5"><div class="hd">Proveedores Bronce</div><div class="grid">'+BRONCE.map(function(x){return '<a '+hr(x)+' title="'+x.n+'"><img src="'+L+x.k+'.png" alt="'+x.n+'"></a>';}).join('')+'</div></div>';}
+  function oroH(){var a=shuffle(ORO),h='';for(var i=0;i<3;i++){var g=[a[i],a[i+3]];h+='<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(2)+'</div>';}
+    return '<div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5">'+h+'</div></div>';}
+  function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild;}
+  // Reemplazos
+  document.querySelectorAll('.ads-a').forEach(function(a){a.replaceWith(el(sp()));});
+  document.querySelectorAll('.ads-b').forEach(function(a){a.replaceWith(el(oro(false)));});
+  var lead=document.querySelector('section[data-view="inicio"] article.lead');if(lead&&!lead.querySelector('.oroh5'))lead.appendChild(el(oroH()));
+  document.querySelectorAll('.ads-c').forEach(function(a){a.replaceWith(el(pb()));});
+  document.querySelectorAll('.nota-ad').forEach(function(a){a.replaceWith(el(notaTop()));});
+  document.querySelectorAll('section[data-view^="nota-"] main').forEach(function(m){if(!m.querySelector('.brl5'))m.appendChild(el(bronceList()));});
+  // Sponsor arriba en la vista de notas desde GitHub y en Proveedores
+  ['nota-gh','proveedores'].forEach(function(v){var m=document.querySelector('section[data-view="'+v+'"] main');if(m&&!m.querySelector('.sp5'))m.prepend(el(sp()));});
+  // Plata y Bronce también al final de Noticias
+  var nc=document.getElementById('news-cards');if(nc&&!document.querySelector('[data-view="noticias"] .pb5'))nc.after(el(pb()));
+  // Sponsor siempre arriba en todas las secciones
+  document.querySelectorAll('section[data-view] > main').forEach(function(m){var x=m.querySelector('.sp5');if(!x)x=el(sp());if(m.firstElementChild!==x)m.prepend(x);});
+  // Oro también en el listado de notas (antes de Plata y Bronce)
+  var npb=document.querySelector('section[data-view="noticias"] .pb5');if(npb&&!npb.previousElementSibling.classList.contains('oroh5'))npb.before(el(oroH()));
+  // Contacto comercial real (reemplaza los textos de ejemplo)
+  (function(){var M='info@energiasparaguay.com.py',W='+595 987 181 390',WU='https://wa.me/595987181390';
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n,hits=[];while(n=w.nextNode()){var t=n.nodeValue;if(/\[comercial@energiasparaguay\.com\.py\]|\[\+595 9XX XXX XXX\]/.test(t))hits.push(n);}
+    hits.forEach(function(n){var p=n.parentNode,t=n.nodeValue,sp=document.createElement('span');
+      if(t.indexOf('comercial@')>=0){sp.innerHTML='<a href="mailto:'+M+'">'+M+'</a>';}else{sp.innerHTML='<a class="wa5" href="'+WU+'" target="_blank" rel="noopener">WhatsApp '+W+'</a>';}
+      p.replaceChild(sp,n);var row=sp.closest('div');if(row){var b=row.querySelector('[data-copy]');if(b)b.setAttribute('data-copy',t.indexOf('comercial@')>=0?M:W);}});
+    document.querySelectorAll('[data-copy]').forEach(function(b){var v=b.getAttribute('data-copy');if(v==='[comercial@energiasparaguay.com.py]')b.setAttribute('data-copy',M);if(v==='[+595 9XX XXX XXX]')b.setAttribute('data-copy',W);});
+    document.querySelectorAll('a[href^="mailto:comercial@"]').forEach(function(a){a.href='mailto:'+M;});
+  })();
+  // Créditos en el pie y nota de independencia en Anunciá
+  (function(){var ft=document.querySelector('footer');if(ft&&!ft.querySelector('.cred5')){var p=document.createElement('p');p.className='cred5';p.innerHTML='<b>Dirección:</b> Amigo Camionero · <b>Comercial:</b> Savia';ft.appendChild(p);}
+    var an=document.querySelector('section[data-view="anuncia"] .an5');if(an&&!an.querySelector('.ind5')){var q=document.createElement('p');q.className='ind5';q.textContent='Los anunciantes no deciden el contenido editorial. El contenido de marca se identifica como tal.';an.appendChild(q);}})();
+  // Rotación 3,5 s
+  document.querySelectorAll('.r5').forEach(function(box,bi){
+    var it=box.querySelectorAll(':scope>.r5i'),dt=box.querySelectorAll('.dots5 i'),i=0,hold=false;
+    function show(n){it.forEach(function(x,j){x.classList.toggle('on',j===n);});dt.forEach(function(x,j){x.classList.toggle('on',j===n);});}
+    show(0); if(it.length<2)return;
+    box.addEventListener('mouseenter',function(){hold=true;});box.addEventListener('mouseleave',function(){hold=false;});
+    setTimeout(function(){setInterval(function(){if(hold||document.hidden)return;i=(i+1)%it.length;show(i);},3500);},(bi%4)*800);
+  });
+  // Guía de proveedores
+  try{
+    var G=[
+      ['ARPEC Paraguay','Surtidores y equipos','Distribuidor de Gilbarco Veeder-Root: surtidores, telemetría de tanques, estaciones llave en mano, pruebas de hermeticidad, limpieza de tanques y mantenimiento.','arpec',1,'+595 983 708 030','','arpec-group.com/paraguay'],
+      ['Aryes Energías','Obras civiles|Venta de materiales|Cañerías y productos electromecánicos','Obras civiles, electromecánicas y venta de materiales para estaciones de servicio.','aryes',1,'0985 460 888','info@aryesparaguay.com.py','www.aryesparaguay.com.py'],
+      ['AESA · Atenas Energía S.A.','Surtidores y equipos','Representante de Petrotec: surtidores y equipos para estaciones de servicio.','aesa',1],
+      ['El POS Azul de Bancard','Medios de pago','Cobros con tarjetas y otros medios de pago para la playa y la tienda.','bancard',1],
+      ['DIESA · Wayne Fueling Systems','Surtidores y equipos','Surtidores Wayne Fueling Systems.','diesa',1],
+      ['MG.pro','Imagen y señalética','Pantallas LED para precios, cartelería y publicidad.','mgpro',1],
+      ['Shell (Raízen Paraguay)','Emblemas','Emblema de estaciones de servicio. Sponsor de Energías Paraguay 2026.'],
+      ['Nextar','Emblemas','Emblema de estaciones de servicio (licenciataria Petrobras). Sponsor de Energías Paraguay 2026.'],
+      ['Petropar','Emblemas','Petróleos Paraguayos, empresa estatal de combustibles.'],
+      ['Petroaço São João','Tanques','Tanques y equipos para combustible.'],
+      ['Stein Maq S.A.','Cañerías y productos electromecánicos','Soluciones para estaciones de servicio. Representante de Zeppini Ecoflex, cañerías flexibles para combustible.'],
+      ['miniBANK','Medios de pago','Soluciones de cobro y medios de pago. Empresa argentina.','minibank',0,'','','','Paraguay y Argentina'],
+      ['Deconews','Tiendas de conveniencia','Convenience retailing: diseño y equipamiento de tiendas. Empresa argentina.','deconews',0,'','','','Paraguay y Argentina'],
+      ['Tope Urbano','Seguridad vial','Topes, reductores y elementos de seguridad vial.'],
+      ['Guerra','Cisternas y semirremolques','Cisternas y semirremolques para transporte de combustible.'],
+      ['AM Automotor','Automotriz','Automotriz.'],
+      ['Indega S.A.','Alimentos y bebidas','Alimentos y bebidas para la tienda.'],
+      ['Lumicorp','Iluminación','Iluminación para playa, tienda y exteriores.'],
+      ['RMA Ingeniería · FMS','Filtros para tanques','Distribuidor autorizado FMS: filtrado y mantenimiento de combustible en tanques.'],
+      ['Cabipal Metalmek S.A.','Metalmecánica|Tanques','Tanques, estructuras y trabajos metalmecánicos.'],
+      ['Nestlé','Alimentos y bebidas','Alimentos y bebidas para la tienda de conveniencia.'],
+      ['Coca-Cola Paresa','Alimentos y bebidas','Bebidas para la tienda de conveniencia.'],
+      ['Cervepar','Alimentos y bebidas','Bebidas para la tienda de conveniencia.'],
+      ['Cafepar','Café','Café para la tienda de conveniencia.'],
+      ['Dioverti Catering Co.','Catering','Catering para eventos y empresas.']];
+    PROV.length=0;
+    var NK={'Shell (Raízen Paraguay)':'shell','Nextar':'nextar','Petropar':'petropar','Petroaço São João':'petroaco','Stein Maq S.A.':'steinmaq','Tope Urbano':'tope','Guerra':'guerra','AM Automotor':'automotor','Indega S.A.':'indega','Lumicorp':'lumicorp','RMA Ingeniería · FMS':'rmafms','Cabipal Metalmek S.A.':'cabipal','Nestlé':'nestle','Coca-Cola Paresa':'cocacola','Cervepar':'cervepar','Cafepar':'cafepar','Dioverti Catering Co.':'dioverti'};
+    function shown(u){var m=u.match(/instagram\.com\/([^\/?#]+)/);if(m)return '@'+m[1];return u.replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,'');}
+    var CONT={nextar:{t:'+595 21 618 1000',m:'sac@nextar.com.py'},aesa:{t:'+595 21 674524',m:'info@aesa.com.py'},bancard:{t:'021 416 1000',w:'0981 38 20 63'},
+      diesa:{t:'+595 21 5197000'},mgpro:{t:'+595 973 101112'},petroaco:{w:'+55 45 99811 0842',m:'comercial@metalsaojoao.com.br'},
+      deconews:{t:'+54 9 249 459 6722',w:'+54 11 2674 0466',m:'atencionalcliente@deconews.com.ar'},tope:{t:'+54 11 6062-5141',w:'+54 11 4411 9250',m:'info@topeurbano.com'},
+      automotor:{t:'021 729 7878',w:'021 729 7878'},indega:{t:'+595 21 501011',m:'indega@indega.com.py'},lumicorp:{t:'+595 21 249 2000',m:'info@lumicorp.com.py'},
+      cabipal:{t:'021 612047',m:'info@cabipalmetalmek.com.py'},nestle:{t:'0800 112 121'},cocacola:{t:'0800 11 5555'},
+      petropar:{t:'+595 21 940134',m:'mesaentrada@petropar.gov.py'},cervepar:{t:'021 729 7500'},cafepar:{t:'021 600 797',m:'clientes@cafepar.com.py'}};
+    var LINK={};
+    G.forEach(function(g){var k=g[3]||NK[g[0]];var ts0=g[1].split('|');var p={n:g[0],t:ts0.join(' · '),ts:ts0,o:g[2],z:g[8]||'Paraguay',f:!!g[4]};if(g[4])p.l=L+k+'.png';
+      var c=CONT[k]||{};var tel=g[5]||c.t,mail=g[6]||c.m,w=c.w||(g[5]?g[5]:null);
+      var u=URLS[k];if(u){p.web=shown(u);}if(tel)p.tel=tel;if(mail)p.mail=mail;LINK[g[0]]={u:u,tel:tel,mail:mail,wa:w};PROV.push(p);});
+    var pl=document.getElementById('p-list');
+    function wa(t){var d=t.replace(/\D/g,'');if(/^\s*\+/.test(t)||/^(595|54|55)/.test(d)&&d.length>10)return d;if(d.indexOf('0800')===0)return d;return '595'+d.replace(/^0/,'');}
+    function th(t){var d=wa(t);return d.indexOf('0800')===0?d:'+'+d;}
+    function linkify(){document.querySelectorAll('#p-list article.prov').forEach(function(a){if(a.dataset.lk)return;a.dataset.lk=1;
+      var h=a.querySelector('h3'),d=h&&LINK[h.textContent];if(!d)return;
+      a.querySelectorAll('.contact > div').forEach(function(row){var sp=row.querySelector('span');if(!sp)return;var t=sp.textContent;
+        if(d.u&&t===shown(d.u)){sp.innerHTML='<a href="'+d.u+'" target="_blank" rel="noopener">'+t+' ↗</a>';}
+        else if(d.mail&&t===d.mail){sp.innerHTML='<a href="mailto:'+d.mail+'">'+d.mail+'</a>';}
+        else if(d.tel&&t.indexOf(d.tel)>=0){sp.innerHTML='<a href="tel:'+th(d.tel)+'">Tel.: '+d.tel+'</a>'+(d.wa?' · <a class="wa5" href="https://wa.me/'+wa(d.wa)+'" target="_blank" rel="noopener">WhatsApp</a>':'');}
+      });
+      if(d.wa&&!a.querySelector('a.wa5')){var ct=a.querySelector('.contact');if(ct){var r=document.createElement('div');r.innerHTML='<span><a class="wa5" href="https://wa.me/'+wa(d.wa)+'" target="_blank" rel="noopener">WhatsApp '+d.wa+'</a></span>';ct.insertBefore(r,ct.firstChild);}}
+      if(!a.classList.contains('feat')){
+        var cat=(a.querySelector('header .cat')||{}).textContent||'';
+        var web=d.u?'<a class="w5" href="'+d.u+'" target="_blank" rel="noopener">'+shown(d.u)+' ↗</a>':'';
+        var cs=[];if(d.tel)cs.push('<a href="tel:'+th(d.tel)+'">Tel.: '+d.tel+'</a>');if(d.wa)cs.push('<a class="wa5" href="https://wa.me/'+wa(d.wa)+'" target="_blank" rel="noopener">WhatsApp</a>');if(d.mail)cs.push('<a href="mailto:'+d.mail+'">'+d.mail+'</a>');
+        a.classList.add('basic5');
+        a.innerHTML='<h3>'+h.textContent+'</h3><span class="c5">'+cat+'</span>'+web+(cs.length?'<button type="button" class="vc5" aria-expanded="false">Ver contacto</button><div class="ct5" hidden>'+cs.join(' · ')+'</div>':'');
+      }
+      });}
+    if(pl)pl.addEventListener('click',function(e){var b=e.target.closest('.vc5');if(!b)return;var c=b.nextElementSibling;var o=c.hidden;c.hidden=!o;b.setAttribute('aria-expanded',o);b.textContent=o?'Ocultar':'Ver contacto';});
+    if(pl)new MutationObserver(linkify).observe(pl,{childList:true});
+    var ts=[];PROV.forEach(function(p){p.ts.forEach(function(x){if(ts.indexOf(x)<0)ts.push(x);});});ts.sort();
+    var sel=document.getElementById('p-type');if(sel){var f0=sel.options[0];sel.innerHTML='';sel.appendChild(f0);ts.forEach(function(t){var o=document.createElement('option');o.textContent=t;sel.appendChild(o);});}
+    // Filtro propio: una empresa puede tener varios rubros
+    var ALL=PROV.slice(),qi=document.getElementById('p-q');
+    if(sel){var s2=sel.cloneNode(true);sel.replaceWith(s2);sel=s2;}
+    if(qi){var q2=qi.cloneNode(true);qi.replaceWith(q2);qi=q2;}
+    function myDraw(){var q=(qi?qi.value:'').trim().toLowerCase(),t=sel?sel.value:'';
+      var L2=ALL.filter(function(p){return (!t||p.ts.indexOf(t)>=0)&&(!q||(p.n+' '+p.t+' '+p.o).toLowerCase().indexOf(q)>=0);});
+      var sv=sel?sel.value:'',qv=qi?qi.value:'';if(sel)sel.value='';if(qi)qi.value='';
+      PROV.length=0;L2.forEach(function(p){PROV.push(p);});drawProv();
+      if(sel)sel.value=sv;if(qi)qi.value=qv;linkify();}
+    if(sel)sel.addEventListener('change',myDraw);if(qi)qi.addEventListener('input',myDraw);
+    var at=document.getElementById('a-tipo');if(at){at.innerHTML=ts.map(function(t){return '<option>'+t+'</option>';}).join('');}
+    drawProv();linkify();
+  }catch(x){}
+  // Anunciá: planes y tarifas 2027
+  try{
+    var an=document.querySelector('section[data-view="anuncia"]');
+    var blocks=an.querySelectorAll('section.block');
+    var tgt=null;blocks.forEach(function(b){var h=b.querySelector('h2');if(!h)return;var t=h.textContent;if(/Formatos y tarifas/i.test(t))tgt=b;else if(/Paquetes/i.test(t))b.remove();});
+    var html='<section class="block an5"><h2 class="sec-title">Planes y tarifas 2027</h2>'+
+      '<div class="free"><b>Noviembre y diciembre sin cargo para expositores 2026</b><span>Beneficio exclusivo para las empresas que participaron de la Expo Energías Paraguay 2026.</span></div>'+
+      '<div class="plans5">'+
+      '<article style="--pc:#C0252D"><h3>Sponsor</h3><div class="pr">Gs 2.500.000 <small>/ mes</small></div><ul><li>Banner superior en todas las páginas, rotativo cada 3–4 seg</li><li>1 nota de marca por mes</li></ul><div class="who">Máxima visibilidad en toda la revista</div></article>'+
+      '<article style="--pc:#C9A227"><h3>Oro</h3><div class="pr">Gs 2.000.000 <small>/ mes</small></div><ul><li>Banner rotativo grande (3–4 seg) en portada y en cada nota</li><li>1 nota de marca por mes</li></ul><div class="who">Para proveedores que quieren presencia fuerte</div></article>'+
+      '<article style="--pc:#AEB8C2"><h3>Plata</h3><div class="pr">Gs 1.500.000 <small>/ mes</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>1 nota de marca cada dos meses</li></ul><div class="who">Presencia constante con contenido</div></article>'+
+      '<article style="--pc:#C08457"><h3>Bronce</h3><div class="pr">Gs 1.000.000 <small>/ mes</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>Sin nota incluida</li></ul><div class="who">Para estar visible todo el año</div></article>'+
+      '</div>'+
+      '<div class="how5"><h3>Cómo funcionan las notas de marca</h3><ol>'+
+      '<li><b>Te pedimos el tema.</b> Nos contás qué querés comunicar: un producto, un servicio, una obra o una novedad de tu empresa.</li>'+
+      '<li><b>La redactamos y te la enviamos para aprobar.</b></li>'+
+      '<li><b>En 24 horas desde tu OK se publica en la portada</b>, identificada como contenido de marca.</li>'+
+      '<li><b>Después sale en el newsletter quincenal</b>, en los mailings, en las comunicaciones por WhatsApp y en las redes sociales de Energías Paraguay.</li>'+
+      '</ol></div>'+
+      '<div class="tablewrap"><table class="tb5"><thead><tr><th>Otros servicios</th><th>Precio</th><th>Detalle</th></tr></thead><tbody>'+
+      '<tr><td>Nota de marca adicional</td><td class="p">Gs 900.000</td><td>Presentación de producto, servicio o empresa</td></tr>'+
+      '<tr><td>Cobertura en tu oficina o planta (abonados)</td><td class="p">Gs 1.200.000</td><td>Más viáticos si queda a más de 30 km de Asunción centro</td></tr>'+
+      '<tr><td>Cobertura para no abonados</td><td class="p">Gs 2.000.000</td><td>Por cobertura</td></tr>'+
+      '<tr><td>Guía de proveedores · destacada</td><td class="p">Gs 150.000 / mes</td><td>Primeros lugares, con logo, información y link a tu web</td></tr>'+
+      '<tr><td>Guía de proveedores · básica</td><td class="p">Gratis</td><td>Nombre, rubro, descripción y contacto</td></tr>'+
+      '</tbody></table></div>'+
+      '<div class="dc5"><div><b>5 %</b><span>de descuento con abono semestral</span></div><div><b>10 %</b><span>de descuento con abono anual</span></div><div><b>5 %</b><span>en tu stand de Energías Paraguay 2027 si estás abonado 6 meses o más</span></div></div>'+
+      '<p style="font-size:13px;color:#4A5B6C;margin:0">Precios mensuales en guaraníes. Los banners rotan entre las marcas de cada nivel.</p>'+
+      '</section>';
+    if(tgt)tgt.replaceWith(el(html));
+    an.querySelectorAll('.aud > div, .aud > *').forEach(function(d){var b=d.querySelector('b,strong,.n')||d.firstElementChild;if(!b)return;var t=d.textContent;
+      if(/seguidores/i.test(t)){b.textContent='1.900+';}
+      else if(/visitas/i.test(t)){b.textContent='24';var s=b.nextElementSibling||d.lastElementChild;if(s&&s!==b)s.textContent='expositores en el Foro 2026';}
+      else if(/newsletter/i.test(t)){b.textContent='1 por día';var s2=b.nextElementSibling||d.lastElementChild;if(s2&&s2!==b)s2.textContent='nota nueva del sector';}});
+    an.querySelectorAll('h2').forEach(function(h){if(/5\s*%.*stand/i.test(h.textContent)){var p=h.parentNode.querySelector('p');if(p)p.textContent='Si estás abonado a la revista 6 meses o más, tenés 5 % de descuento sobre el precio de tu stand en la Expo 2027.';}});
+  }catch(x){}
+})();
+</script>

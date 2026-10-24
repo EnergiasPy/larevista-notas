@@ -1,0 +1,80 @@
+<!-- Notas desde GitHub · larevista-notas -->
+<style>
+#v-nota-gh .nota-body figure{margin:20px 0;display:flex;flex-direction:column;gap:6px}
+#v-nota-gh .nota-body figure img{width:100%;height:auto;display:block;border:1px solid var(--line,#DCE3EA)}
+#v-nota-gh .nota-body figcaption{font-size:13px;color:#4A5B6C}
+#v-nota-gh .nota-body h2{font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-weight:400;font-size:32px;line-height:1;margin:22px 0 8px}
+#v-nota-gh .nota-body blockquote{margin:18px 0;border-left:3px solid #3A7D44;padding:4px 0 4px 16px;font-size:20px;font-weight:600;line-height:1.4}
+#v-nota-gh .nota-body blockquote cite{display:block;font-style:normal;font-size:14px;font-weight:500;color:#4A5B6C;margin-top:4px}
+#v-nota-gh .datos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}
+#v-nota-gh .datos div{background:#F0F4F8;border-top:3px solid #C0252D;padding:14px 12px;display:flex;flex-direction:column;gap:4px}
+#v-nota-gh .datos b{font-family:'Bebas Neue','Barlow Condensed',sans-serif;font-weight:400;font-size:34px;line-height:1;color:#0C1A29}
+#v-nota-gh .datos span{font-size:14px;line-height:1.35;color:#4A5B6C}
+#v-nota-gh .gh-draft{background:#FFC400;color:#0C1A29;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 14px;margin-bottom:14px}
+#v-nota-gh .pfig,.card.pc{position:relative}
+.pstripe{display:flex;height:6px;width:100%}.pstripe i{flex:1}
+.pflag{position:absolute;left:10px;top:14px;width:34px;height:23px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);background:#fff center/cover no-repeat;z-index:2}
+.card.pc .pstripe{position:absolute;left:0;right:0;top:0;z-index:2}
+#v-nota-gh .byline .pfl{display:inline-block;width:20px;height:14px;vertical-align:-2px;margin-right:6px;background:center/cover no-repeat;border:1px solid #DCE3EA}
+@media (max-width:560px){#v-nota-gh .datos{grid-template-columns:1fr}}
+</style>
+<script>
+(function(){
+  var GH='https://raw.githubusercontent.com/EnergiasPy/larevista-notas/main/';
+  var API='https://api.github.com/repos/EnergiasPy/larevista-notas/contents/';
+  function get(p){return fetch(API+p+'?ref=main',{headers:{Accept:'application/vnd.github.raw'}}).then(function(r){if(!r.ok)throw 0;return r.text();}).catch(function(){return fetch(GH+p+'?t='+Date.now()).then(function(r){return r.text();});});}
+  var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  function fecha(f){var p=f.split('-');return (+p[2])+' de '+MES[+p[1]-1]+' de '+p[0];}
+  function e(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  var sec=document.createElement('section');
+  sec.id='v-nota-gh'; sec.setAttribute('data-view','nota-gh'); sec.hidden=true;
+  sec.innerHTML='<main class="wrap"><article class="nota" id="gh-art"></article></main>';
+  var views=document.querySelectorAll('section[data-view]');
+  views[views.length-1].after(sec);
+  var ad=document.querySelector('section[data-view^="nota-"] .nota-ad');
+  if(ad) sec.querySelector('main').prepend(ad.cloneNode(true));
+  try{VIEWS.push('nota-gh');}catch(x){}
+  var IDX=[];
+  var PC={py:['Paraguay',['#D52B1E','#FFFFFF','#0038A8']],ar:['Argentina',['#74ACDF','#FFFFFF','#74ACDF']],br:['Brasil',['#009C3B','#FFDF00','#002776']],uy:['Uruguay',['#0038A8','#FFFFFF','#0038A8']],cl:['Chile',['#0039A6','#FFFFFF','#D52B1E']],bo:['Bolivia',['#D52B1E','#F9E300','#007934']],pe:['Perú',['#D91023','#FFFFFF','#D91023']],co:['Colombia',['#FCD116','#003893','#CE1126']],mx:['México',['#006847','#FFFFFF','#CE1126']],us:['Estados Unidos',['#B22234','#FFFFFF','#3C3B6E']]};
+  function stripe(c){var p=PC[c];return p?'<div class="pstripe">'+p[1].map(function(x){return '<i style="background:'+x+'"></i>';}).join('')+'</div>':'';}
+  function flag(c,cls){return PC[c]?'<span class="'+(cls||'pflag')+'" title="'+PC[c][0]+'" style="background-image:url(https://flagcdn.com/'+c+'.svg)"></span>':'';}
+  var PAIS={};
+  function deco(){document.querySelectorAll('a.card[href^="#n/"]:not(.pc)').forEach(function(a){var c=PAIS[a.getAttribute('href').slice(3)];if(!c||!PC[c])return;a.classList.add('pc');a.insertAdjacentHTML('afterbegin',stripe(c)+flag(c));});}
+  new MutationObserver(deco).observe(document.body,{childList:true,subtree:true});
+  function show(id){
+    var art=document.getElementById('gh-art');
+    document.querySelectorAll('[data-view]').forEach(function(s){s.hidden=s.getAttribute('data-view')!=='nota-gh';});
+    window.scrollTo(0,0);
+    var n=IDX.filter(function(x){return x.id===id;})[0];
+    if(!n){art.innerHTML='<a class="back" href="#noticias">← La Estación del Futuro</a><p>Cargando nota…</p>';return;}
+    get('notas/'+id+'.html').then(function(body){
+      body=body.replace(/src="img\//g,'src="'+GH+'img/');
+      art.innerHTML=(n.estado!=='publicada'?'<div class="gh-draft">Borrador · vista previa, todavía no está publicada</div>':'')+
+        '<a class="back" href="#noticias">← La Estación del Futuro</a>'+
+        '<span class="cat">'+e(n.cat)+'</span><h1>'+n.titulo+'</h1><p class="bajada">'+n.bajada+'</p>'+
+        '<p class="byline">Por <b>'+e(n.autor)+'</b> · '+fecha(n.fecha)+'</p>'+
+        '<div class="nota-body">'+body+'</div>';
+      var c=n.pais||'py',fg=art.querySelector('.nota-body figure');
+      if(fg&&PC[c]){fg.classList.add('pfig');fg.insertAdjacentHTML('afterbegin',flag(c));}
+      var bl=art.querySelector('.byline');if(bl&&PC[c])bl.insertAdjacentHTML('afterbegin',flag(c,'pfl'));
+      document.title=n.titulo.replace(/<[^>]+>/g,'')+' · La Estación del Futuro';
+    });
+  }
+  function check(){var h=location.hash.slice(1);if(h.indexOf('n/')===0)show(h.slice(2));}
+  window.addEventListener('hashchange',check);
+  get('notas.json').then(function(t){return JSON.parse(t);}).then(function(list){
+    IDX=list;
+    list.forEach(function(n){PAIS[n.id]=n.pais||'py';});
+    var pub=list.filter(function(n){return n.estado==='publicada';}).sort(function(a,b){return a.fecha<b.fecha?-1:1;});
+    try{
+      pub.forEach(function(n){NEWS.unshift({c:n.cat,t:n.titulo.replace(/<[^>]+>/g,''),d:n.bajada.replace(/<[^>]+>/g,''),h:'#n/'+n.id,img:n.img?GH+n.img:''});});
+      if(pub.length){
+        document.getElementById('home-news').innerHTML=NEWS.slice(0,4).map(function(n){return '<a href="'+(n.h||'#noticias')+'"><span class="cat">'+e(n.c)+'</span><strong>'+e(n.t)+'</strong></a>';}).join('');
+        drawNews();
+      }
+    }catch(x){}
+    check();
+  }).catch(function(){});
+  check();
+})();
+</script>
