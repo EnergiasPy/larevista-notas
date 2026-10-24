@@ -196,7 +196,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
   // Oro también en el listado de notas (antes de Plata y Bronce)
   var npb=document.querySelector('section[data-view="noticias"] .pb5');if(npb&&!npb.previousElementSibling.classList.contains('oroh5'))npb.before(el(oroH()));
   // Contacto comercial real (reemplaza los textos de ejemplo)
-  (function(){var M='info@energiasparaguay.com.py',W='+595 987 181 390',WU='https://wa.me/595987181390';
+  (function(){var M='info@energiaslatam.com',W='+595 987 181 390',WU='https://wa.me/595987181390';
     var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n,hits=[];while(n=w.nextNode()){var t=n.nodeValue;if(/\[comercial@energiasparaguay\.com\.py\]|\[\+595 9XX XXX XXX\]/.test(t))hits.push(n);}
     hits.forEach(function(n){var p=n.parentNode,t=n.nodeValue,sp=document.createElement('span');
       if(t.indexOf('comercial@')>=0){sp.innerHTML='<a href="mailto:'+M+'">'+M+'</a>';}else{sp.innerHTML='<a class="wa5" href="'+WU+'" target="_blank" rel="noopener">WhatsApp '+W+'</a>';}
