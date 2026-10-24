@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /datos/
+Sitemap: https://energiaslatam.com/sitemap.xml

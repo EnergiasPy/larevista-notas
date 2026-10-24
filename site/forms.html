@@ -1,0 +1,37 @@
+<!-- Formularios v1 · envían a form.php -->
+<style>.f5-err{color:#C0252D;font-size:14px;margin:6px 0 0}.f5hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+#v-nota-foro .f5ph{display:block;cursor:pointer}#v-nota-foro .f5ph img{transition:opacity .2s}#v-nota-foro .f5ph:hover img{opacity:.9}
+.f5more{display:inline-block;margin-top:10px;font-weight:600;color:#3A7D44;text-decoration:underline}</style>
+<script>
+(function(){
+  var T0=Date.now(), TIPO={inicio:'newsletter',proveedores:'proveedor',foro:'preregistro'};
+  function lab(f,el){var l=el.id&&f.querySelector('label[for="'+el.id+'"]');var t=(l?l.textContent:'')||el.getAttribute('placeholder')||el.name||el.id||'campo';return t.replace(/\s+/g,' ').replace(/[*:]/g,'').trim();}
+  document.querySelectorAll('form[data-demo]').forEach(function(f){
+    var s=f.closest('section[data-view]'),tipo=s&&TIPO[s.getAttribute('data-view')];if(!tipo)return;
+    f.removeAttribute('data-demo');
+    var ok=f.querySelector('.ok');if(ok)ok.textContent=ok.textContent.replace(/\s*\(demo\)\s*/i,'');
+    var hp=document.createElement('input');hp.type='text';hp.name='web';hp.tabIndex=-1;hp.autocomplete='off';hp.className='f5hp';hp.setAttribute('aria-hidden','true');f.appendChild(hp);
+    f.addEventListener('submit',function(e){
+      e.preventDefault();e.stopImmediatePropagation();
+      var b=f.querySelector('[type=submit]'),er=f.querySelector('.f5-err');if(er)er.remove();
+      var fd=new FormData();fd.append('tipo',tipo);fd.append('t',T0);fd.append('web',hp.value);
+      f.querySelectorAll('input,select,textarea').forEach(function(el){if(el===hp||el.type==='submit'||el.type==='button')return;if((el.type==='checkbox'||el.type==='radio')&&!el.checked)return;fd.append(lab(f,el),el.value);});
+      if(b){b.disabled=true;}
+      fetch('/form.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+        if(!j.ok)throw 0;if(ok)ok.hidden=false;f.querySelectorAll('input:not([type=hidden]),textarea').forEach(function(el){if(el!==hp)el.value='';});
+        try{gtag('event',tipo==='newsletter'?'sign_up':'generate_lead',{form:tipo});}catch(x){}
+      }).catch(function(){var p=document.createElement('p');p.className='f5-err';p.innerHTML='No se pudo enviar. Escribinos a <a href="mailto:info@energiaslatam.com">info@energiaslatam.com</a>.';f.appendChild(p);}).finally(function(){if(b)b.disabled=false;});
+    },true);
+  });
+  // Nota del Foro 2026: fotos y crédito con link a Energías Paraguay
+  var nf=document.getElementById('v-nota-foro');
+  if(nf){
+    var EP='https://energiasparaguay.com.py';
+    nf.querySelectorAll('img[src^="img/foro-"]').forEach(function(im){if(im.closest('a'))return;var a=document.createElement('a');a.href=EP;a.target='_blank';a.rel='noopener';a.className='f5ph';a.title='Energías Paraguay · Foro & Expo';im.parentNode.insertBefore(a,im);a.appendChild(im);});
+    var w=document.createTreeWalker(nf,NodeFilter.SHOW_TEXT),n,hit=[];while(n=w.nextNode()){if(/Fotos:.*Energías Paraguay/.test(n.textContent))hit.push(n);}
+    hit.forEach(function(n){var sp=document.createElement('span');sp.innerHTML=n.textContent.replace('Energías Paraguay','<a href="'+EP+'" target="_blank" rel="noopener">Energías Paraguay</a>');n.parentNode.replaceChild(sp,n);});
+    var art=nf.querySelector('article')||nf.querySelector('main');
+    if(art&&!art.querySelector('.f5more')){var m=document.createElement('a');m.className='f5more';m.href=EP;m.target='_blank';m.rel='noopener';m.textContent='Más fotos y novedades del evento en energiasparaguay.com.py →';art.appendChild(m);}
+  }
+})();
+</script>
