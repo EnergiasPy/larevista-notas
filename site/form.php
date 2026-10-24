@@ -4,7 +4,24 @@
 header('Content-Type: application/json; charset=utf-8');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); echo '{"ok":false}'; exit; }
 
-$DEST = 'info@energiasparaguay.com.py, info@energiaslatam.com';
+$DEST = ['info@energiasparaguay.com.py', 'info@energiaslatam.com'];
+function smtp_local($to_list, $from, $subject, $body, $replyTo) {
+  $fp = @fsockopen('127.0.0.1', 25, $en, $es, 8);
+  if (!$fp) return 'noconn ' . $es;
+  $rd = function () use ($fp) { $d = ''; while (($l = fgets($fp, 515)) !== false) { $d .= $l; if (isset($l[3]) && $l[3] === ' ') break; } return $d; };
+  $cmd = function ($c) use ($fp, $rd) { fwrite($fp, $c . "\r\n"); return $rd(); };
+  $rd();
+  $cmd('EHLO energiaslatam.com');
+  $r = $cmd('MAIL FROM:<' . $from . '>'); if (substr($r, 0, 3) !== '250') { fclose($fp); return 'from ' . trim($r); }
+  foreach ($to_list as $t) { $r = $cmd('RCPT TO:<' . $t . '>'); if (substr($r, 0, 2) !== '25') { fclose($fp); return 'rcpt ' . trim($r); } }
+  $r = $cmd('DATA'); if (substr($r, 0, 3) !== '354') { fclose($fp); return 'data ' . trim($r); }
+  $msg = "From: La Estacion del Futuro <$from>\r\nTo: " . implode(', ', $to_list) . "\r\nSubject: $subject\r\nDate: " . date('r') . "\r\nMessage-ID: <" . uniqid('', true) . "@energiaslatam.com>\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n";
+  if ($replyTo) $msg .= "Reply-To: $replyTo\r\n";
+  $msg .= "\r\n" . str_replace("\n.", "\n..", str_replace(["\r\n", "\n"], ["\n", "\r\n"], $body));
+  $r = $cmd($msg . "\r\n."); $cmd('QUIT'); fclose($fp);
+  return substr($r, 0, 3) === '250' ? true : 'end ' . trim($r);
+}
+
 $FROM = 'info@energiaslatam.com';
 $TIPOS = ['newsletter' => 'Suscripción al newsletter', 'proveedor' => 'Alta en la guía de proveedores', 'preregistro' => 'Pre-registro Foro & Expo 2027'];
 
@@ -46,7 +63,9 @@ $cuerpo .= "\nFecha: " . $fecha . "\n";
 $asunto = '=?UTF-8?B?' . base64_encode('[La Estación del Futuro] ' . $TIPOS[$tipo]) . '?=';
 $h = "From: La Estacion del Futuro <$FROM>\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n";
 if ($mail) $h .= "Reply-To: $mail\r\n";
-$enviado = @mail($DEST, $asunto, $cuerpo, $h, '-f' . $FROM);
+if (function_exists('mail')) { $enviado = @mail(implode(', ', $DEST), $asunto, $cuerpo, $h, '-f' . $FROM); }
+else { $enviado = smtp_local($DEST, $FROM, $asunto, $cuerpo, $mail); }
+if ($enviado !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . print_r($enviado, true) . "\n", FILE_APPEND);
 
 // Copia en planilla (CSV) por tipo
 $csv = $dir . '/' . $tipo . '.csv';
@@ -57,4 +76,4 @@ if ($fh) {
   fputcsv($fh, array_merge([$fecha], array_values($campos)));
   fclose($fh);
 }
-echo json_encode(['ok' => true, 'mail' => (bool)$enviado]);
+echo json_encode(['ok' => true, 'mail' => $enviado === true]);
