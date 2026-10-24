@@ -15,7 +15,7 @@
 .pstripe{display:flex;height:6px;width:100%}.pstripe i{flex:1}
 .pflag{position:absolute;left:10px;top:14px;width:34px;height:23px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);background:#fff center/cover no-repeat;z-index:2}
 .card.pc .pstripe{position:absolute;left:0;right:0;top:0;z-index:2}
-#v-nota-gh .byline .pfl{display:inline-block;width:20px;height:14px;vertical-align:-2px;margin-right:6px;background:center/cover no-repeat;border:1px solid #DCE3EA}
+.pfl{display:inline-block;width:20px;height:14px;vertical-align:-2px;margin-right:7px;background:center/cover no-repeat;border:1px solid #DCE3EA}
 @media (max-width:560px){#v-nota-gh .datos{grid-template-columns:1fr}}
 </style>
 <script>
@@ -39,7 +39,7 @@
   function stripe(c){var p=PC[c];return p?'<div class="pstripe">'+p[1].map(function(x){return '<i style="background:'+x+'"></i>';}).join('')+'</div>':'';}
   function flag(c,cls){return PC[c]?'<span class="'+(cls||'pflag')+'" title="'+PC[c][0]+'" style="background-image:url(https://flagcdn.com/'+c+'.svg)"></span>':'';}
   var PAIS={};
-  function deco(){document.querySelectorAll('a.card[href^="#n/"]:not(.pc)').forEach(function(a){var c=PAIS[a.getAttribute('href').slice(3)];if(!c||!PC[c])return;a.classList.add('pc');a.insertAdjacentHTML('afterbegin',stripe(c)+flag(c));});}
+  function deco(){document.querySelectorAll('a.card[href^="#n/"]:not(.pc)').forEach(function(a){var c=PAIS[a.getAttribute('href').slice(3)];if(!c||!PC[c])return;a.classList.add('pc');var ct=a.querySelector('.cat');if(ct)ct.insertAdjacentHTML('afterbegin',flag(c,'pfl'));});}
   new MutationObserver(deco).observe(document.body,{childList:true,subtree:true});
   function show(id){
     var art=document.getElementById('gh-art');
@@ -54,8 +54,7 @@
         '<span class="cat">'+e(n.cat)+'</span><h1>'+n.titulo+'</h1><p class="bajada">'+n.bajada+'</p>'+
         '<p class="byline">Por <b>'+e(n.autor)+'</b> · '+fecha(n.fecha)+'</p>'+
         '<div class="nota-body">'+body+'</div>';
-      var c=n.pais||'py',fg=art.querySelector('.nota-body figure');
-      if(fg&&PC[c]){fg.classList.add('pfig');fg.insertAdjacentHTML('afterbegin',flag(c));}
+      var c=n.pais||'py';
       var bl=art.querySelector('.byline');if(bl&&PC[c])bl.insertAdjacentHTML('afterbegin',flag(c,'pfl'));
       document.title=n.titulo.replace(/<[^>]+>/g,'')+' · La Estación del Futuro';
     });
