@@ -162,7 +162,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
   function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
   function dots(n){var s='<div class="dots5" aria-hidden="true">';for(var i=0;i<n;i++)s+='<i></i>';return s+'</div>';}
   function sp(){return '<div class="sp5 r5" aria-roledescription="carrusel de publicidad"><span class="tag5">PUBLICIDAD</span>'+SP.map(function(s){
-    return '<a class="r5i" '+hr(s)+' style="--bc:'+s.c+'"><img src="'+L+s.k+'.png" alt="'+s.n+'"><div><b>'+s.n+' · Sponsor oficial</b><span class="s">Energías Paraguay · La Estación del Futuro</span></div></a>';}).join('')+'</div>';}
+    return '<a class="r5i" '+hr(s)+' style="--bc:'+s.c+'"><img src="'+L+s.k+'.png" alt="'+s.n+'"><div><b>'+s.n+' · Sponsor oficial</b><span class="s">Energías LATAM · La Estación del Futuro</span></div></a>';}).join('')+'</div>';}
   function oroItem(o){
     if(o.custom) return '<a class="r5i ary" href="https://www.aryesparaguay.com.py" target="_blank" rel="noopener"><span class="tag5">PUBLICIDAD</span><img src="logo-aryes-blanco.png" alt="Aryes Energías"><div><div class="big">Obras civiles y electromecánicas</div><small>La energía de hoy, con la experiencia de siempre.</small></div><div class="ct"><strong>0985 460 888</strong><span>www.aryesparaguay.com.py</span></div></a>';
     return '<a class="r5i" '+hr(o)+'><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="'+L+o.k+'.png" alt="'+o.n+'"></div><div><span class="lv">Proveedor Oro</span><h4>'+o.n+'</h4><p>'+o.r+'</p><span class="cta">Ver en la guía</span></div></a>';}
