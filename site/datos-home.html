@@ -39,7 +39,7 @@
 (function(){
 var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
 var NOM={'PETROBRAS PARAGUAY SRL':'Petrobras','COPETROL SA':'Copetrol','PUMA ENERGY PARAGUAY SA':'Puma','ENEX PARAGUAY SAE':'Enex','PETROSUR SA':'Petrosur','PETROMAX SA':'Petromax','PETROPAR':'Petropar','SHELL':'Shell','SAN ISIDRO':'Energy','ECOP':'ECOP','PETROCHACO':'Petrochaco','COMPASA':'Compasa','FUELPAR SA':'Fuelpar'};
-var COL={'Petropar':'#2B47E6','Shell':'#FFD500','Petrobras':'#0A8F5F','Copetrol':'#2A27D6','Puma':'#D8061B','Energy':'#FEDB03','ECOP':'#F18C17','Petrosur':'#4A52D0','Petrochaco':'#47659A','Petromax':'#D2010B','Compasa':'#EE141F','Enex':'#0B57B8','Fuelpar':'#FB0807'};
+var COL={'Petropar':'#2B47E6','Shell':'#FFD500','Petrobras':'#0A8F5F','Copetrol':'#2A27D6','Puma':'#D8061B','Energy':'#FEDB03','ECOP':'#F18C17','Petrosur':'#4A52D0','Petrochaco':'#47659A','Petromax':'#D2010B','Compasa':'#EE141F','Enex':'#0B57B8','Fuelpar':'#F2E500'};
 function nom(n){return NOM[n]||String(n||'').replace(/\b(S\.?A\.?|SRL|SAE|SAECA|SACIA)\b\.?/g,'').trim()}
 function f1(v){return (v/1e6).toLocaleString('es-PY',{minimumFractionDigits:1,maximumFractionDigits:1})}
 function go(y,retry){fetch('/mic.php?y='+y).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){

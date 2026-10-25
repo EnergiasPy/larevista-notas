@@ -15,6 +15,10 @@ foreach ($MIC as $slug => $code) {
   $b = bajar("https://gis.mic.gov.py/static/img/emb/$code.png") ?: bajar("https://gis.mic.gov.py/static/img/emb/{$code}_64.png");
   echo $slug, ': ', $b ? (file_put_contents("$dir/$slug.png", $b) . ' bytes') : 'no', "\n";
 }
+// Logos actualizados desde la web de cada empresa (más nuevos que los del registro oficial)
+$WEB = ['fuelpar' => 'https://static.wixstatic.com/media/4dc28d_7a54a5c8b69348e59b6f5a4f899355b8~mv2.png',
+  'petrobras' => 'https://www.petrobrasdistribucion.com.py/static/img/logo.png'];
+foreach ($WEB as $slug => $u) { $b = bajar($u); echo $slug, ' (web): ', $b ? (file_put_contents("$dir/$slug.png", $b) . ' bytes') : 'no', "\n"; }
 // Shell: logo propio sin fondo
 if (is_file(__DIR__ . '/img/logos/shell.png')) { copy(__DIR__ . '/img/logos/shell.png', "$dir/shell.png"); echo "shell: copiado\n"; }
 // Energy: logo desde su web
