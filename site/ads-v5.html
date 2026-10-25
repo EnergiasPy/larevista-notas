@@ -316,8 +316,8 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
     var html='<section class="block an5"><h2 class="sec-title">Planes y tarifas 2027</h2>'+
       '<div class="free"><b>Noviembre y diciembre sin cargo para expositores 2026</b><span>Beneficio exclusivo para las empresas que participaron de la Expo Energías Paraguay 2026.</span></div>'+
       '<div class="plans5">'+
-      '<article style="--pc:#C0252D"><h3>Sponsor</h3><div class="pr">Gs 2.500.000 <small>/ mes</small></div><ul><li>Banner superior en todas las páginas, rotativo cada 3–4 seg</li><li>1 nota de marca por mes</li><li>Logo destacado arriba en el newsletter semanal (800+ contactos)</li></ul><div class="who">Máxima visibilidad en toda la revista</div></article>'+
-      '<article style="--pc:#C9A227"><h3>Oro</h3><div class="pr">Gs 2.000.000 <small>/ mes</small></div><ul><li>Banner rotativo grande (3–4 seg) en portada y en cada nota</li><li>1 nota de marca por mes</li><li>Logo con link en el newsletter semanal (800+ contactos)</li></ul><div class="who">Para proveedores que quieren presencia fuerte</div></article>'+
+      '<article style="--pc:#C0252D"><h3>Sponsor</h3><div class="pr">Gs 2.500.000 <small>/ mes</small></div><ul><li>Banner superior en todas las páginas, rotativo cada 3–4 seg</li><li>1 nota de marca por mes</li><li>Logo destacado arriba en el newsletter semanal (+800 contactos)</li></ul><div class="who">Máxima visibilidad en toda la revista</div></article>'+
+      '<article style="--pc:#C9A227"><h3>Oro</h3><div class="pr">Gs 2.000.000 <small>/ mes</small></div><ul><li>Banner rotativo grande (3–4 seg) en portada y en cada nota</li><li>1 nota de marca por mes</li><li>Logo con link en el newsletter semanal (+800 contactos)</li></ul><div class="who">Para proveedores que quieren presencia fuerte</div></article>'+
       '<article style="--pc:#AEB8C2"><h3>Plata</h3><div class="pr">Gs 1.500.000 <small>/ mes</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>1 nota de marca cada dos meses</li><li>Logo rotativo en el newsletter semanal</li></ul><div class="who">Presencia constante con contenido</div></article>'+
       '<article style="--pc:#C08457"><h3>Bronce</h3><div class="pr">Gs 1.000.000 <small>/ mes</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>Sin nota incluida</li><li>Logo rotativo en el newsletter semanal</li></ul><div class="who">Para estar visible todo el año</div></article>'+
       '</div>'+
@@ -339,7 +339,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
       '</section>';
     if(tgt)tgt.replaceWith(el(html));
     an.querySelectorAll('.aud > div, .aud > *').forEach(function(d){var b=d.querySelector('b,strong,.n')||d.firstElementChild;if(!b||b.textContent.indexOf('[X]')<0)return;var t=d.textContent;
-      if(/seguidores/i.test(t)){b.textContent='2.000+';}
+      if(/seguidores/i.test(t)){b.textContent='+2.000';}
       else if(/visitas/i.test(t)){b.textContent='24';var s=b.nextElementSibling||d.lastElementChild;if(s&&s!==b)s.textContent='expositores en el Foro 2026';}
       else if(/newsletter/i.test(t)){b.textContent='1 por día';var s2=b.nextElementSibling||d.lastElementChild;if(s2&&s2!==b)s2.textContent='nota nueva del sector';}});
     an.querySelectorAll('h2').forEach(function(h){if(/5\s*%.*stand/i.test(h.textContent)){var p=h.parentNode.querySelector('p');if(p)p.textContent='Si estás abonado a la revista 6 meses o más, tenés 5 % de descuento sobre el precio de tu stand en la Expo 2027.';}});
