@@ -313,13 +313,13 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
     var an=document.querySelector('section[data-view="anuncia"]');
     var blocks=an.querySelectorAll('section.block');
     var tgt=null;blocks.forEach(function(b){var h=b.querySelector('h2');if(!h)return;var t=h.textContent;if(/Formatos y tarifas/i.test(t))tgt=b;else if(/Paquetes/i.test(t))b.remove();});
-    var html='<section class="block an5"><h2 class="sec-title">Planes y tarifas 2027</h2>'+
+    var html='<section class="block an5"><h2 class="sec-title">Planes 2027</h2>'+
       '<div class="free"><b>Noviembre y diciembre sin cargo para expositores 2026</b><span>Beneficio exclusivo para las empresas que participaron de la Expo Energías Paraguay 2026.</span></div>'+
       '<div class="plans5">'+
-      '<article style="--pc:#C0252D"><h3>Sponsor</h3><div class="pr">Gs 2.500.000 <small>/ mes</small></div><ul><li>Banner superior en todas las páginas, rotativo cada 3–4 seg</li><li>1 nota de marca por mes</li><li>Logo destacado arriba en el newsletter semanal (+800 contactos)</li></ul><div class="who">Máxima visibilidad en toda la revista</div></article>'+
-      '<article style="--pc:#C9A227"><h3>Oro</h3><div class="pr">Gs 2.000.000 <small>/ mes</small></div><ul><li>Banner rotativo grande (3–4 seg) en portada y en cada nota</li><li>1 nota de marca por mes</li><li>Logo con link en el newsletter semanal (+800 contactos)</li></ul><div class="who">Para proveedores que quieren presencia fuerte</div></article>'+
-      '<article style="--pc:#AEB8C2"><h3>Plata</h3><div class="pr">Gs 1.500.000 <small>/ mes</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>1 nota de marca cada dos meses</li><li>Logo rotativo en el newsletter semanal</li></ul><div class="who">Presencia constante con contenido</div></article>'+
-      '<article style="--pc:#C08457"><h3>Bronce</h3><div class="pr">Gs 1.000.000 <small>/ mes</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>Sin nota incluida</li><li>Logo rotativo en el newsletter semanal</li></ul><div class="who">Para estar visible todo el año</div></article>'+
+      '<article style="--pc:#C0252D"><h3>Sponsor</h3><div class="pr"><small>Tarifa a consultar</small></div><ul><li>Banner superior en todas las páginas, rotativo cada 3–4 seg</li><li>1 nota de marca por mes</li><li>Logo destacado arriba en el newsletter semanal (+800 contactos)</li></ul><div class="who">Máxima visibilidad en toda la revista</div></article>'+
+      '<article style="--pc:#C9A227"><h3>Oro</h3><div class="pr"><small>Tarifa a consultar</small></div><ul><li>Banner rotativo grande (3–4 seg) en portada y en cada nota</li><li>1 nota de marca por mes</li><li>Logo con link en el newsletter semanal (+800 contactos)</li></ul><div class="who">Para proveedores que quieren presencia fuerte</div></article>'+
+      '<article style="--pc:#AEB8C2"><h3>Plata</h3><div class="pr"><small>Tarifa a consultar</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>1 nota de marca cada dos meses</li><li>Logo rotativo en el newsletter semanal</li></ul><div class="who">Presencia constante con contenido</div></article>'+
+      '<article style="--pc:#C08457"><h3>Bronce</h3><div class="pr"><small>Tarifa a consultar</small></div><ul><li>Banner rotativo (3–4 seg) en portada, noticias y notas</li><li>Sin nota incluida</li><li>Logo rotativo en el newsletter semanal</li></ul><div class="who">Para estar visible todo el año</div></article>'+
       '</div>'+
       '<div class="how5"><h3>Cómo funcionan las notas de marca</h3><ol>'+
       '<li><b>Te pedimos el tema.</b> Nos contás qué querés comunicar: un producto, un servicio, una obra o una novedad de tu empresa.</li>'+
@@ -328,14 +328,14 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
       '<li><b>Después sale en el newsletter quincenal</b>, en los mailings, en las comunicaciones por WhatsApp y en las redes sociales de Energías Paraguay.</li>'+
       '</ol></div>'+
       '<div class="tablewrap"><table class="tb5"><thead><tr><th>Otros servicios</th><th>Precio</th><th>Detalle</th></tr></thead><tbody>'+
-      '<tr><td>Nota de marca adicional</td><td class="p">Gs 900.000</td><td>Presentación de producto, servicio o empresa</td></tr>'+
-      '<tr><td>Cobertura en tu oficina o planta (abonados)</td><td class="p">Gs 1.200.000</td><td>Más viáticos si queda a más de 30 km de Asunción centro</td></tr>'+
-      '<tr><td>Cobertura para no abonados</td><td class="p">Gs 2.000.000</td><td>Por cobertura</td></tr>'+
-      '<tr><td>Guía de proveedores · destacada</td><td class="p">Gs 150.000 / mes</td><td>Primeros lugares, con logo, información y link a tu web</td></tr>'+
+      '<tr><td>Nota de marca adicional</td><td class="p">A consultar</td><td>Presentación de producto, servicio o empresa</td></tr>'+
+      '<tr><td>Cobertura en tu oficina o planta (abonados)</td><td class="p">A consultar</td><td>Más viáticos si queda a más de 30 km de Asunción centro</td></tr>'+
+      '<tr><td>Cobertura para no abonados</td><td class="p">A consultar</td><td>Por cobertura</td></tr>'+
+      '<tr><td>Guía de proveedores · destacada</td><td class="p">A consultar</td><td>Primeros lugares, con logo, información y link a tu web</td></tr>'+
       '<tr><td>Guía de proveedores · básica</td><td class="p">Gratis</td><td>Nombre, rubro, descripción y contacto</td></tr>'+
       '</tbody></table></div>'+
       '<div class="dc5"><div><b>5 %</b><span>de descuento con abono semestral</span></div><div><b>10 %</b><span>de descuento con abono anual</span></div><div><b>5 %</b><span>en tu stand de Energías Paraguay 2027 si estás abonado 6 meses o más</span></div></div>'+
-      '<p style="font-size:13px;color:#4A5B6C;margin:0">Precios mensuales en guaraníes. Los banners rotan entre las marcas de cada nivel.</p>'+
+      '<p style="font-size:13px;color:#4A5B6C;margin:0">Los banners rotan entre las marcas de cada nivel. Pedinos la propuesta con tarifas por WhatsApp o mail.</p>'+
       '</section>';
     if(tgt)tgt.replaceWith(el(html));
     an.querySelectorAll('.aud > div, .aud > *').forEach(function(d){var b=d.querySelector('b,strong,.n')||d.firstElementChild;if(!b||b.textContent.indexOf('[X]')<0)return;var t=d.textContent;
