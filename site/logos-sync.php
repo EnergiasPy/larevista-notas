@@ -26,3 +26,10 @@ $h = bajar('https://energygas.com.py/');
 if ($h && preg_match_all('#<img[^>]+src="([^"]+)"[^>]*>#i', $h, $m)) {
   foreach ($m[1] as $u) if (stripos($u, 'logo') !== false) { $b = bajar($u); if ($b) { $ext = strtolower(pathinfo(parse_url($u, PHP_URL_PATH), PATHINFO_EXTENSION)); file_put_contents("$dir/energy.$ext", $b); echo "energy: $ext ", strlen($b), " bytes (", basename(parse_url($u, PHP_URL_PATH)), ")\n"; break; } }
 } else echo "energy: no\n";
+// Recorta márgenes vacíos (blancos o transparentes) para que todos los logos se vean del mismo tamaño
+if (function_exists('imagecropauto')) foreach (glob("$dir/*.png") as $f) {
+  $im = @imagecreatefrompng($f); if (!$im) continue; imagesavealpha($im, true);
+  $c = @imagecropauto($im, IMG_CROP_TRANSPARENT); if ($c) { imagedestroy($im); $im = $c; }
+  $c = @imagecropauto($im, IMG_CROP_THRESHOLD, 0.15, 0xFFFFFF); if ($c) { imagedestroy($im); $im = $c; }
+  imagesavealpha($im, true); imagepng($im, $f); echo 'recorte ', basename($f), ' ', imagesx($im), 'x', imagesy($im), "\n"; imagedestroy($im);
+}
