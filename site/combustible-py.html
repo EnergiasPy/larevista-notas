@@ -80,6 +80,7 @@ ol.bars li:hover,ol.bars li.on{background:#EEF6EE}
 .bars .rk{font:400 20px 'Bebas Neue',sans-serif;color:#6F849A;text-align:center}.bars .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bars .br{height:16px;background:#EEF2F6;border-radius:8px;overflow:hidden;display:flex}.bars .br i{display:block;height:100%;border-radius:8px}.bars .br.st i{border-radius:0}.bars .br.st i:first-child{border-radius:8px 0 0 8px}
 .bars .vl{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.resel{align-self:center;font-size:15px;color:var(--nv)}
 .mapa{position:relative}.mapa svg{width:100%;height:auto;display:block}.mapa path{cursor:pointer;transition:fill-opacity .2s}.mapa path:hover{stroke:#0F213D;stroke-width:2.5}
 .mapa .lgnd{font-size:13px;color:var(--mu);margin:6px 0 0;text-align:center}
 .lg2{display:flex;gap:16px;font-size:13px;color:var(--mu);margin:0 0 10px}.lg2 i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
@@ -152,7 +153,7 @@ ol.bars li:hover,ol.bars li.on{background:#EEF6EE}
 <p class="e">Red de estaciones</p>
 <h2>¿Cuántas estaciones tiene cada emblema?</h2>
 <p class="l"><b id="reTot">…</b> estaciones de servicio y puestos de carga en todo el país. Tocá un emblema para ver en el mapa dónde están.</p>
-<div class="ctl"><label>Ver<span class="seg" id="reVista"><button data-v="cant" class="on">Cantidad de estaciones</button><button data-v="lts">Litros por estación</button></span></label></div>
+<div class="ctl"><label>Ver<span class="seg" id="reVista"><button data-v="cant" class="on">Cantidad de estaciones</button><button data-v="lts">Litros por estación</button></span></label><label>Emblema<span class="seg"><button id="reTodos" class="on" type="button">Ver todos</button></span></label><span id="reSel" class="resel"></span></div>
 <div class="re"><ol class="bars" id="reLista"></ol><div class="mapa" id="reMapa"></div></div>
 <p class="note" id="reNota"></p>
 </section>
@@ -495,6 +496,8 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
     var key = RE.vista === 'cant' ? 'e' : 'l'; rows = rows.filter(function (r) { return r[key] > 0; }).sort(function (a, b) { return b[key] - a[key]; });
     var mx = rows.length ? rows[0][key] : 1;
     $('reTot').textContent = n0(tot);
+    $('reTodos').classList.toggle('on', !RE.emb);
+    $('reSel').innerHTML = RE.emb ? 'Mostrando <b>' + RE.emb + '</b>: ' + n0(porEmb[RE.emb] || 0) + ' estaciones' : '';
     $('reLista').innerHTML = rows.map(function (r, i) {
       return '<li class="' + (RE.emb === r.n ? 'on' : '') + '" data-n="' + r.n + '"><span class="rk">' + (i + 1) + '</span>' + lg(r.n) + '<span class="nm">' + r.n + '</span><span class="br"><i style="width:' + (100 * r[key] / mx).toFixed(1) + '%;background:' + colorDe(r.n) + '"></i></span><span class="vl">' + (key === 'e' ? n0(r.e) : n0(r.l / 1000) + ' mil L') + '</span></li>';
     }).join('');
@@ -568,6 +571,7 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
   $('prChips').addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (!b) return; PR.prod = b.dataset.v; precios(); });
   $('prDesc').onclick = function () { descargar($('prPlaca'), 'precios-' + PR.prod.toLowerCase() + '.png'); };
   seg2('reVista', function (v) { RE.vista = v; estaciones(); });
+  $('reTodos').onclick = function () { RE.emb = ''; estaciones(); };
   $('reLista').addEventListener('click', function (e) { var li = e.target.closest('li'); if (!li) return; RE.emb = RE.emb === li.dataset.n ? '' : li.dataset.n; estaciones(); });
 
 })();
