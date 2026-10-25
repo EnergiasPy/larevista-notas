@@ -22,6 +22,32 @@ function smtp_local($to_list, $from, $subject, $body, $replyTo) {
   return substr($r, 0, 3) === '250' ? true : 'end ' . trim($r);
 }
 
+// Alta automática en Brevo (lista "Newsletter La Estación del Futuro" #4).
+// La clave se guarda en datos/brevo.key (carpeta protegida); si no está, se omite.
+const BREVO_LISTA = 4;
+function brevo_alta($email, $campos) {
+  $kf = __DIR__ . '/datos/brevo.key';
+  $key = is_file($kf) ? trim(file_get_contents($kf)) : '';
+  if ($key === '') return 'sin-clave';
+  $attr = [];
+  foreach ($campos as $k => $v) {
+    if (preg_match('/^nombre/iu', $k) && !isset($attr['FIRSTNAME'])) $attr['FIRSTNAME'] = $v;
+    elseif (preg_match('/empresa|estaci/iu', $k) && !isset($attr['COMPANY'])) $attr['COMPANY'] = $v;
+  }
+  $call = function ($data) use ($key) {
+    $ctx = stream_context_create(['http' => ['method' => 'POST', 'timeout' => 8, 'ignore_errors' => true,
+      'header' => "api-key: $key\r\nContent-Type: application/json\r\nAccept: application/json\r\n",
+      'content' => json_encode($data, JSON_UNESCAPED_UNICODE)]]);
+    $r = @file_get_contents('https://api.brevo.com/v3/contacts', false, $ctx);
+    $code = 0; if (isset($http_response_header[0]) && preg_match('/\s(\d{3})\s?/', $http_response_header[0], $m)) $code = (int)$m[1];
+    return [$code, (string)$r];
+  };
+  $base = ['email' => $email, 'listIds' => [BREVO_LISTA], 'updateEnabled' => true];
+  [$c, $r] = $call($attr ? $base + ['attributes' => $attr] : $base);
+  if ($c >= 400 && $attr) [$c, $r] = $call($base); // por si algún atributo no existe
+  return ($c >= 200 && $c < 300) ? true : ('brevo ' . $c . ' ' . substr($r, 0, 200));
+}
+
 $FROM = 'info@energiaslatam.com';
 $TIPOS = ['newsletter' => 'Suscripción al newsletter', 'proveedor' => 'Alta en la guía de proveedores', 'preregistro' => 'Pre-registro Foro & Expo 2027'];
 
@@ -67,6 +93,9 @@ if (function_exists('mail')) { $enviado = @mail(implode(', ', $DEST), $asunto, $
 else { $enviado = smtp_local($DEST, $FROM, $asunto, $cuerpo, $mail); }
 if ($enviado !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . print_r($enviado, true) . "\n", FILE_APPEND);
 
+$brevo = null;
+if ($tipo === 'newsletter' && $mail) { $brevo = brevo_alta($mail, $campos); if ($brevo !== true && $brevo !== 'sin-clave') @file_put_contents($dir . '/errores.log', date('c') . ' ' . $brevo . "\n", FILE_APPEND); }
+
 // Copia en planilla (CSV) por tipo
 $csv = $dir . '/' . $tipo . '.csv';
 $nuevo = !file_exists($csv);
@@ -76,4 +105,4 @@ if ($fh) {
   fputcsv($fh, array_merge([$fecha], array_values($campos)));
   fclose($fh);
 }
-echo json_encode(['ok' => true, 'mail' => $enviado === true]);
+echo json_encode(['ok' => true, 'mail' => $enviado === true, 'brevo' => $brevo === true ? true : ($brevo === null ? null : false)]);
