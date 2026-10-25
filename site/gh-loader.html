@@ -70,7 +70,7 @@
     list.forEach(function(n){PAIS[n.id]=n.pais||'py';});
     var pub=list.filter(function(n){return n.estado==='publicada';}).sort(function(a,b){return a.fecha<b.fecha?-1:1;});
     try{
-      pub.forEach(function(n){NEWS.unshift({c:n.cat,t:n.titulo.replace(/<[^>]+>/g,''),d:n.bajada.replace(/<[^>]+>/g,''),h:'#n/'+n.id,img:n.img?GH+n.img:''});});
+      pub.forEach(function(n){NEWS.unshift({c:n.cat,t:n.titulo.replace(/<[^>]+>/g,''),d:n.bajada.replace(/<[^>]+>/g,''),h:'#n/'+n.id,img:n.img?(/^https?:/.test(n.img)?n.img:GH+n.img):''});});
       if(pub.length){
         document.getElementById('home-news').innerHTML=NEWS.slice(0,4).map(function(n){return '<a href="'+(n.h||'#noticias')+'"><span class="cat">'+e(n.c)+'</span><strong>'+e(n.t)+'</strong></a>';}).join('');
         drawNews();
