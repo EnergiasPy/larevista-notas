@@ -2,12 +2,12 @@
 <html lang="es"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>El combustible en números · La Estación del Futuro</title>
-<meta name="description" content="Ranking mensual de ventas de combustibles por emblema en Paraguay y tabla dinámica de ventas e importaciones en litros, por empresa, producto y departamento.">
+<title>El combustible en números · Datos del sector · La Estación del Futuro</title>
+<meta name="description" content="Ventas de combustibles mes a mes en Paraguay, Argentina, Chile, Perú, Uruguay y Bolivia: ranking por emblema, por región y tablas dinámicas con datos oficiales.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Energías LATAM">
-<meta property="og:title" content="El combustible en números · Ranking de ventas por emblema">
-<meta property="og:description" content="¿Quién vende más combustible en Paraguay? Litros por mes, por emblema y por producto. Jugá con la tabla y descargá la placa.">
+<meta property="og:title" content="El combustible en números · Datos del sector en la región">
+<meta property="og:description" content="¿Quién vende más combustible? Rankings y tablas dinámicas de Paraguay, Argentina, Chile, Perú, Uruguay y Bolivia.">
 <meta property="og:url" content="https://energiaslatam.com/combustible">
 <meta property="og:image" content="https://energiaslatam.com/descargas/ranking/og-ranking.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -27,257 +27,57 @@ header{background:var(--nv);color:#fff;padding:18px 16px}
 .hw a{color:inherit;text-decoration:none}.hw b{font:400 28px/1 'Bebas Neue',sans-serif;letter-spacing:1px}.hw b span{color:var(--gl)}.hw small{display:block;color:#B0C2D4;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-top:3px}
 .hw .bk{margin-left:auto;color:#C9D6E3;font-weight:600;font-size:15px}
 .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-.intro{padding:26px 0 6px}.e{margin:0;color:#2E7D32;font-weight:700;letter-spacing:3px;font-size:13px;text-transform:uppercase}
-h1{margin:6px 0 8px;font:400 clamp(40px,6vw,66px)/1 'Bebas Neue',sans-serif}
-h2{margin:4px 0 6px;font:400 clamp(30px,4vw,42px)/1 'Bebas Neue',sans-serif}
-.intro p.l,.sec p.l{font-size:17px;line-height:1.5;color:var(--mu);margin:0 0 12px;max-width:760px}
-.sec{background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(15,33,61,.08);padding:22px;margin:18px 0}
-.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin:12px 0 16px}
-.ctl label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
-select,.seg button{font:600 15px Barlow,Arial,sans-serif;color:var(--nv);background:#fff;border:1.5px solid var(--ln);border-radius:8px;padding:9px 10px;min-height:42px}
-.seg{display:inline-flex;border:1.5px solid var(--ln);border-radius:8px;overflow:hidden}.seg button{border:0;border-radius:0;cursor:pointer;padding:9px 14px}
-.seg button.on{background:var(--nv);color:#fff}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;font:700 15px Barlow,Arial,sans-serif;text-decoration:none;cursor:pointer;border:0;min-height:42px}
-.b1{background:var(--gr);color:#fff}.b2{background:#fff;color:var(--nv);border:2px solid var(--nv)}
-.pl{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
-.pl canvas{width:100%;height:auto;border-radius:10px;box-shadow:0 8px 28px rgba(15,33,61,.25);display:block}
-.side h3{margin:0 0 6px;font:400 28px/1 'Bebas Neue',sans-serif}.side p{color:var(--mu);line-height:1.5;margin:0 0 12px}
-.kpi{background:var(--bg);border-radius:10px;padding:14px 16px;margin:0 0 10px}.kpi b{display:block;font:400 40px/1 'Bebas Neue',sans-serif}.kpi span{color:var(--mu);font-size:14px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
-.chip{font:600 13px Barlow,Arial,sans-serif;padding:6px 11px;border-radius:999px;border:1.5px solid var(--ln);background:#fff;color:var(--mu);cursor:pointer}
-.chip.on{background:var(--nv);border-color:var(--nv);color:#fff}
-.tw{overflow-x:auto;border:1px solid var(--ln);border-radius:10px}
-table{border-collapse:separate;border-spacing:0;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
-th,td{padding:9px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid #EDF1F5}
-th{position:sticky;top:0;background:var(--nv);color:#fff;font-weight:700;cursor:pointer;user-select:none;font-size:13px}
-th:first-child,td:first-child{text-align:left;position:sticky;left:0;z-index:1}
-td:first-child{background:#fff;font-weight:700}th:first-child{z-index:2}
-tr:hover td{outline:0}tbody tr{cursor:pointer}tbody tr:hover td:first-child{color:var(--gr)}
-tr.sel td:first-child{box-shadow:inset 4px 0 0 var(--gr)}
-tfoot td{font-weight:700;background:#F4F7FA;border-top:2px solid var(--nv)}
-td.tot{font-weight:700}td.sh{color:var(--mu)}
-th .ar{opacity:.6;font-size:11px}
-.lc{position:relative;margin-top:18px}.lc svg{width:100%;height:auto;display:block}
-.tip{position:absolute;pointer-events:none;background:var(--nv);color:#fff;border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;opacity:0;transition:opacity .12s;white-space:nowrap}
-.lg{display:flex;gap:16px;font-size:13px;color:var(--mu);margin:6px 0 0}.lg i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
-.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:0}
-.note{font-size:13px;color:var(--mu);margin:10px 0 0}
-.load{padding:40px;text-align:center;color:var(--mu)}
-.ft{text-align:center;color:var(--mu);font-size:14px;padding:18px 0 40px}.ft a{color:var(--nv)}
-@media(max-width:820px){.pl{grid-template-columns:1fr}.sec{padding:16px}th,td{padding:8px 8px;font-size:13px}}
+.intro{padding:28px 0 10px}.e{margin:0;color:#2E7D32;font-weight:700;letter-spacing:3px;font-size:13px;text-transform:uppercase}
+h1{margin:6px 0 8px;font:400 clamp(42px,6vw,70px)/1 'Bebas Neue',sans-serif}
+.intro p.l{font-size:18px;line-height:1.5;color:var(--mu);margin:0;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:22px 0 10px}
+.card{position:relative;display:flex;flex-direction:column;gap:10px;background:#fff;border-radius:14px;box-shadow:0 4px 18px rgba(15,33,61,.08);padding:20px;text-decoration:none;color:inherit;border:2px solid transparent;transition:transform .15s,border-color .15s;overflow:hidden}
+a.card:hover{transform:translateY(-3px);border-color:var(--gr)}
+.card .fl{display:flex;align-items:center;gap:14px}.card h2{margin:0;font:400 38px/1 'Bebas Neue',sans-serif}
+.card .st{align-self:flex-start;font:700 12px Barlow,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#E6F3E5;color:#2E7D32}
+.card .st.pr{background:#F0F3F7;color:var(--mu)}
+.card .num{font:400 44px/1 'Bebas Neue',sans-serif}.card .num small{font:600 14px Barlow,Arial,sans-serif;color:var(--mu);margin-left:6px}
+.card p{margin:0;color:var(--mu);line-height:1.45;font-size:15px}
+.card .go{margin-top:auto;font-weight:700;color:var(--gr)}
+.card.soon{opacity:.92}
+.card .band{position:absolute;left:0;top:0;right:0;height:6px}
+.note{font-size:14px;color:var(--mu);margin:12px 0 0;line-height:1.5}
+.ft{text-align:center;color:var(--mu);font-size:14px;padding:22px 0 40px}.ft a{color:var(--nv)}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.hw .bk{display:none}}
 </style></head>
 <body><div class="top"></div><div class="top2"></div>
 <header><div class="hw"><a href="/"><img src="/logo-latam-v2-512.png" alt="Energías LATAM"></a><a href="/"><b>ENERGÍAS <span>LATAM</span></b><small>La Estación del Futuro</small></a><a class="bk" href="/">← Volver a la revista</a></div></header>
-
 <main class="wrap">
 <div class="intro">
-<p class="e">El combustible en números</p>
-<h1>¿Quién vende más combustible en Paraguay?</h1>
-<p class="l">Litros vendidos e importados cada mes, por emblema, producto y departamento. Elegí el mes, filtrá por empresa y descargá la placa para compartir.</p>
+<p class="e">Datos del sector</p>
+<h1>El combustible en números</h1>
+<p class="l">Cuánto combustible se vende cada mes en la región, quién lidera y cómo se mueve. Elegí un país.</p>
 </div>
-
-<section class="sec" id="ranking">
-<p class="e">Ranking mensual</p>
-<h2>Ranking de ventas por emblema</h2>
-<div class="ctl">
-<label>Mes<select id="rMes"></select></label>
-<label>Producto<span class="seg" id="rProd"><button data-v="all" class="on">Todos</button><button data-v="G">Gasoil</button><button data-v="N">Naftas</button></span></label>
-<button class="btn b1" id="rDesc" type="button">⬇ Descargar placa</button>
-</div>
-<div class="pl">
-<canvas id="placa" width="1080" height="1350" aria-label="Placa del ranking de ventas por emblema"></canvas>
-<div class="side">
-<div class="kpi"><b id="kTot">…</b><span id="kTotL">litros vendidos en el mes</span></div>
-<div class="kpi"><b id="kVar">…</b><span id="kVarL">contra el mes anterior</span></div>
-<div class="kpi"><b id="kTop">…</b><span id="kTopL">lidera el ranking</span></div>
-<p>La placa se arma sola con el último dato disponible. Cambiá el mes o el producto y descargala en formato para redes (1080 × 1350).</p>
-<button class="btn b2" id="rShare" type="button">Compartir por WhatsApp</button>
-</div>
-</div>
-</section>
-
-<section class="sec" id="tabla">
-<p class="e">Tabla dinámica</p>
-<h2>Litros por mes, empresa por empresa</h2>
-<p class="l">Elegí ventas o importaciones, el año y el producto. Tocá una empresa para ver su evolución mes a mes y compararla con el año anterior.</p>
-<div class="ctl">
-<label>Dato<span class="seg" id="tDato"><button data-v="vp" class="on">Ventas</button><button data-v="im">Importaciones</button></span></label>
-<label>Año<select id="tAnio"></select></label>
-<label>Producto<select id="tProd"></select></label>
-<label id="tDepL">Departamento<select id="tDep"></select></label>
-<label>Unidad<span class="seg" id="tUni"><button data-v="M" class="on">Millones</button><button data-v="L">Litros</button></span></label>
-<button class="btn b2" id="tCsv" type="button">⬇ CSV</button>
-</div>
-<div class="chips" id="tChips"></div>
-<div class="tw"><table id="tt"><thead></thead><tbody></tbody><tfoot></tfoot></table></div>
-<div class="lc" id="lc"></div>
-<p class="note" id="tNote"></p>
-</section>
-
-<p class="ft">Datos oficiales de ventas e importaciones declaradas por las distribuidoras ante el Ministerio de Industria y Comercio. Procesamiento y gráficos: Energías LATAM.<br><a href="/">energiaslatam.com</a> · <a href="/newsletter.html">Recibí el newsletter semanal</a> · <a href="/privacidad">Política de privacidad</a></p>
+<div class="grid" id="grid"></div>
+<p class="note">Datos oficiales publicados por los organismos de cada país. Cada página aclara qué nivel de detalle está disponible: en algunos países se publica por empresa o emblema; en otros, solo por región y producto.</p>
+<p class="ft"><a href="/">energiaslatam.com</a> · <a href="/newsletter.html">Recibí el newsletter semanal</a> · <a href="/privacidad">Política de privacidad</a></p>
 </main>
-
+<script src="/paises.js"></script>
 <script>
 (function(){
-var MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
-var MC=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Set','Oct','Nov','Dic'];
-var DEP={'00':'Asunción','01':'Concepción','02':'San Pedro','03':'Cordillera','04':'Guairá','05':'Caaguazú','06':'Caazapá','07':'Itapúa','08':'Misiones','09':'Paraguarí','10':'Alto Paraná','11':'Central','12':'Ñeembucú','13':'Amambay','14':'Canindeyú','15':'Presidente Hayes','16':'Alto Paraguay','17':'Boquerón'};
-var NOM={'PETROBRAS PARAGUAY SRL':'Petrobras','COPETROL SA':'Copetrol','PUMA ENERGY PARAGUAY SA':'Puma','ENEX PARAGUAY SAE':'Enex','AXION ENERGY PARAGUAY SRL':'Axion','PETROSUR SA':'Petrosur','PETROMAX SA':'Petromax','COMBUSTIBLES INTEGRAL TRADING SA':'Integral','COPEG SA':'Copeg','FUELPAR SA':'Fuelpar','3MG SACIA':'3MG','DISTRIBUIDOR 3 FRONTERAS SA':'3 Fronteras','YGUAZU COMBUSTIBLES SA':'Yguazú','TEGA SA':'Tega','GAS CORONA SAECA':'Gas Corona','PETROPAR':'Petropar','SHELL':'Shell','SAN ISIDRO':'Energy','ECOP':'ECOP','PETROCHACO':'Petrochaco','COMPASA':'Compasa','HIDRONORTE':'Hidronorte','ENERCON':'Enercon','PETRON':'Petron','MONTE ALEGRE':'Monte Alegre','TLP':'TLP','PETROSAN':'Petrosan','COPESA':'Copesa','PETRONOR':'Petronor'};
-function nom(n){if(!n)return'Otra';if(NOM[n])return NOM[n];return n.replace(/\b(S\.?A\.?|SRL|SAE|SAECA|SACIA|EAS)\b\.?/g,'').trim().toLowerCase().replace(/(^|\s)\S/g,function(c){return c.toUpperCase()})}
-var Y=new Date().getFullYear(),D={},ST={rMes:null,rProd:'all',dato:'vp',anio:null,prod:'all',dep:'all',uni:'M',emp:null,sel:null,sort:{k:'tot',d:-1}};
-function $(i){return document.getElementById(i)}
-function fmtM(v){return (v/1e6).toLocaleString('es-PY',{minimumFractionDigits:1,maximumFractionDigits:1})}
-function fmtL(v){return Math.round(v).toLocaleString('es-PY')}
-function pct(v){return (v*100).toLocaleString('es-PY',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'}
-function load(y){if(D[y])return Promise.resolve(D[y]);return fetch('/mic.php?y='+y).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){j.N={};for(var k in j.names)j.N[k]=nom(j.names[k]);D[y]=j;return j}).catch(function(){D[y]=null;return null})}
-function pOk(p,f){return f==='all'||(f==='G'?p.charAt(0)==='G':f==='N'?p.charAt(0)==='N':p===f)}
-// suma por empresa (nombre limpio) para un año, cubo, mes (0=todos), filtro de producto/departamento
-function agg(j,cubo,mes,fp,fd){var o={};if(!j)return o;(j[cubo]||[]).forEach(function(r){if(mes&&r[0]!==mes)return;if(cubo==='vd'){if(fd!=='all'&&r[2]!==fd)return}else if(!pOk(r[2],fp))return;var n=j.N[r[1]]||nom(null);o[n]=(o[n]||0)+r[3]});return o}
-function lastMonth(j){var m=0;if(j)j.vp.forEach(function(r){if(r[0]>m)m=r[0]});return m}
-
-/* ---------- PLACA ---------- */
-var PAL={'Petropar':['#2B47E6','#D71203'],'Shell':['#FFD500','#ED161F'],'Petrobras':['#0A8F5F','#FDC82F'],'Copetrol':['#2A27D6','#EE161F'],'Puma':['#D8061B','#0B7548'],'Energy':['#FEDB03','#1A1A1A'],'ECOP':['#F18C17','#02822C'],'Petrosur':['#4A52D0','#6E73B2'],'Petrochaco':['#47659A','#2C4677'],'Petromax':['#D2010B','#8E0008'],'Compasa':['#EE141F','#A80D15'],'Enex':['#0B57B8','#084898'],'Fuelpar':['#FB0807','#FDE807'],'Hidronorte':['#F4CB06','#9A7F05'],'Integral':['#FAED07','#F5AE04'],'3MG':['#0A47A8','#82AA3C'],'Copeg':['#EE332A','#0350A3'],'Gas Corona':['#22409A','#F6EF28'],'3 Fronteras':['#164896','#CF151D'],'Petron':['#D22D34','#8F1D23']},EXTRA=['#26C6DA','#AB47BC','#8D6E63','#7CB342','#FF7043','#5C6BC0'];
-function colorDe(n,k2){if(!PAL[n]){var k=0;for(var i=0;i<n.length;i++)k=(k*31+n.charCodeAt(i))>>>0;var c0=EXTRA[k%EXTRA.length];PAL[n]=[c0,null]}var c=PAL[n];return k2?(c[1]||sh(c[0],-.3)):viva(c[0])}
-function claro(h){var n=parseInt(h.slice(1),16);return (0.2126*(n>>16)+0.7152*(n>>8&255)+0.0722*(n&255))/255>.62}
-function viva(h){var n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,L=(0.2126*r+0.7152*g+0.0722*b)/255;if(L>=.3)return h;var f=function(v){return Math.round(v+(255-v)*.28)};return '#'+[f(r),f(g),f(b)].map(function(v){return ('0'+v.toString(16)).slice(-2)}).join('')}
-function sh(h,a){var n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,f=function(v){return Math.round(a<0?v*(1+a):v+(255-v)*a)};return 'rgb('+f(r)+','+f(g)+','+f(b)+')'}
-var logo=new Image();logo.src='/logo-latam-v2-512.png';
-function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
-function placa(){
- var key=ST.rMes.split('-'),y=+key[0],m=+key[1],j=D[y];if(!j)return;
- var cur=agg(j,'vp',m,ST.rProd,'all'),pj=m>1?j:D[y-1],pm=m>1?m-1:12,prev=pj?agg(pj,'vp',pm,ST.rProd,'all'):{};
- var rows=Object.keys(cur).map(function(k){return{n:k,v:cur[k],p:prev[k]||0}}).sort(function(a,b){return b.v-a.v});
- var tot=rows.reduce(function(s,r){return s+r.v},0),ptot=Object.keys(prev).reduce(function(s,k){return s+prev[k]},0);
- var cv=$('placa'),c=cv.getContext('2d'),W=1080,H=1350;
- var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0A1730');g.addColorStop(1,'#0F213D');c.fillStyle=g;c.fillRect(0,0,W,H);
- var rg=c.createRadialGradient(930,140,10,930,140,620);rg.addColorStop(0,'rgba(118,196,110,.30)');rg.addColorStop(1,'rgba(118,196,110,0)');c.fillStyle=rg;c.fillRect(0,0,W,H);
- c.save();c.globalAlpha=.06;c.strokeStyle='#fff';c.lineWidth=2;for(var i=-H;i<W;i+=46){c.beginPath();c.moveTo(i,H);c.lineTo(i+H,0);c.stroke()}c.restore();
- c.fillStyle='#3A963E';c.fillRect(0,0,W,12);
- // encabezado
- if(logo.complete&&logo.naturalWidth){c.save();c.beginPath();c.arc(104,104,44,0,7);c.fillStyle='#fff';c.fill();c.clip();c.drawImage(logo,60,60,88,88);c.restore()}
- c.fillStyle='#76C46E';c.font='700 22px Barlow';c.textBaseline='alphabetic';c.fillText('ENERGÍAS LATAM',168,98);
- c.fillStyle='#9FB3C8';c.font='600 20px Barlow';c.fillText('LA ESTACIÓN DEL FUTURO',168,126);
- c.fillStyle='#fff';c.font='400 110px "Bebas Neue"';c.fillText('RANKING DE VENTAS',60,262);
- c.fillStyle='#76C46E';c.fillText('POR EMBLEMA',60,358);
- var pl=ST.rProd==='G'?'GASOIL':ST.rProd==='N'?'NAFTAS':'TODOS LOS COMBUSTIBLES';
- c.fillStyle='#C9D6E3';c.font='700 26px Barlow';c.fillText((MESES[m-1]+' '+y).toUpperCase()+'  ·  '+pl+'  ·  PARAGUAY',62,404);
- // total pill
- var tt=fmtM(tot)+' MILLONES DE LITROS';c.font='400 44px "Bebas Neue"';var tw=c.measureText(tt).width;
- rr(c,60,426,tw+180,62,31);c.fillStyle='rgba(118,196,110,.16)';c.fill();c.fillStyle='#9FB3C8';c.font='700 18px Barlow';c.fillText('MERCADO',86,464);
- c.fillStyle='#fff';c.font='400 44px "Bebas Neue"';c.fillText(tt,190,472);
- // columnas 3D de vidrio (top 8, de mayor a menor)
- var N=Math.min(8,rows.length),max=rows[0]?rows[0].v:1,slot=960/N,cw=Math.min(80,slot*.58),dx=cw*.30,dy=cw*.22,base=1060,tubeTop=600,TH=base-tubeTop;
- for(var i=0;i<N;i++){var r=rows[i],col=colorDe(r.n),x=60+slot*i+(slot-cw-dx)/2,h=Math.max(10,(TH-96)*r.v/max),ty=base-h;
-  // sombra
-  var sg=c.createRadialGradient(x+cw/2+dx/2,base+6,2,x+cw/2+dx/2,base+6,cw);sg.addColorStop(0,'rgba(0,0,0,.45)');sg.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=sg;c.fillRect(x-cw,base-20,cw*3,50);
-  // tubo de vidrio (atrás)
-  c.fillStyle='rgba(255,255,255,.035)';c.beginPath();c.moveTo(x+cw,tubeTop);c.lineTo(x+cw+dx,tubeTop-dy);c.lineTo(x+cw+dx,base-dy);c.lineTo(x+cw,base);c.closePath();c.fill();
-  // barra: cara lateral, frente, tapa
-  c.fillStyle=sh(col,-.35);c.beginPath();c.moveTo(x+cw,ty);c.lineTo(x+cw+dx,ty-dy);c.lineTo(x+cw+dx,base-dy);c.lineTo(x+cw,base);c.closePath();c.fill();
-  var fg=c.createLinearGradient(0,ty,0,base);fg.addColorStop(0,sh(col,.25));fg.addColorStop(1,sh(col,-.15));c.fillStyle=fg;c.fillRect(x,ty,cw,h);
-  var gl=c.createLinearGradient(x,0,x+cw,0);gl.addColorStop(0,'rgba(255,255,255,.28)');gl.addColorStop(.35,'rgba(255,255,255,.05)');gl.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=gl;c.fillRect(x,ty,cw,h);
-  c.fillStyle=sh(col,.45);c.beginPath();c.moveTo(x,ty);c.lineTo(x+dx,ty-dy);c.lineTo(x+cw+dx,ty-dy);c.lineTo(x+cw,ty);c.closePath();c.fill();
-  if(i===0){c.save();c.shadowColor=col;c.shadowBlur=40;c.fillStyle='rgba(0,0,0,0)';c.strokeStyle=sh(col,.3);c.lineWidth=2;c.strokeRect(x,ty,cw,h);c.restore()}
-  // tubo de vidrio (adelante)
-  var vg=c.createLinearGradient(x,0,x+cw,0);vg.addColorStop(0,'rgba(255,255,255,.13)');vg.addColorStop(.2,'rgba(255,255,255,.04)');vg.addColorStop(.8,'rgba(255,255,255,.02)');vg.addColorStop(1,'rgba(255,255,255,.10)');c.fillStyle=vg;c.fillRect(x,tubeTop,cw,TH);
-  c.fillStyle='rgba(255,255,255,.10)';c.beginPath();c.moveTo(x,tubeTop);c.lineTo(x+dx,tubeTop-dy);c.lineTo(x+cw+dx,tubeTop-dy);c.lineTo(x+cw,tubeTop);c.closePath();c.fill();
-  c.strokeStyle='rgba(255,255,255,.22)';c.lineWidth=1.5;c.beginPath();c.moveTo(x,base);c.lineTo(x,tubeTop);c.lineTo(x+dx,tubeTop-dy);c.lineTo(x+cw+dx,tubeTop-dy);c.lineTo(x+cw+dx,base-dy);c.lineTo(x+cw,base);c.closePath();c.moveTo(x+cw,base);c.lineTo(x+cw,tubeTop);c.lineTo(x+cw+dx,tubeTop-dy);c.moveTo(x+cw,tubeTop);c.lineTo(x,tubeTop);c.stroke();
-  // valor sobre la barra
-  var cx=x+(cw+dx)/2;c.textAlign='center';c.fillStyle='#fff';c.font='400 '+(i<3?40:34)+'px "Bebas Neue"';c.fillText(fmtM(r.v),cx,ty-dy-12);
-  // puesto en la tapa del tubo
-  c.font='400 26px "Bebas Neue"';c.fillStyle=i<3?['#E9C25A','#C9D3DD','#D08A55'][i]:'#6F849A';c.fillText('#'+(i+1),cx,tubeTop-dy-12);
-  // etiqueta
-  var lw=slot-14,lx=60+slot*i+7,ly=base+26;
-  rr(c,lx,ly,lw,40,10);var lg2=c.createLinearGradient(0,ly,0,ly+40);var ac=colorDe(r.n,1);lg2.addColorStop(0,sh(ac,.12));lg2.addColorStop(1,sh(ac,-.15));c.fillStyle=lg2;c.fill();
-  c.fillStyle=claro(ac)?'#0F213D':'#fff';var fs=28;c.font='400 '+fs+'px "Bebas Neue"';var nm=r.n.toUpperCase();while(c.measureText(nm).width>lw-12&&fs>18){fs--;c.font='400 '+fs+'px "Bebas Neue"'}c.fillText(nm,lx+lw/2,ly+30);
-  rr(c,lx,ly+46,lw,62,10);c.fillStyle='rgba(255,255,255,.95)';c.fill();
-  c.fillStyle='#0F213D';c.font='400 30px "Bebas Neue"';c.fillText(pct(r.v/tot),lx+lw/2,ly+76);
-  if(r.p>0){var vv=(r.v-r.p)/r.p,up=vv>=0;c.fillStyle=up?'#2E7D32':'#C0252D';c.font='700 17px Barlow';c.fillText((up?'▲ ':'▼ ')+Math.abs(vv*100).toFixed(1).replace('.',',')+'%',lx+lw/2,ly+99)}
-  c.textAlign='left'}
- c.fillStyle='#9FB3C8';c.font='600 20px Barlow';c.fillText('Millones de litros vendidos  ·  % del mercado  ·  ▲▼ vs. mes anterior'+(rows.length>N?'  ·  + '+(rows.length-N)+' empresas más: '+fmtM(rows.slice(N).reduce(function(s,r){return s+r.v},0))+' M':''),62,546);
- // pie
- c.fillStyle='#D52B1E';c.fillRect(0,1262,W,6);c.fillStyle='#fff';c.fillRect(0,1268,W,6);c.fillStyle='#0038A8';c.fillRect(0,1274,W,6);
- c.fillStyle='#fff';c.font='400 40px "Bebas Neue"';c.fillText('ENERGIASLATAM.COM',60,1326);
- c.textAlign='right';c.fillStyle='#9FB3C8';c.font='600 18px Barlow';c.fillText('Litros vendidos · datos oficiales MIC · ▲▼ vs. mes anterior',1020,1320);c.textAlign='left';
- // kpis
- $('kTot').textContent=fmtM(tot)+' M';$('kTotL').textContent='litros vendidos en '+MESES[m-1].toLowerCase()+' '+y;
- if(ptot){var v=(tot-ptot)/ptot;$('kVar').textContent=(v>=0?'▲ ':'▼ ')+pct(Math.abs(v));$('kVar').style.color=v>=0?'#2E7D32':'#C0252D';$('kVarL').textContent='contra '+MESES[pm-1].toLowerCase()}else{$('kVar').textContent='—'}
- if(rows[0]){$('kTop').textContent=rows[0].n;$('kTopL').textContent='lidera con el '+pct(rows[0].v/tot)+' del mercado'}
-}
-function mesesOpts(){var s=$('rMes'),o=[];[Y,Y-1].forEach(function(y){var j=D[y];if(!j)return;for(var m=lastMonth(j);m>=1;m--)o.push('<option value="'+y+'-'+m+'">'+MESES[m-1]+' '+y+'</option>')});s.innerHTML=o.join('');ST.rMes=s.value}
-
-/* ---------- TABLA ---------- */
-var COLS;
-function tabla(){
- var j=D[ST.anio];var tb=$('tt');if(!j){tb.tHead.innerHTML='';tb.tBodies[0].innerHTML='<tr><td class="load" colspan="15">Sin datos para ese año.</td></tr>';tb.tFoot.innerHTML='';return}
- var cubo=ST.dato==='vp'&&ST.dep!=='all'?'vd':ST.dato,lm=0;(j[ST.dato]||[]).forEach(function(r){if(r[0]>lm)lm=r[0]});
- var per={};for(var m=1;m<=lm;m++)per[m]=agg(j,cubo,m,ST.prod,ST.dep);
- var emps={};for(m=1;m<=lm;m++)for(var k in per[m])emps[k]=1;
- var all=Object.keys(emps);if(!ST.emp)ST.emp={};
- var rows=all.map(function(n){var r={n:n,m:[],tot:0};for(var m=1;m<=lm;m++){var v=per[m][n]||0;r.m.push(v);r.tot+=v}return r});
- var gt=rows.reduce(function(s,r){return s+r.tot},0);rows.forEach(function(r){r.sh=gt?r.tot/gt:0});
- // chips
- rows.sort(function(a,b){return b.tot-a.tot});
- var anyOn=Object.keys(ST.emp).some(function(k){return ST.emp[k]});
- $('tChips').innerHTML='<button class="chip'+(anyOn?'':' on')+'" data-n="">Todas</button>'+rows.map(function(r){return '<button class="chip'+(ST.emp[r.n]?' on':'')+'" data-n="'+r.n+'">'+r.n+'</button>'}).join('');
- var vis=anyOn?rows.filter(function(r){return ST.emp[r.n]}):rows;
- var sk=ST.sort.k,sd=ST.sort.d;vis.sort(function(a,b){var x=sk==='n'?a.n:sk==='tot'?a.tot:a.m[sk],z=sk==='n'?b.n:sk==='tot'?b.tot:b.m[sk];return (x>z?1:x<z?-1:0)*sd*(sk==='n'?-1:1)});
- var mx=0;vis.forEach(function(r){r.m.forEach(function(v){if(v>mx)mx=v})});
- var f=ST.uni==='M'?fmtM:fmtL,ar=function(k){return ST.sort.k===k?' <span class="ar">'+(ST.sort.d<0?'▼':'▲')+'</span>':''};
- var h='<tr><th data-k="n">Empresa'+ar('n')+'</th>';for(m=0;m<lm;m++)h+='<th data-k="'+m+'">'+MC[m]+ar(m)+'</th>';h+='<th data-k="tot">Total'+ar('tot')+'</th><th data-k="tot">Part.</th></tr>';tb.tHead.innerHTML=h;
- tb.tBodies[0].innerHTML=vis.map(function(r){var s='<tr data-n="'+r.n+'"'+(ST.sel===r.n?' class="sel"':'')+'><td><i class="dot" style="background:'+colorDe(r.n)+'"></i>'+r.n+'</td>';r.m.forEach(function(v){var a=mx?v/mx:0;s+='<td style="background:rgba(58,150,62,'+(a*.42).toFixed(3)+')">'+(v?f(v):'–')+'</td>'});return s+'<td class="tot">'+f(r.tot)+'</td><td class="sh">'+pct(r.sh)+'</td></tr>'}).join('');
- var ft='<tr><td>'+(anyOn?'Selección':'Total país')+'</td>',vt=0;for(m=0;m<lm;m++){var t=vis.reduce(function(s,r){return s+r.m[m]},0);vt+=t;ft+='<td>'+f(t)+'</td>'}tb.tFoot.innerHTML=ft+'<td>'+f(vt)+'</td><td>'+pct(gt?vt/gt:0)+'</td></tr>';
- COLS={rows:vis,lm:lm,cubo:cubo};
- $('tNote').textContent=(ST.uni==='M'?'Valores en millones de litros. ':'Valores en litros. ')+'Datos de '+ST.anio+' hasta '+MESES[lm-1].toLowerCase()+'.'+(ST.dato==='vp'&&ST.dep!=='all'?' Por departamento se muestran todos los productos.':'');
- linea();
-}
-function serie(j,n,lm){var cubo=ST.dato==='vp'&&ST.dep!=='all'?'vd':ST.dato,o=[];for(var m=1;m<=lm;m++){var a=agg(j,cubo,m,ST.prod,ST.dep);if(n){o.push(a[n]||0)}else{var s=0;for(var k in a)s+=a[k];o.push(s)}}return o}
-function linea(){
- var box=$('lc'),j=D[ST.anio],pj=D[ST.anio-1];if(!j){box.innerHTML='';return}
- var n=ST.sel,LC=n?colorDe(n):'#2E7D32',a=serie(j,n,COLS.lm),b=pj?serie(pj,n,12):null;
- var W=1000,H=300,L=64,R=20,T=40,B=36,mx0=Math.max.apply(null,a.concat(b||[]))||1,st=Math.pow(10,Math.floor(Math.log10(mx0/4))),sp=[1,2,2.5,5,10].map(function(k){return k*st}).find(function(k){return mx0/k<=4})||10*st,mx=Math.ceil(mx0/sp)*sp;
- var X=function(i){return L+(W-L-R)*i/11},Yv=function(v){return T+(H-T-B)*(1-v/mx)};
- var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Evolución mensual">';
- for(var g=0;g<=mx/sp+1e-9;g++){var v=g*sp,yy=Yv(v);s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+yy+'" y2="'+yy+'" stroke="#E3E9F0"/><text x="'+(L-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="12" fill="#6F849A">'+fmtM(v)+'</text>'}
- for(var i=0;i<12;i++)s+='<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle" font-size="12" fill="#6F849A">'+MC[i]+'</text>';
- var path=function(arr){return arr.map(function(v,i){return(i?'L':'M')+X(i).toFixed(1)+' '+Yv(v).toFixed(1)}).join(' ')};
- if(b)s+='<path d="'+path(b)+'" fill="none" stroke="#9AA8B6" stroke-width="2" stroke-dasharray="5 5"/>';
- s+='<path d="'+path(a)+' L'+X(a.length-1)+' '+Yv(0)+' L'+X(0)+' '+Yv(0)+'Z" fill="'+LC+'" fill-opacity=".12"/><path d="'+path(a)+'" fill="none" stroke="'+LC+'" stroke-width="2.5"/>';
- a.forEach(function(v,i){s+='<circle cx="'+X(i)+'" cy="'+Yv(v)+'" r="4.5" fill="'+LC+'" stroke="#fff" stroke-width="2"/>'});
- s+='<text x="'+L+'" y="22" font-size="16" font-weight="700" fill="#0F213D">'+(n||'Total país')+' · millones de litros por mes'+(ST.dato==='im'?' importados':' vendidos')+'</text>';
- s+='<line id="cx" y1="'+T+'" y2="'+(H-B)+'" stroke="#0F213D" stroke-width="1" opacity="0"/><rect x="'+L+'" y="'+T+'" width="'+(W-L-R)+'" height="'+(H-T-B)+'" fill="transparent" id="hz"/></svg>';
- box.innerHTML=s+'<div class="lg"><span><i style="background:'+LC+'"></i>'+ST.anio+'</span>'+(b?'<span><i style="background:#9AA8B6"></i>'+(ST.anio-1)+'</span>':'')+(n?'<span>Tocá otra empresa o <a href="#" id="lcAll">ver total país</a></span>':'')+'</div><div class="tip" id="tip"></div>';
- var svg=box.querySelector('svg'),tip=$('tip'),cx=svg.querySelector('#cx');
- svg.querySelector('#hz').addEventListener('mousemove',function(e){var r=svg.getBoundingClientRect(),px=(e.clientX-r.left)*W/r.width,i=Math.max(0,Math.min(11,Math.round((px-L)/((W-L-R)/11))));cx.setAttribute('x1',X(i));cx.setAttribute('x2',X(i));cx.setAttribute('opacity',.25);
-  tip.innerHTML='<b>'+MESES[i]+'</b><br>'+ST.anio+': '+(i<a.length?fmtM(a[i])+' M':'s/d')+(b?'<br>'+(ST.anio-1)+': '+fmtM(b[i])+' M':'');tip.style.opacity=1;tip.style.left=Math.min(r.width-170,(X(i)/W)*r.width+12)+'px';tip.style.top='40px'});
- svg.querySelector('#hz').addEventListener('mouseleave',function(){tip.style.opacity=0;cx.setAttribute('opacity',0)});
- var la=$('lcAll');if(la)la.onclick=function(e){e.preventDefault();ST.sel=null;tabla()};
-}
-function prodOpts(){var j=D[ST.anio];if(!j)return;var ps={};(j[ST.dato]||[]).forEach(function(r){ps[r[2]]=1});var o='<option value="all">Todos</option><option value="G">Gasoil (todos)</option><option value="N">Naftas (todas)</option>';Object.keys(ps).sort().forEach(function(p){o+='<option value="'+p+'">'+(j.prods[p]||p)+'</option>'});$('tProd').innerHTML=o;$('tProd').value=ST.prod;if($('tProd').value!==ST.prod){ST.prod='all';$('tProd').value='all'}
- var ds={};(j.vd||[]).forEach(function(r){ds[r[2]]=1});var d='<option value="all">Todo el país</option>';Object.keys(ds).sort(function(x,y){return(DEP[x]||x).localeCompare(DEP[y]||y)}).forEach(function(k){d+='<option value="'+k+'">'+(DEP[k]||k)+'</option>'});$('tDep').innerHTML=d;$('tDep').value=ST.dep;
- $('tDepL').style.display=ST.dato==='vp'?'':'none';$('tProd').disabled=ST.dato==='vp'&&ST.dep!=='all'}
-function seg(id,key,cb){$(id).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});ST[key]=b.dataset.v;cb()})}
-
-Promise.all([load(Y),load(Y-1),document.fonts&&document.fonts.load?Promise.all([document.fonts.load('400 40px "Bebas Neue"'),document.fonts.load('700 20px Barlow'),document.fonts.load('600 20px Barlow')]).catch(function(){}):0]).then(function(){
- if(!D[Y]&&D[Y-1])Y=Y-1;
- mesesOpts();ST.anio=Y;
- $('tAnio').innerHTML=[Y,Y-1,Y-2,Y-3].map(function(y){return '<option>'+y+'</option>'}).join('');
- var go=function(){placa()};if(logo.complete)go();else{logo.onload=go;logo.onerror=go}
- prodOpts();tabla();
-});
-$('rMes').onchange=function(){ST.rMes=this.value;placa();try{gtag('event','ranking_mes',{mes:this.value})}catch(e){}};
-seg('rProd','rProd',placa);
-seg('tDato','dato',function(){prodOpts();tabla()});
-seg('tUni','uni',tabla);
-$('tAnio').onchange=function(){ST.anio=+this.value;load(ST.anio).then(function(){return load(ST.anio-1)}).then(function(){prodOpts();tabla()})};
-$('tProd').onchange=function(){ST.prod=this.value;tabla()};
-$('tDep').onchange=function(){ST.dep=this.value;prodOpts();tabla()};
-$('tChips').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;var n=b.dataset.n;if(!n)ST.emp={};else ST.emp[n]=!ST.emp[n];tabla();try{gtag('event','tabla_filtro',{empresa:n||'todas'})}catch(x){}});
-$('tt').tHead.addEventListener('click',function(e){var th=e.target.closest('th');if(!th)return;var k=th.dataset.k;k=k==='n'||k==='tot'?k:+k;ST.sort=ST.sort.k===k?{k:k,d:-ST.sort.d}:{k:k,d:-1};tabla()});
-$('tt').tBodies[0].addEventListener('click',function(e){var tr=e.target.closest('tr');if(!tr||!tr.dataset.n)return;ST.sel=tr.dataset.n;tabla();$('lc').scrollIntoView({behavior:'smooth',block:'nearest'})});
-$('rDesc').onclick=function(){var a=document.createElement('a'),k=ST.rMes.split('-');a.download='ranking-ventas-emblema-'+k[0]+'-'+('0'+k[1]).slice(-2)+(ST.rProd==='all'?'':'-'+(ST.rProd==='G'?'gasoil':'naftas'))+'.png';a.href=$('placa').toDataURL('image/png');a.click();try{gtag('event','ranking_descarga',{mes:ST.rMes})}catch(e){}};
-$('rShare').onclick=function(){var k=ST.rMes.split('-');window.open('https://wa.me/?text='+encodeURIComponent('Ranking de ventas de combustible por emblema · '+MESES[k[1]-1]+' '+k[0]+' 👉 https://energiaslatam.com/combustible'),'_blank')};
-$('tCsv').onclick=function(){if(!COLS)return;var s='Empresa;'+MC.slice(0,COLS.lm).join(';')+';Total\n';COLS.rows.forEach(function(r){s+=r.n+';'+r.m.map(Math.round).join(';')+';'+Math.round(r.tot)+'\n'});var a=document.createElement('a');a.download='combustible-'+(ST.dato==='vp'?'ventas':'importaciones')+'-'+ST.anio+'.csv';a.href=URL.createObjectURL(new Blob(['﻿'+s],{type:'text/csv'}));a.click()};
+var P=window.PAISES,MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+var BAND={py:'linear-gradient(90deg,#D52B1E 33%,#fff 33% 66%,#0038A8 66%)',ar:'linear-gradient(90deg,#74ACDF 33%,#fff 33% 66%,#74ACDF 66%)',cl:'linear-gradient(90deg,#0039A6 30%,#fff 30% 60%,#D52B1E 60%)',pe:'linear-gradient(90deg,#D91023 33%,#fff 33% 66%,#D91023 66%)',uy:'linear-gradient(90deg,#0038A8 25%,#fff 25% 50%,#0038A8 50% 75%,#FCD116 75%)',bo:'linear-gradient(90deg,#D52B1E 33%,#F9E300 33% 66%,#007934 66%)'};
+var INFO={
+ py:{st:'Ranking por emblema',txt:'Ventas e importaciones mes a mes por empresa, producto y departamento.',ok:1},
+ cl:{st:'Por región y producto',txt:'Ventas de combustibles líquidos por región y producto. La fuente no publica el dato por compañía.',ok:1},
+ pe:{st:'Por departamento',txt:'Ventas por departamento y producto. Último dato publicado en planilla: mayo 2025.',ok:1},
+ ar:{st:'Próximamente',txt:'Ranking por empresa (YPF, Shell, Axion, Puma, Gulf…), provincia y producto. Lo estamos incorporando.',ok:0},
+ uy:{st:'Próximamente',txt:'Ventas mensuales por producto. No se publica el dato por distribuidora.',ok:0},
+ bo:{st:'Próximamente',txt:'Sin serie mensual oficial descargable. Estamos armando un historial propio con el abastecimiento diario.',ok:0}
+};
+document.getElementById('grid').innerHTML=P.ORD.map(function(c){var i=INFO[c];return (i.ok?'<a class="card" href="/combustible/'+c+'">':'<div class="card soon">')+'<span class="band" style="background:'+BAND[c]+'"></span><div class="fl">'+P.flag(c,54)+'<h2>'+P.N[c]+'</h2></div><span class="st'+(i.ok?'':' pr')+'">'+i.st+'</span>'+(i.ok?'<div class="num" id="n-'+c+'">…</div>':'')+'<p>'+i.txt+'</p>'+(i.ok?'<span class="go">Ver datos →</span></a>':'</div>')}).join('');
+function f1(v){return (v/1e6).toLocaleString('es-PY',{maximumFractionDigits:0})}
+function put(c,y,m,v){var e=document.getElementById('n-'+c);if(e)e.innerHTML=f1(v)+' M<small>litros en '+MES[m-1]+' '+y+'</small>'}
+var Y=new Date().getFullYear();
+function py(y,r){fetch('/mic.php?y='+y).then(function(x){if(!x.ok)throw 0;return x.json()}).then(function(j){var m=0,v=0;j.vp.forEach(function(r){if(r[0]>m)m=r[0]});j.vp.forEach(function(r){if(r[0]===m)v+=r[3]});if(m)put('py',y,m,v);else if(r)py(y-1,0)}).catch(function(){if(r)py(y-1,0)})}
+py(Y,1);
+['cl','pe'].forEach(function(c){fetch('/datos-pais.php?c='+c).then(function(x){return x.json()}).then(function(j){var k=0,y=0,m=0,v=0;j.rows.forEach(function(r){var kk=r[0]*12+r[1];if(kk>k){k=kk;y=r[0];m=r[1]}});j.rows.forEach(function(r){if(r[0]===y&&r[1]===m)v+=r[4]});put(c,y,m,v)}).catch(function(){})});
 })();
 </script>
 </body></html>
