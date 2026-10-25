@@ -142,6 +142,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
 @media (max-width:900px){.plans5{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.plans5,.dc5{grid-template-columns:1fr}.tb5{font-size:14px}}
 .nota-body .nt5,.nota-body .oroh5,.nota-body .brl5,.nota .nt5,.nota .brl5{width:100%!important;max-width:100%;align-self:stretch!important;box-sizing:border-box}
+.mid5{margin:26px 0!important;width:100%}.tail5{margin-top:30px;display:flex;flex-direction:column;gap:18px;width:100%}.tail5 .pb5{width:100%}
 </style>
 <script>
 (function(){
@@ -209,13 +210,27 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
   (function(){var ft=document.querySelector('footer');if(ft&&!ft.querySelector('.cred5')){var p=document.createElement('p');p.className='cred5';p.innerHTML='<b>Dirección:</b> Amigo Camionero · <b>Comercial:</b> Savia';ft.appendChild(p);}
     setTimeout(function(){var an=document.querySelector('.an5');if(an&&!an.querySelector('.ind5')){var q=document.createElement('p');q.className='ind5';q.textContent='Los anunciantes no deciden el contenido editorial. El contenido de marca se identifica como tal.';an.appendChild(q);}},300);})();
   // Rotación 3,5 s
-  document.querySelectorAll('.r5').forEach(function(box,bi){
+  function rot5(box,bi){if(box.dataset.rot)return;box.dataset.rot=1;
     var it=box.querySelectorAll(':scope>.r5i'),dt=box.querySelectorAll('.dots5 i'),i=0,hold=false;
     function show(n){it.forEach(function(x,j){x.classList.toggle('on',j===n);});dt.forEach(function(x,j){x.classList.toggle('on',j===n);});}
     show(0); if(it.length<2)return;
     box.addEventListener('mouseenter',function(){hold=true;});box.addEventListener('mouseleave',function(){hold=false;});
     setTimeout(function(){setInterval(function(){if(hold||document.hidden)return;i=(i+1)%it.length;show(i);},3500);},(bi%4)*800);
-  });
+  }
+  window.rot5=rot5;
+  // Notas: sponsor arriba, nota, Oro en el medio del texto, Plata y Bronce al final
+  function lay5(sec){var art=sec.querySelector('article');if(!art)return;var body=art.querySelector('.nota-body')||art;
+    if(!body.querySelector('p'))return; if(art.querySelector('.mid5'))return;
+    sec.querySelectorAll('.nt5').forEach(function(n){n.remove();});
+    var t=el(notaTop()),oro=t.querySelector('.oroh5'),pl=t.querySelector('.pb5');oro.classList.add('mid5');
+    var ps=[].filter.call(body.children,function(c){return c.tagName==='P';});var an=ps[1]||ps[0];
+    if(an)an.after(oro);else body.appendChild(oro);
+    var tail=document.createElement('div');tail.className='tail5';tail.appendChild(pl);
+    var br=sec.querySelector('.brl5');tail.appendChild(br||el(bronceList()));art.appendChild(tail);
+    art.querySelectorAll('.r5').forEach(function(b,i){rot5(b,i);});}
+  document.querySelectorAll('section[data-view^="nota-"]').forEach(function(sec){
+    lay5(sec);new MutationObserver(function(){lay5(sec);}).observe(sec,{childList:true,subtree:true});});
+  document.querySelectorAll('.r5').forEach(function(box,bi){rot5(box,bi);});
   // Guía de proveedores
   try{
     var G=[
