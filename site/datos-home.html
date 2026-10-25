@@ -1,0 +1,57 @@
+<!-- Datos del sector v1 -->
+<section class="ds1" aria-label="Datos del sector">
+<div class="wrap ds1-in">
+ <div class="ds1-txt">
+  <span class="ds1-k">Datos del sector · se actualiza cada mes</span>
+  <h2>Ranking de ventas<br><em>por emblema</em></h2>
+  <p class="ds1-m" id="ds1Mes">Litros vendidos en Paraguay</p>
+  <p class="ds1-tot"><b id="ds1Tot">…</b> <span>millones de litros en el mes</span></p>
+  <a class="ds1-btn" href="/combustible">Ver ranking completo y tabla dinámica →</a>
+  <a class="ds1-lk" href="/combustible#tabla">Ventas e importaciones por empresa, producto y departamento</a>
+ </div>
+ <ol class="ds1-list" id="ds1List"><li class="ds1-ld">Cargando datos…</li></ol>
+</div>
+</section>
+<style>
+.ds1{background:radial-gradient(circle at 85% 10%,rgba(118,196,110,.22),transparent 55%),linear-gradient(#0A1730,#0F213D);color:#fff;padding:34px 0;border-top:4px solid #3A963E}
+.ds1-in{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;align-items:center}
+.ds1-k{display:inline-block;color:#76C46E;font-weight:700;letter-spacing:2px;font-size:12px;text-transform:uppercase}
+.ds1 h2{margin:8px 0 6px;font:400 clamp(38px,5vw,58px)/.95 'Bebas Neue',sans-serif;color:#fff}.ds1 h2 em{font-style:normal;color:#76C46E}
+.ds1-m{margin:0 0 6px;color:#C9D6E3;font-weight:600}
+.ds1-tot{margin:0 0 16px;color:#9FB3C8}.ds1-tot b{font:400 40px/1 'Bebas Neue',sans-serif;color:#fff;margin-right:4px}
+.ds1-btn{display:inline-block;background:#3A963E;color:#fff!important;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px}
+.ds1-btn:hover{background:#2E7D32}
+.ds1-lk{display:block;margin-top:10px;color:#C9D6E3!important;font-size:14px}
+.ds1-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.ds1-list li{display:grid;grid-template-columns:30px 110px minmax(0,1fr) 70px;gap:10px;align-items:center;font-variant-numeric:tabular-nums}
+.ds1-r{font:400 24px 'Bebas Neue',sans-serif;color:#6F849A;text-align:center}
+.ds1-list li:nth-child(1) .ds1-r{color:#E9C25A}.ds1-list li:nth-child(2) .ds1-r{color:#C9D3DD}.ds1-list li:nth-child(3) .ds1-r{color:#D08A55}
+.ds1-n{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ds1-b{height:22px;background:rgba(255,255,255,.07);border-radius:11px;overflow:hidden}
+.ds1-b i{display:block;height:100%;width:0;border-radius:11px;transition:width 1.1s cubic-bezier(.2,.8,.2,1);box-shadow:inset 0 2px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.18)}
+.ds1-v{font:400 24px 'Bebas Neue',sans-serif;text-align:right}.ds1-v small{display:block;font:600 11px Barlow,Arial,sans-serif;color:#9FB3C8}
+.ds1-ld{display:block!important;color:#9FB3C8}
+@media(max-width:760px){.ds1-in{grid-template-columns:1fr;gap:20px}.ds1-list li{grid-template-columns:24px 92px minmax(0,1fr) 58px;gap:8px}}
+@media(prefers-reduced-motion:reduce){.ds1-b i{transition:none}}
+</style>
+<script>
+(function(){
+var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+var NOM={'PETROBRAS PARAGUAY SRL':'Petrobras','COPETROL SA':'Copetrol','PUMA ENERGY PARAGUAY SA':'Puma','ENEX PARAGUAY SAE':'Enex','PETROSUR SA':'Petrosur','PETROMAX SA':'Petromax','PETROPAR':'Petropar','SHELL':'Shell','SAN ISIDRO':'Energy','ECOP':'ECOP','PETROCHACO':'Petrochaco','COMPASA':'Compasa','FUELPAR SA':'Fuelpar'};
+var COL={'Petropar':'#2B47E6','Shell':'#FFD500','Petrobras':'#0A8F5F','Copetrol':'#2A27D6','Puma':'#D8061B','Energy':'#FEDB03','ECOP':'#F18C17','Petrosur':'#4A52D0','Petrochaco':'#47659A','Petromax':'#D2010B','Compasa':'#EE141F','Enex':'#0B57B8','Fuelpar':'#FB0807'};
+function nom(n){return NOM[n]||String(n||'').replace(/\b(S\.?A\.?|SRL|SAE|SAECA|SACIA)\b\.?/g,'').trim()}
+function f1(v){return (v/1e6).toLocaleString('es-PY',{minimumFractionDigits:1,maximumFractionDigits:1})}
+function go(y,retry){fetch('/mic.php?y='+y).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+ var m=0;j.vp.forEach(function(r){if(r[0]>m)m=r[0]});if(!m){if(retry)go(y-1,0);return}
+ var t={},tot=0;j.vp.forEach(function(r){if(r[0]!==m)return;var n=nom(j.names[r[1]]);t[n]=(t[n]||0)+r[3];tot+=r[3]});
+ var rows=Object.keys(t).map(function(k){return[k,t[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5),mx=rows[0][1];
+ document.getElementById('ds1Mes').textContent='Litros vendidos en Paraguay · '+MES[m-1]+' '+y;
+ document.getElementById('ds1Tot').textContent=f1(tot);
+ var L=document.getElementById('ds1List');
+ L.innerHTML=rows.map(function(r,i){var c=COL[r[0]]||'#76C46E';return '<li><span class="ds1-r">'+(i+1)+'</span><span class="ds1-n">'+r[0]+'</span><span class="ds1-b"><i style="background:linear-gradient(90deg,'+c+','+c+'cc)" data-w="'+(100*r[1]/mx).toFixed(1)+'"></i></span><span class="ds1-v">'+f1(r[1])+'<small>'+(100*r[1]/tot).toFixed(1).replace('.',',')+'%</small></span></li>'}).join('');
+ var anim=function(){[].forEach.call(L.querySelectorAll('i[data-w]'),function(e){e.style.width=e.dataset.w+'%'})};
+ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){anim();io.disconnect()}});io.observe(L)}else anim();
+}).catch(function(){if(retry)go(y-1,0);else document.getElementById('ds1List').innerHTML='<li class="ds1-ld">Datos disponibles en la página del ranking.</li>'})}
+go(new Date().getFullYear(),1);
+})();
+</script>
