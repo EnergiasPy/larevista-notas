@@ -338,7 +338,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
       '<p style="font-size:13px;color:#4A5B6C;margin:0">Precios mensuales en guaraníes. Los banners rotan entre las marcas de cada nivel.</p>'+
       '</section>';
     if(tgt)tgt.replaceWith(el(html));
-    an.querySelectorAll('.aud > div, .aud > *').forEach(function(d){var b=d.querySelector('b,strong,.n')||d.firstElementChild;if(!b)return;var t=d.textContent;
+    an.querySelectorAll('.aud > div, .aud > *').forEach(function(d){var b=d.querySelector('b,strong,.n')||d.firstElementChild;if(!b||b.textContent.indexOf('[X]')<0)return;var t=d.textContent;
       if(/seguidores/i.test(t)){b.textContent='2.000+';}
       else if(/visitas/i.test(t)){b.textContent='24';var s=b.nextElementSibling||d.lastElementChild;if(s&&s!==b)s.textContent='expositores en el Foro 2026';}
       else if(/newsletter/i.test(t)){b.textContent='1 por día';var s2=b.nextElementSibling||d.lastElementChild;if(s2&&s2!==b)s2.textContent='nota nueva del sector';}});
