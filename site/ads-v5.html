@@ -324,7 +324,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
       '</section>';
     if(tgt)tgt.replaceWith(el(html));
     an.querySelectorAll('.aud > div, .aud > *').forEach(function(d){var b=d.querySelector('b,strong,.n')||d.firstElementChild;if(!b)return;var t=d.textContent;
-      if(/seguidores/i.test(t)){b.textContent='1.900+';}
+      if(/seguidores/i.test(t)){b.textContent='2.000+';}
       else if(/visitas/i.test(t)){b.textContent='24';var s=b.nextElementSibling||d.lastElementChild;if(s&&s!==b)s.textContent='expositores en el Foro 2026';}
       else if(/newsletter/i.test(t)){b.textContent='1 por día';var s2=b.nextElementSibling||d.lastElementChild;if(s2&&s2!==b)s2.textContent='nota nueva del sector';}});
     an.querySelectorAll('h2').forEach(function(h){if(/5\s*%.*stand/i.test(h.textContent)){var p=h.parentNode.querySelector('p');if(p)p.textContent='Si estás abonado a la revista 6 meses o más, tenés 5 % de descuento sobre el precio de tu stand en la Expo 2027.';}});
