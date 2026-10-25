@@ -422,11 +422,11 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
     var per = QC.modo === 'mes' ? (MESES[m - 1] + ' ' + y + ' vs. ' + MESES[m - 1] + ' ' + (y - 1)) : ('Enero–' + MESES[m - 1] + ' ' + y + ' vs. mismo período ' + (y - 1));
     c.fillText(per.toUpperCase() + '  ·  PARAGUAY', 62, 304);
     var dm = (tc - tp) / tp; rr(c, 60, 326, 520, 58, 29); c.fillStyle = 'rgba(118,196,110,.16)'; c.fill();
-    c.fillStyle = '#9FB3C8'; c.font = '700 18px Barlow'; c.fillText('MERCADO', 86, 362); c.fillStyle = dm >= 0 ? '#8FD786' : '#FF8A80'; c.font = '400 40px "Bebas Neue"'; c.fillText((dm >= 0 ? '▲ ' : '▼ ') + p1(Math.abs(dm)) + '  ·  ' + fmtM(tc) + ' M DE LITROS', 190, 369);
+    c.fillStyle = '#9FB3C8'; c.font = '700 18px Barlow'; c.fillText('MERCADO', 86, 362); var est = Math.abs(dm) < .0005; c.fillStyle = est ? '#fff' : dm >= 0 ? '#8FD786' : '#FF8A80'; c.font = '400 40px "Bebas Neue"'; c.fillText((est ? 'ESTABLE' : (dm >= 0 ? '▲ ' : '▼ ') + p1(Math.abs(dm))) + '  ·  ' + fmtM(tc) + ' M DE LITROS', 190, 369);
     var top = 418, rh = Math.min(58, (1236 - top) / Math.max(rows.length, 1)), cx = 700, mx = 0; rows.forEach(function (r) { mx = Math.max(mx, Math.abs(r.d)); }); mx = mx || 1;
     c.strokeStyle = 'rgba(255,255,255,.25)'; c.lineWidth = 2; c.beginPath(); c.moveTo(cx, top - 6); c.lineTo(cx, top + rh * rows.length); c.stroke();
     rows.forEach(function (r, i) {
-      var yy = top + i * rh, cy = yy + rh / 2, bh = Math.min(30, rh * .55), w = Math.max(4, 200 * Math.abs(r.d) / mx);
+      var yy = top + i * rh, cy = yy + rh / 2, bh = Math.min(30, rh * .55), w = Math.max(bh, 200 * Math.abs(r.d) / mx);
       logoTile(c, r.n, 60, cy - rh * .42, 132, rh * .84);
       c.fillStyle = '#fff'; c.font = '600 24px Barlow'; var nm = r.n; while (c.measureText(nm).width > 170 && nm.length > 3) nm = nm.slice(0, -2) + '…'; c.fillText(nm, 208, cy + 8);
       var up = r.d >= 0, gx = up ? cx : cx - w, gr = c.createLinearGradient(gx, 0, gx + w, 0);
@@ -438,7 +438,7 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
     });
     pie(c, W, H, 'Variación de litros vendidos por emblema · datos oficiales MIC');
     var best = rows[0], worst = rows[rows.length - 1];
-    $('qcNota').innerHTML = best ? ('<b>' + best.n + '</b> fue el que más creció (' + p1(best.d) + ')' + (worst && worst.d < 0 ? '; <b>' + worst.n + '</b> el que más cayó (' + p1(worst.d) + ')' : '') + '. El mercado ' + (dm >= 0 ? 'subió ' : 'bajó ') + p1(Math.abs(dm)) + '.') : '';
+    $('qcNota').innerHTML = best ? ('<b>' + best.n + '</b> fue el que más creció (' + p1(best.d) + ')' + (worst && worst.d < 0 ? '; <b>' + worst.n + '</b> el que más cayó (' + p1(worst.d) + ')' : '') + (Math.abs(dm) < .0005 ? '. El mercado total se mantuvo estable.' : '. El mercado ' + (dm >= 0 ? 'subió ' : 'bajó ') + p1(Math.abs(dm)) + '.')) : '';
   }
 
   /* ---------- PRECIOS ---------- */
