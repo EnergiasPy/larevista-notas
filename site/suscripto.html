@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHN1X44JV1"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VHN1X44JV1');var ORIG=/origen=web/.test(location.search)?'web':'email_invitacion';gtag('event','sign_up',{method:ORIG});</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VHN1X44JV1');var ORIG=(new URLSearchParams(location.search).get('origen'))||'email_invitacion';gtag('event','sign_up',{method:ORIG});</script>
 <style>
 :root{--nv:#0F213D;--gr:#3A963E;--gl:#76C46E;--mu:#4A5B6C;--bg:#EEF2F6}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Barlow,Arial,sans-serif;color:var(--nv)}
@@ -44,7 +44,7 @@ p{font-size:17px;line-height:1.55;margin:12px 0}
 <div class="tip"><b>Para no perderte ninguna edición:</b> agregá <b>info@energiaslatam.com</b> a tus contactos. Si nuestro mail te llegó a "Promociones", arrastralo a "Principal".</div>
 </div></div>
 <div class="ft">La Estación del Futuro · Energías LATAM · <a href="mailto:info@energiaslatam.com">info@energiaslatam.com</a> · <a href="https://wa.me/595984040224">WhatsApp +595 984 040 224</a> · <a href="/privacidad">Privacidad</a></div>
-<script>if(window.ORIG!=='web'){var l=document.getElementById('leer');if(l)l.href='/?utm_source=brevo&utm_medium=email&utm_campaign=gracias#noticias';}</script>
+<script>if(window.ORIG==='email_invitacion'){var l=document.getElementById('leer');if(l)l.href='/?utm_source=brevo&utm_medium=email&utm_campaign=gracias#noticias';}</script>
 </div><!-- WhatsApp flotante v1 · contacto comercial -->
 <style>
 .wa5f{position:fixed;right:18px;bottom:18px;z-index:9999;width:60px;height:60px;border-radius:50%;background:#25D366;box-shadow:0 6px 18px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;text-decoration:none}

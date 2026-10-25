@@ -73,8 +73,7 @@ f.addEventListener('submit',function(e){e.preventDefault();er.hidden=true;
  var fd=new FormData();fd.append('tipo','newsletter');fd.append('el',Date.now()-T0);fd.append('hp_x',f.elements['hp_x'].value);
  fd.append('Nombre',n);fd.append('Correo electrónico',m);var em=f.elements['Empresa'].value.trim();if(em)fd.append('Empresa',em);fd.append('Origen',src);
  fetch('/form.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;
-  try{gtag('event','sign_up',{method:'newsletter_'+src});}catch(x){}
-  location.href='/suscripto.html?origen=web';
+  location.href='/suscripto.html?origen='+encodeURIComponent(src);
  }).catch(function(){er.innerHTML='No se pudo enviar. Probá de nuevo o escribinos a <a href="mailto:info@energiaslatam.com">info@energiaslatam.com</a>.';er.hidden=false;b.disabled=false;b.textContent='Quiero recibirlo';});
 });})();
 </script>

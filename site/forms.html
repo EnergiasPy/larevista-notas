@@ -19,7 +19,7 @@
       if(b){b.disabled=true;}
       fetch('/form.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
         if(!j.ok)throw 0;if(ok)ok.hidden=false;f.querySelectorAll('input:not([type=hidden]),textarea').forEach(function(el){if(el!==hp)el.value='';});
-        try{gtag('event',tipo==='newsletter'?'sign_up':'generate_lead',{form:tipo});}catch(x){}
+        if(tipo!=='newsletter'){try{gtag('event','generate_lead',{form:tipo});}catch(x){}}
         if(tipo==='newsletter'){setTimeout(function(){location.href='/suscripto.html?origen=web';},350);}
       }).catch(function(){var p=document.createElement('p');p.className='f5-err';p.innerHTML='No se pudo enviar. Escribinos a <a href="mailto:info@energiaslatam.com">info@energiaslatam.com</a>.';f.appendChild(p);}).finally(function(){if(b)b.disabled=false;});
     },true);
