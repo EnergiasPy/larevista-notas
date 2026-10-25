@@ -444,6 +444,8 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
   /* ---------- PRECIOS ---------- */
   var PR = { prod: 'GTIII' };
   // un precio que se aparta más de 12% de la mediana del producto se considera dato a revisar (error de carga)
+  // productos que un emblema informa bajo el mismo código pero no son comparables
+  var NOTA_PR = { PTBR_GTIII: 'informa su gasoil premium triple filtrado, que no es comparable con el gasoil tipo III común' };
   function mediana(a) { a = a.slice().sort(function (x, y) { return x - y; }); var k = Math.floor(a.length / 2); return a.length % 2 ? a[k] : (a[k - 1] + a[k]) / 2; }
   function raro(ri, v) { var P = X.precios, vals = P.data[ri].filter(function (x) { return x > 0; }); if (!v || vals.length < 4) return false; var md = mediana(vals); return Math.abs(v - md) / md > .12; }
   function precioRows(prod) {
@@ -475,9 +477,9 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
     var mins = P.rows.map(function (r, i) { var v = P.data[i].filter(function (x) { return x > 0 && !raro(i, x); }); return v.length ? Math.min.apply(null, v) : 0; });
     var maxs = P.rows.map(function (r, i) { var v = P.data[i].filter(function (x) { return x > 0 && !raro(i, x); }); return v.length ? Math.max.apply(null, v) : 0; });
     var ord = P.cols.map(function (cd, ci) { return { cd: cd, ci: ci, n: EMB[cd] || cd }; }).sort(function (a, b) { return a.n.localeCompare(b.n); });
-    var nr = 0;
-    ord.forEach(function (o) { h += '<tr><td>' + lg(o.n) + o.n + '</td>' + P.rows.map(function (r, i) { var v = P.data[i][o.ci]; if (raro(i, v)) { nr++; return '<td class="rev" title="Dato informado fuera de rango, en revisión">' + n0(v) + '*</td>'; } return '<td class="' + (v && v === mins[i] ? 'min' : v && v === maxs[i] ? 'max' : '') + '">' + (v ? n0(v) : '–') + '</td>'; }).join('') + '</tr>'; });
-    $('prTabla').innerHTML = h + '</tbody></table>' + (nr ? '<p class="note">* Precio informado muy distinto al del resto del mercado (más de 12% de diferencia con la mediana). Lo dejamos fuera de la comparación hasta que se confirme.</p>' : '');
+    var nr = 0, notas = [];
+    ord.forEach(function (o) { h += '<tr><td>' + lg(o.n) + o.n + '</td>' + P.rows.map(function (r, i) { var v = P.data[i][o.ci]; if (raro(i, v)) { nr++; var nt = NOTA_PR[o.cd + '_' + r]; if (nt) notas.push('<b>' + o.n + '</b>, ' + (PROD[r] || r).toLowerCase() + ': ' + nt + '.'); return '<td class="rev" title="' + (nt || 'Precio fuera de rango') + '">' + n0(v) + '*</td>'; } return '<td class="' + (v && v === mins[i] ? 'min' : v && v === maxs[i] ? 'max' : '') + '">' + (v ? n0(v) : '–') + '</td>'; }).join('') + '</tr>'; });
+    $('prTabla').innerHTML = h + '</tbody></table>' + (nr ? '<p class="note">* Precio muy distinto al del resto del mercado (más de 12% de diferencia): corresponde a un producto diferente o a un dato a confirmar, por eso no entra en la comparación. ' + notas.join(' ') + '</p>' : '');
     $('prNota').innerHTML = rows.length ? ('<b>' + rows[0].n + '</b> tiene el ' + (PROD[PR.prod] || PR.prod).toLowerCase() + ' más barato (' + gs(rows[0].v) + ' por litro) y <b>' + rows[rows.length - 1].n + '</b> el más caro (' + gs(rows[rows.length - 1].v) + '). Diferencia: ' + gs(rows[rows.length - 1].v - rows[0].v) + ' por litro; en un tanque de 50 litros son ' + gs(50 * (rows[rows.length - 1].v - rows[0].v)) + '. Promedio: ' + gs(avg) + '.') : '';
   }
 
