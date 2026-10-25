@@ -10,11 +10,11 @@
     var s=f.closest('section[data-view]'),tipo=s&&TIPO[s.getAttribute('data-view')];if(!tipo)return;
     f.removeAttribute('data-demo');
     var ok=f.querySelector('.ok');if(ok)ok.textContent=ok.textContent.replace(/\s*\(demo\)\s*/i,'');
-    var hp=document.createElement('input');hp.type='text';hp.name='web';hp.tabIndex=-1;hp.autocomplete='off';hp.className='f5hp';hp.setAttribute('aria-hidden','true');f.appendChild(hp);
+    var hp=document.createElement('input');hp.type='text';hp.name='hp_x';hp.tabIndex=-1;hp.autocomplete='off';hp.className='f5hp';hp.setAttribute('aria-hidden','true');f.appendChild(hp);
     f.addEventListener('submit',function(e){
       e.preventDefault();e.stopImmediatePropagation();
       var b=f.querySelector('[type=submit]'),er=f.querySelector('.f5-err');if(er)er.remove();
-      var fd=new FormData();fd.append('tipo',tipo);fd.append('t',T0);fd.append('web',hp.value);
+      var fd=new FormData();fd.append('tipo',tipo);fd.append('el',Date.now()-T0);fd.append('hp_x',hp.value);
       f.querySelectorAll('input,select,textarea').forEach(function(el){if(el===hp||el.type==='submit'||el.type==='button')return;if((el.type==='checkbox'||el.type==='radio')&&!el.checked)return;fd.append(lab(f,el),el.value);});
       if(b){b.disabled=true;}
       fetch('/form.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){

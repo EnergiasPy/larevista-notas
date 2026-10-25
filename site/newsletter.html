@@ -55,7 +55,7 @@ button{margin-top:18px;width:100%;background:var(--gr);color:#fff;border:0;borde
 <label for="n1">Nombre</label><input id="n1" name="Nombre" type="text" autocomplete="given-name" required>
 <label for="n2">Tu email</label><input id="n2" name="Correo electrónico" type="email" autocomplete="email" inputmode="email" required>
 <label for="n3">Empresa o estación <span style="font-weight:400;color:var(--mu)">(opcional)</span></label><input id="n3" name="Empresa" type="text" autocomplete="organization">
-<input class="hp" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">
+<input class="hp" name="hp_x" tabindex="-1" autocomplete="off" aria-hidden="true">
 <button type="submit">Quiero recibirlo</button>
 <div class="err" id="er" hidden></div>
 </form>
@@ -70,7 +70,7 @@ f.addEventListener('submit',function(e){e.preventDefault();er.hidden=true;
  var n=f.elements['Nombre'].value.trim(),m=f.elements['Correo electrónico'].value.trim();
  if(!n||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)){er.textContent='Completá tu nombre y un email válido.';er.hidden=false;return;}
  var b=f.querySelector('button');b.disabled=true;b.textContent='Enviando…';
- var fd=new FormData();fd.append('tipo','newsletter');fd.append('t',T0);fd.append('web',f.elements['web'].value);
+ var fd=new FormData();fd.append('tipo','newsletter');fd.append('el',Date.now()-T0);fd.append('hp_x',f.elements['hp_x'].value);
  fd.append('Nombre',n);fd.append('Correo electrónico',m);var em=f.elements['Empresa'].value.trim();if(em)fd.append('Empresa',em);fd.append('Origen',src);
  fetch('/form.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(!j.ok)throw 0;
   try{gtag('event','sign_up',{method:'newsletter_'+src});}catch(x){}

@@ -52,9 +52,17 @@ $FROM = 'info@energiaslatam.com';
 $TIPOS = ['newsletter' => 'Suscripción al newsletter', 'proveedor' => 'Alta en la guía de proveedores', 'preregistro' => 'Pre-registro Foro & Expo 2027'];
 
 // Antispam: campo trampa y tiempo mínimo
-if (!empty($_POST['web'])) { echo '{"ok":true}'; exit; }
-$t = isset($_POST['t']) ? (int)$_POST['t'] : 0;
-if ($t > 0 && (time() * 1000 - $t) < 2500) { echo '{"ok":true}'; exit; }
+// Antispam: campo trampa y tiempo que tardó en completar (medido en el propio navegador).
+// Lo descartado queda anotado en datos/descartes.log para poder recuperarlo.
+$descartar = function ($motivo) {
+  $d = __DIR__ . '/datos'; if (!is_dir($d)) @mkdir($d, 0750);
+  $resto = $_POST; unset($resto['hp_x'], $resto['web']);
+  @file_put_contents($d . '/descartes.log', date('c') . ' ' . $motivo . ' ' . json_encode($resto, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND);
+  echo '{"ok":true}'; exit;
+};
+if (!empty($_POST['hp_x'])) $descartar('trampa');
+$el = isset($_POST['el']) ? (int)$_POST['el'] : -1;
+if ($el >= 0 && $el < 1200) $descartar('rapido ' . $el . 'ms');
 
 $tipo = isset($_POST['tipo']) && isset($TIPOS[$_POST['tipo']]) ? $_POST['tipo'] : '';
 if (!$tipo) { http_response_code(400); echo '{"ok":false,"error":"tipo"}'; exit; }
@@ -70,7 +78,7 @@ $hits[] = time(); @file_put_contents($rl, implode("\n", $hits));
 
 $campos = [];
 foreach ($_POST as $k => $v) {
-  if (in_array($k, ['tipo', 'web', 't'], true)) continue;
+  if (in_array($k, ['tipo', 'web', 't', 'el', 'hp_x'], true)) continue;
   $v = trim(mb_substr(str_replace(["\r", "\n"], ' ', (string)$v), 0, 500));
   $k = trim(mb_substr(preg_replace('/[^\p{L}\p{N} _\-\/().]/u', '', (string)$k), 0, 60));
   if ($k !== '' && $v !== '') $campos[$k] = $v;
