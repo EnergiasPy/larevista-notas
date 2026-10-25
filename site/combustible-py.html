@@ -70,7 +70,7 @@ th .ar{opacity:.6;font-size:11px}
 .side .big{font-size:18px;line-height:1.5;color:var(--nv)}
 .h3{font:400 26px/1.1 'Bebas Neue',sans-serif;margin:20px 0 8px}
 table.mx td,table.mx th{text-align:right}table.mx td:first-child,table.mx th:first-child{text-align:left}
-table.mx td.min{background:#E6F3E5;color:#1B5E20;font-weight:700}table.mx td.max{background:#FDECEA;color:#B71C1C}
+table.mx td.min{background:#E6F3E5;color:#1B5E20;font-weight:700}table.mx td.max{background:#FDECEA;color:#B71C1C}table.mx td.rev{color:#9AA8B6;text-decoration:line-through}
 .re{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
 ol.bars,ul.bars{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 ol.bars li,ul.bars li{display:grid;grid-template-columns:26px auto minmax(0,1fr) minmax(0,1.4fr) 80px;gap:8px;align-items:center;font-size:14px;padding:4px 6px;border-radius:8px;cursor:pointer}
@@ -443,10 +443,13 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
 
   /* ---------- PRECIOS ---------- */
   var PR = { prod: 'GTIII' };
+  // un precio que se aparta más de 12% de la mediana del producto se considera dato a revisar (error de carga)
+  function mediana(a) { a = a.slice().sort(function (x, y) { return x - y; }); var k = Math.floor(a.length / 2); return a.length % 2 ? a[k] : (a[k - 1] + a[k]) / 2; }
+  function raro(ri, v) { var P = X.precios, vals = P.data[ri].filter(function (x) { return x > 0; }); if (!v || vals.length < 4) return false; var md = mediana(vals); return Math.abs(v - md) / md > .12; }
   function precioRows(prod) {
     var P = X.precios; if (!P) return [];
     var ri = P.rows.indexOf(prod); if (ri < 0) return [];
-    return P.cols.map(function (cd, ci) { return { n: EMB[cd] || cd, v: P.data[ri][ci] }; }).filter(function (r) { return r.v > 0; }).sort(function (a, b) { return a.v - b.v; });
+    return P.cols.map(function (cd, ci) { return { n: EMB[cd] || cd, v: P.data[ri][ci] }; }).filter(function (r) { return r.v > 0 && !raro(ri, r.v); }).sort(function (a, b) { return a.v - b.v; });
   }
   function precios() {
     var P = X.precios; if (!P) { $('prBox').innerHTML = '<p class="note">Precios no disponibles en este momento.</p>'; return; }
@@ -469,11 +472,12 @@ var T0=Date.now();var sf=document.getElementById('susForm');if(sf)sf.onsubmit=fu
     pie(c, W, H, 'Precio promedio informado' + (hoy ? ' al ' + hoy.split('-').reverse().join('/') : '') + ' · datos oficiales MIC');
     // tabla completa
     var h = '<table class="mx"><thead><tr><th>Emblema</th>' + P.rows.map(function (r) { return '<th>' + (PROD[r] || r) + '</th>'; }).join('') + '</tr></thead><tbody>';
-    var mins = P.rows.map(function (r, i) { var v = P.data[i].filter(function (x) { return x > 0; }); return v.length ? Math.min.apply(null, v) : 0; });
-    var maxs = P.rows.map(function (r, i) { var v = P.data[i].filter(function (x) { return x > 0; }); return v.length ? Math.max.apply(null, v) : 0; });
+    var mins = P.rows.map(function (r, i) { var v = P.data[i].filter(function (x) { return x > 0 && !raro(i, x); }); return v.length ? Math.min.apply(null, v) : 0; });
+    var maxs = P.rows.map(function (r, i) { var v = P.data[i].filter(function (x) { return x > 0 && !raro(i, x); }); return v.length ? Math.max.apply(null, v) : 0; });
     var ord = P.cols.map(function (cd, ci) { return { cd: cd, ci: ci, n: EMB[cd] || cd }; }).sort(function (a, b) { return a.n.localeCompare(b.n); });
-    ord.forEach(function (o) { h += '<tr><td>' + lg(o.n) + o.n + '</td>' + P.rows.map(function (r, i) { var v = P.data[i][o.ci]; return '<td class="' + (v && v === mins[i] ? 'min' : v && v === maxs[i] ? 'max' : '') + '">' + (v ? n0(v) : '–') + '</td>'; }).join('') + '</tr>'; });
-    $('prTabla').innerHTML = h + '</tbody></table>';
+    var nr = 0;
+    ord.forEach(function (o) { h += '<tr><td>' + lg(o.n) + o.n + '</td>' + P.rows.map(function (r, i) { var v = P.data[i][o.ci]; if (raro(i, v)) { nr++; return '<td class="rev" title="Dato informado fuera de rango, en revisión">' + n0(v) + '*</td>'; } return '<td class="' + (v && v === mins[i] ? 'min' : v && v === maxs[i] ? 'max' : '') + '">' + (v ? n0(v) : '–') + '</td>'; }).join('') + '</tr>'; });
+    $('prTabla').innerHTML = h + '</tbody></table>' + (nr ? '<p class="note">* Precio informado muy distinto al del resto del mercado (más de 12% de diferencia con la mediana). Lo dejamos fuera de la comparación hasta que se confirme.</p>' : '');
     $('prNota').innerHTML = rows.length ? ('<b>' + rows[0].n + '</b> tiene el ' + (PROD[PR.prod] || PR.prod).toLowerCase() + ' más barato (' + gs(rows[0].v) + ' por litro) y <b>' + rows[rows.length - 1].n + '</b> el más caro (' + gs(rows[rows.length - 1].v) + '). Diferencia: ' + gs(rows[rows.length - 1].v - rows[0].v) + ' por litro; en un tanque de 50 litros son ' + gs(50 * (rows[rows.length - 1].v - rows[0].v)) + '. Promedio: ' + gs(avg) + '.') : '';
   }
 
