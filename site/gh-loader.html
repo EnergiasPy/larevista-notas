@@ -15,6 +15,7 @@
 .pstripe{display:flex;height:6px;width:100%}.pstripe i{flex:1}
 .pflag{position:absolute;left:10px;top:14px;width:34px;height:23px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);background:#fff center/cover no-repeat;z-index:2}
 .card.pc .pstripe{position:absolute;left:0;right:0;top:0;z-index:2}
+.shr5{color:#3A7D44;font-weight:600;text-decoration:underline;white-space:nowrap}
 .pfl{display:inline-block;width:20px;height:14px;vertical-align:-2px;margin-right:7px;background:center/cover no-repeat;border:1px solid #DCE3EA}
 @media (max-width:560px){#v-nota-gh .datos{grid-template-columns:1fr}}
 </style>
@@ -52,14 +53,16 @@
       art.innerHTML=(n.estado!=='publicada'?'<div class="gh-draft">Borrador · vista previa, todavía no está publicada</div>':'')+
         '<a class="back" href="#noticias">← La Estación del Futuro</a>'+
         '<span class="cat">'+e(n.cat)+'</span><h1>'+n.titulo+'</h1><p class="bajada">'+n.bajada+'</p>'+
-        '<p class="byline">Por <b>'+e(n.autor)+'</b> · '+fecha(n.fecha)+'</p>'+
+        '<p class="byline">Por <b>'+e(n.autor)+'</b> · '+fecha(n.fecha)+' · <a class="shr5" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(n.titulo.replace(/<[^>]+>/g,'')+' https://energiaslatam.com/n/'+n.id)+'">Compartir por WhatsApp</a></p>'+
         '<div class="nota-body">'+body+'</div>';
       var c=n.pais||'py';
       var bl=art.querySelector('.byline');if(bl&&PC[c])bl.insertAdjacentHTML('afterbegin',flag(c,'pfl'));
       document.title=n.titulo.replace(/<[^>]+>/g,'')+' · La Estación del Futuro';
     });
   }
-  function check(){var h=location.hash.slice(1);if(h.indexOf('n/')===0)show(h.slice(2));}
+  function check(){var h=location.hash.slice(1);
+    if(h.indexOf('n/')===0){var id=h.slice(2);show(id);try{if(location.pathname==='/'||location.pathname==='/index.html')history.replaceState(null,'','/n/'+id);}catch(x){}return;}
+    if(!h&&window.NOTA_ID)show(window.NOTA_ID);}
   window.addEventListener('hashchange',check);
   get('notas.json').then(function(t){return JSON.parse(t);}).then(function(list){
     IDX=list;
