@@ -6,6 +6,7 @@ require __DIR__ . '/notas-lib.php';
 
 $id = isset($_GET['id']) ? preg_replace('/[^a-z0-9\-]/', '', strtolower($_GET['id'])) : '';
 $n = $id ? nota_por_id($id) : null;
+if (!$n && $id) { $E = notas_estaticas(); if (isset($E[$id])) $n = $E[$id]; }
 if (!$n) { header('Location: /', true, 302); exit; }
 
 $H = @file_get_contents(__DIR__ . '/index.html');
@@ -15,7 +16,8 @@ $e = function ($s) { return htmlspecialchars(strip_tags((string)$s), ENT_QUOTES,
 $url = 'https://energiaslatam.com/n/' . $id;
 $tit = $e($n['titulo']) . ' · La Estación del Futuro';
 $des = $e($n['bajada']);
-$img = !empty($n['img']) ? GH_RAW . $n['img'] : 'https://energiaslatam.com/img/og-energiaslatam.jpg';
+$img = !empty($n['img_abs']) ? $n['img_abs'] : (!empty($n['img']) ? GH_RAW . $n['img'] : 'https://energiaslatam.com/img/og-energiaslatam.jpg');
+$est = !empty($n['estatica']);
 
 $rep = [
   '/<title>.*?<\/title>/s' => '<title>' . $tit . '</title>',
@@ -46,12 +48,14 @@ $head = '<base href="/">' . "\n"
   . '<link rel="canonical" href="' . $url . '">' . "\n"
   . '<meta property="article:published_time" content="' . $e($n['fecha']) . '">' . "\n"
   . ($n['estado'] !== 'publicada' ? '<meta name="robots" content="noindex,nofollow">' . "\n" : '')
-  . '<script>window.NOTA_ID=' . json_encode($id) . ';</script>' . "\n"
+  . ($est
+      ? '<script>if(!location.hash)history.replaceState(null,"","/n/' . $id . '#nota-' . $id . '");</script>' . "\n"
+      : '<script>window.NOTA_ID=' . json_encode($id) . ';</script>' . "\n")
   . '<script type="application/ld+json">' . json_encode($ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . '</script>' . "\n";
 $H = preg_replace('/<meta charset="utf-8">/', '<meta charset="utf-8">' . "\n" . $head, $H, 1);
 
 // Texto de la nota dentro del HTML (para buscadores); el lector lo reemplaza al cargar
-$body = nota_cuerpo($id);
+$body = $est ? '' : nota_cuerpo($id);
 if ($body !== '') {
   $body = preg_replace('/src="img\//', 'src="' . GH_RAW . 'img/', $body);
   $pre = '<article class="nota" id="pre-nota" style="max-width:760px;margin:24px auto;padding:0 16px"><h1>' . $e($n['titulo']) . '</h1><p class="bajada">' . $des . '</p><p class="byline">Por <b>' . $e($n['autor']) . '</b> · ' . $e($n['fecha']) . '</p><div class="nota-body">' . $body . '</div></article>'
