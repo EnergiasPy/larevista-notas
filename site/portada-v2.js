@@ -33,7 +33,7 @@
     '.pv-sec img{width:120px;height:80px;object-fit:cover;border-radius:8px;background:#EEF2F6}.pv-sec .pv-cat{margin:0 0 4px}',
     '.pv-sec strong{display:block;font:700 17px/1.25 Barlow,Arial,sans-serif;color:#0F213D}',
     '.pv-all{font:700 15px Barlow,Arial,sans-serif;color:#2E7D32!important;text-decoration:none}',
-    '.pv-row{display:grid;grid-template-columns:1.2fr 1fr;gap:22px;margin:0 0 30px}',
+    '#suscribite{scroll-margin-top:150px}.pv-row{display:grid;grid-template-columns:1.2fr 1fr;gap:22px;margin:0 0 30px}',
     '.pv-box{border-radius:12px;padding:22px}.pv-data{background:#0F213D;color:#fff}.pv-data h3,.pv-sub h3{margin:0 0 6px;font:400 30px/1.05 "Bebas Neue",sans-serif;letter-spacing:.5px}',
     '.pv-data p{margin:0 0 14px;color:#C9D6E3;font:500 15px/1.45 Barlow,Arial,sans-serif}',
     '.pv-kpi{display:flex;gap:22px;flex-wrap:wrap;margin:0 0 16px}.pv-kpi b{display:block;font:400 40px/1 "Bebas Neue",sans-serif;color:#76C46E}.pv-kpi span{color:#C9D6E3;font:500 13px/1.3 Barlow,Arial,sans-serif}',
@@ -128,7 +128,7 @@
 
     // 8 · qué es cada marca
     var foot = $('footer.foot');
-    document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href="#suscribite"]'); if (!a) return; e.preventDefault(); var t = document.getElementById('suscribite'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href="#suscribite"]'); if (!a) return; e.preventDefault(); var t = document.getElementById('suscribite'); if (!t) return; var hd = document.querySelector('header.top'), off = 16; if (hd && /sticky|fixed/.test(getComputedStyle(hd).position)) off += hd.getBoundingClientRect().height; window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - off, behavior: 'smooth' }); });
     if (foot) foot.parentNode.insertBefore(el('<section class="pv-brands" aria-label="Nuestras marcas"><div class="wrap"><div><b>Energías LATAM</b><p>El medio especializado en estaciones de servicio, combustibles e infraestructura energética. Hoy con base en Paraguay y datos en expansión a la región.</p></div><div><b>La Estación del Futuro</b><p>La publicación de Energías LATAM: notas, datos del sector y el newsletter.</p></div><div><b>Energías Paraguay</b><p>El Foro &amp; Expo del sector, que reúne a operadores, petroleras, autoridades y proveedores.</p></div></div></section>'), foot);
   }
 
