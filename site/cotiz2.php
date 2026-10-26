@@ -9,9 +9,9 @@ $dir = __DIR__ . '/datos/cotiz'; if (!is_dir($dir)) @mkdir($dir, 0755, true);
 $cache = "$dir/actual2.json";
 if (is_file($cache) && empty($_GET['fresh']) && time() - filemtime($cache) < 900) { readfile($cache); exit; }
 
-function g($u, $html = false) {
+function g($u, $html = false, $to = 20) {
   $ch = curl_init($u);
-  curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 20, CURLOPT_CONNECTTIMEOUT => 8, CURLOPT_FOLLOWLOCATION => true,
+  curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => $to, CURLOPT_CONNECTTIMEOUT => 8, CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_USERAGENT => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36',
     CURLOPT_HTTPHEADER => [$html ? 'Accept: text/html,application/xhtml+xml' : 'Accept: application/json, text/plain, */*']]);
   $r = curl_exec($ch); $c = curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
@@ -67,9 +67,13 @@ if ($mk) {
 
 // Chile · dólar observado del Banco Central de Chile (publicado vía mindicador.cl)
 $cl = fuente('cl', 3600, function () {
-  $c = json_decode(g('https://mindicador.cl/api/dolar') ?: 'null', true);
+  $c = json_decode(g('https://mindicador.cl/api/dolar', false, 10) ?: 'null', true);
   return !empty($c['serie'][0]['valor']) ? ['v' => (float)$c['serie'][0]['valor'], 'prev' => (float)($c['serie'][1]['valor'] ?? 0), 'fecha_valor' => substr($c['serie'][0]['fecha'], 0, 10)] : null;
 });
+// si mindicador no responde y nunca hubo dato propio, usar el último dato válido que guardó la versión anterior (con su fecha)
+if (!$cl && is_file("$dir/actual.json")) { $v1 = json_decode(file_get_contents("$dir/actual.json"), true);
+  if (!empty($v1['cl']['v'])) { $cl = ['v' => (float)$v1['cl']['v'], 'prev' => (float)($v1['cl']['prev'] ?? 0), 'fecha_valor' => $v1['cl']['fecha'] ?? '', 'consultado' => date('c', filemtime("$dir/actual.json")), 'sin_actualizar' => true];
+    file_put_contents("$dir/f-cl.json", json_encode(['d' => ['v' => $cl['v'], 'prev' => $cl['prev'], 'fecha_valor' => $cl['fecha_valor']], 'consultado' => $cl['consultado'], 'intento' => time(), 'ok' => false])); } }
 if ($cl) $items[] = $cl + ['id' => 'cl', 'pais' => 'Chile', 'mon' => '$ CL', 'tipo' => 'Dólar observado (oficial)', 'fuente' => 'Banco Central de Chile, vía mindicador.cl', 'url' => 'https://www.bcentral.cl/'];
 
 // Uruguay · Altercambio (compra / venta)
