@@ -41,6 +41,7 @@ fetch('/cotiz.php').then(function(r){return r.json()}).then(function(j){
  else if(mk.ARS)it.push('<span class="cz1-it">'+fl('ar')+'<small>$ AR</small> <b>'+nf(mk.ARS.ask,0)+'</b>'+pc(mk.ARS.pct)+'</span>');
  if(j.cl)it.push('<span class="cz1-it">'+fl('cl')+'<small>$ CL</small> <b>'+nf(j.cl.v,0)+'</b>'+(j.cl.prev?pc((j.cl.v-j.cl.prev)/j.cl.prev*100):'')+'</span>');
  if(j.bo)it.push('<span class="cz1-it">'+fl('bo')+'<small>Bs oficial</small> <b>'+nf(j.bo.v,2)+'</b></span>');
+ if(j.uy)it.push('<span class="cz1-it">'+fl('uy')+'<small>$ UY</small> <small>C</small> <b>'+nf(j.uy.compra,2)+'</b> <small>V</small> <b>'+nf(j.uy.venta,2)+'</b></span>');
  if(j.pe)it.push('<span class="cz1-it">'+fl('pe')+'<small>S/</small> <small>C</small> <b>'+nf(j.pe.compra,3)+'</b> <small>V</small> <b>'+nf(j.pe.venta,3)+'</b></span>');
  [['br','BRL','R$',2]].forEach(function(x){var v=mk[x[1]];if(v)it.push('<span class="cz1-it">'+fl(x[0])+'<small>'+x[2]+'</small> <b>'+nf(v.ask,x[3])+'</b>'+pc(v.pct)+'</span>')});
  if(mk.EURUSD)it.push('<span class="cz1-it">'+fl('eu')+'<small>€</small> <b>'+nf(1/mk.EURUSD.bid,2)+'</b>'+pc(-mk.EURUSD.pct)+'</span>');

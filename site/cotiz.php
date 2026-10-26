@@ -58,6 +58,17 @@ if (!is_file($pe) || time() - filemtime($pe) > 3600) {
 }
 if (is_file($pe)) { $out['pe'] = json_decode(file_get_contents($pe), true); $out['fuentes'][] = 'pe:kambista'; }
 
+// Uruguay · Altercambio (casa de cambio, compra / venta en pesos uruguayos por US$)
+$uy = "$dir/uy.json";
+if (!is_file($uy) || time() - filemtime($uy) > 3600) {
+  $h = g('https://altercambio.com.uy/', true);
+  if ($h) { $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(preg_replace('#<(script|style)[^>]*>.*?</\1>#is', ' ', str_replace(['</td>', '</div>', '</span>'], ' | ', $h)))));
+    if (preg_match('/Dolar USA[\s|]*([\d]+[.,]\d{2})[\s|]*([\d]+[.,]\d{2})/iu', $t, $m)) {
+      $c = (float)str_replace(',', '.', $m[1]); $v = (float)str_replace(',', '.', $m[2]);
+      if ($c > 20 && $c < 80 && $v >= $c && $v < 80) file_put_contents($uy, json_encode(['compra' => $c, 'venta' => $v, 'fecha' => date('c')])); } }
+}
+if (is_file($uy)) { $out['uy'] = json_decode(file_get_contents($uy), true); $out['fuentes'][] = 'uy:altercambio'; }
+
 // Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
 $eia = "$dir/eia.json";
 if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
