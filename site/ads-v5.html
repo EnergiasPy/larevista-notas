@@ -229,7 +229,7 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
     var t=el(notaTop()),oro=t.querySelector('.oroh5'),pl=t.querySelector('.pb5');oro.classList.add('mid5');
     var ps=[].filter.call(body.children,function(c){return c.tagName==='P';});var an=ps[1]||ps[0];
     if(an)an.after(oro);else body.appendChild(oro);
-    var tail=document.createElement('div');tail.className='tail5';tail.appendChild(pl);
+    var tail=document.createElement('div');tail.className='tail5';var hq=[].filter.call(body.querySelectorAll('h2,h3'),function(h){return /(significa|implica) para (la|una) estaci/i.test(h.textContent);})[0];if(hq){pl.classList.add('pre5');pl.style.margin='26px 0';hq.parentNode.insertBefore(pl,hq);}else tail.appendChild(pl);
     var br=sec.querySelector('.brl5');tail.appendChild(br||el(bronceList()));art.appendChild(tail);
     art.querySelectorAll('.r5').forEach(function(b,i){rot5(b,i);});}
   document.querySelectorAll('section[data-view^="nota-"]').forEach(function(sec){
