@@ -34,17 +34,27 @@ $m = json_decode(g("https://economia.awesomeapi.com.br/json/last/$pairs") ?: 'nu
 if (is_array($m)) foreach ($m as $k => $v) $out['mk'][substr($k, 0, 3) === 'USD' ? substr($k, 3) : $k] = ['bid' => (float)$v['bid'], 'ask' => (float)$v['ask'], 'pct' => (float)($v['pctChange'] ?? 0), 'fecha' => $v['create_date'] ?? ''];
 if ($out['mk']) $out['fuentes'][] = 'mk:awesomeapi';
 
-// Petróleo (US$ por barril) · futuros Brent y WTI
-foreach (['brent' => 'BZ=F', 'wti' => 'CL=F'] as $k => $s) {
-  $y = json_decode(g('https://query1.finance.yahoo.com/v8/finance/chart/' . rawurlencode($s) . '?interval=1d&range=5d') ?: 'null', true);
-  $mt = $y['chart']['result'][0]['meta'] ?? null;
-  if ($mt && isset($mt['regularMarketPrice'])) $out['oil'][$k] = ['usd' => (float)$mt['regularMarketPrice'], 'prev' => (float)($mt['chartPreviousClose'] ?? 0), 'fecha' => date('c', (int)($mt['regularMarketTime'] ?? time()))];
+// Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
+$eia = "$dir/eia.json";
+if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
+  $h = g('https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm');
+  if ($h) {
+    $fechas = []; $res = [];
+    foreach (preg_split('#<tr#i', $h) as $tr) {
+      $t = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</td>', '</th>'], ' | ', $tr)))));
+      if (!$fechas && preg_match_all('#\b(\d{2}/\d{2}/\d{2})\b#', $t, $m) && count($m[1]) >= 3) $fechas = $m[1];
+      foreach (['wti' => 'WTI - Cushing', 'brent' => 'Brent - Europe', 'diesel_golfo' => 'ULSD - U.S. Gulf Coast'] as $k => $lab)
+        if (!isset($res[$k]) && stripos($t, $lab) === 0 && preg_match_all('#\|\s*([\d]+\.[\d]+)#', $t, $v)) $res[$k] = array_map('floatval', $v[1]);
+    }
+    if ($res) file_put_contents($eia, json_encode(['fechas' => $fechas, 'v' => $res]));
+  }
 }
-if (!$out['oil']) foreach (['brent' => 'cb.f', 'wti' => 'cl.f'] as $k => $s) {
-  $csv = g("https://stooq.com/q/l/?s=$s&f=sd2t2ohlcp&h&e=csv");
-  if ($csv) { $l = explode("\n", trim($csv)); $c = isset($l[1]) ? str_getcsv($l[1]) : []; if (count($c) >= 8 && is_numeric($c[6])) $out['oil'][$k] = ['usd' => (float)$c[6], 'prev' => is_numeric($c[7]) ? (float)$c[7] : 0, 'fecha' => $c[1] . ' ' . $c[2]]; }
+if (is_file($eia)) {
+  $e = json_decode(file_get_contents($eia), true); $f = $e['fechas'] ?? [];
+  foreach (($e['v'] ?? []) as $k => $vals) { $n = count($vals); if (!$n) continue;
+    $out['oil'][$k] = ['usd' => $vals[$n - 1], 'prev' => $n > 1 ? $vals[$n - 2] : 0, 'fecha' => $f[min($n, count($f)) - 1] ?? '', 'unidad' => $k === 'diesel_golfo' ? 'galón' : 'barril']; }
 }
-if ($out['oil']) $out['fuentes'][] = 'oil:mercado';
+if ($out['oil']) $out['fuentes'][] = 'oil:eia';
 
 // foto diaria (para variación propia de Paraguay)
 $hf = "$dir/hist.json"; $h = is_file($hf) ? (json_decode(file_get_contents($hf), true) ?: []) : [];

@@ -42,7 +42,8 @@ fetch('/cotiz.php').then(function(r){return r.json()}).then(function(j){
  [['br','BRL','R$',2],['cl','CLP','$ CL',0],['uy','UYU','$ UY',2],['bo','BOB','Bs',2],['pe','PEN','S/',2]].forEach(function(x){var v=mk[x[1]];if(v)it.push('<span class="cz1-it">'+fl(x[0])+'<small>'+x[2]+'</small> <b>'+nf(v.ask,x[3])+'</b>'+pc(v.pct)+'</span>')});
  if(mk.EURUSD)it.push('<span class="cz1-it">'+fl('eu')+'<small>€</small> <b>'+nf(1/mk.EURUSD.bid,2)+'</b>'+pc(-mk.EURUSD.pct)+'</span>');
  var o=j.oil||{};
- ['brent','wti'].forEach(function(k){var v=o[k];if(v)it.push('<span class="cz1-it">'+fl('oil')+'<small>'+(k==='brent'?'Brent':'WTI')+'</small> <b>US$ '+nf(v.usd,2)+'</b>'+(v.prev?pc((v.usd-v.prev)/v.prev*100):'')+'</span>')});
+ ['brent','wti'].forEach(function(k){var v=o[k];if(v)it.push('<span class="cz1-it">'+fl('oil')+'<small>Petróleo '+(k==='brent'?'Brent':'WTI')+'</small> <b>US$ '+nf(v.usd,2)+'</b><small>/barril</small>'+(v.prev?pc((v.usd-v.prev)/v.prev*100):'')+'</span>')});
+ if(o.diesel_golfo){var dg=o.diesel_golfo;it.push('<span class="cz1-it">'+fl('oil')+'<small>Diésel Golfo EE.UU.</small> <b>US$ '+nf(dg.usd/3.78541,2)+'</b><small>/litro</small>'+(dg.prev?pc((dg.usd-dg.prev)/dg.prev*100):'')+(dg.fecha?' <small>('+dg.fecha.slice(0,5)+')</small>':'')+'</span>')}
  if(!it.length)throw 0;
  var t=new Date(j.upd);it.push('<span class="cz1-it"><small>Actualizado '+t.toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit'})+'</small></span>');
  var h=it.join('<span class="cz1-sep">|</span>');
