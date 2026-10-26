@@ -2,6 +2,7 @@
 // cotiz.php · 1 dólar en monedas de la región + petróleo. Fuentes de mercado en tiempo real, cache 30 min.
 // Paraguay: casa de cambios local (compra/venta). Argentina: oficial y blue. Resto: cotización de mercado en vivo.
 header('Content-Type: application/json; charset=utf-8');
+ini_set('serialize_precision', '-1');
 header('Cache-Control: public, max-age=900');
 $dir = __DIR__ . '/datos/cotiz'; if (!is_dir($dir)) @mkdir($dir, 0755, true);
 $cache = "$dir/actual.json";
@@ -36,13 +37,12 @@ if ($out['mk']) $out['fuentes'][] = 'mk:awesomeapi';
 
 // Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
 $eia = "$dir/eia.json";
-if (!empty($_GET['eiadebug'])) { $h = g('https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm'); header('Content-Type: text/plain'); echo 'len ', strlen((string)$h), "\n"; foreach (preg_split('#<tr#i', (string)$h) as $tr) { $t = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</td>', '</th>'], ' | ', $tr))))); if (stripos($t, 'Brent') !== false || preg_match('#\d{2}/\d{2}/\d{2}#', $t)) echo substr($t, 0, 300), "\n"; } exit; }
 if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
   $h = g('https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm');
   if ($h) {
     $fechas = []; $res = [];
     foreach (preg_split('#<tr#i', $h) as $tr) {
-      $t = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</td>', '</th>'], ' | ', $tr)))));
+      $t = ltrim(trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</td>', '</th>'], ' | ', $tr))))), '> |');
       if (!$fechas && preg_match_all('#\b(\d{2}/\d{2}/\d{2})\b#', $t, $m) && count($m[1]) >= 3) $fechas = $m[1];
       foreach (['wti' => 'WTI - Cushing', 'brent' => 'Brent - Europe', 'diesel_golfo' => 'ULSD - U.S. Gulf Coast'] as $k => $lab)
         if (!isset($res[$k]) && stripos($t, $lab) === 0 && preg_match_all('#\|\s*([\d]+\.[\d]+)#', $t, $v)) $res[$k] = array_map('floatval', $v[1]);
