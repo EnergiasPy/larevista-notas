@@ -46,23 +46,23 @@
 .nt5 .oroh5 .rw5.dos5{grid-template-columns:repeat(2,minmax(0,1fr))}
 .nt5 .oroh5 .r5{height:170px}
 .nt5 .pb5{margin:0}
-.nt5 .pb5 .plata{height:104px}
+.nt5 .pb5 .plata{height:130px}
 .nt5 .pb5 .plata .r5i img{max-height:54px}
 .nt5 .pb5 .plata .r5i span:not(.tag5){font-size:12px}
 .brl5{max-width:760px;margin:40px auto 0;border-top:1px solid var(--line,#DCE3EA);padding-top:14px}
 .brl5 .hd{font:700 11px/1 'Barlow Condensed',sans-serif;letter-spacing:2.5px;color:#A0663A;text-transform:uppercase;margin-bottom:10px}
-.brl5 .grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.brl5 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .brl5 a{display:flex;align-items:center;justify-content:center;height:62px;background:#fff;border:1px solid var(--line,#DCE3EA);padding:8px}
 .brl5 a:hover{border-color:#C08457}
 .brl5 img{max-width:100%;max-height:42px;width:auto;height:auto;object-fit:contain}
-@media (max-width:640px){.nt5 .oroh5 .rw5.dos5{grid-template-columns:1fr}.brl5 .grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.nt5 .oroh5 .rw5.dos5{grid-template-columns:1fr}.brl5 .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* Plata y Bronce */
 .pb5{display:flex;flex-direction:column;gap:14px;margin:8px 0 10px}
 .pb5 .rw5{display:grid;gap:16px}
-.pb5 .pl{grid-template-columns:repeat(2,minmax(0,1fr))}
-.pb5 .br{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pb5 .pl{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pb5 .br{grid-template-columns:repeat(4,minmax(0,1fr))}
 .pb5 .r5{background:#fff;border:1px solid var(--line,#DCE3EA)}
-.pb5 .plata{height:170px;background:linear-gradient(180deg,#F4F6F8,#fff 60%);box-shadow:0 2px 10px rgba(12,26,41,.06)}
+.pb5 .plata{height:150px;background:linear-gradient(180deg,#F4F6F8,#fff 60%);box-shadow:0 2px 10px rgba(12,26,41,.06)}
 .pb5 .plata .r5i img{max-height:84px;max-width:58%}
 .pb5 .plata .r5i span:not(.tag5){font-size:14px;font-weight:600;color:#2B3A4A}
 .pb5 .bronce{height:112px}
@@ -72,11 +72,11 @@
 .oroh5{margin-top:30px;display:flex;flex-direction:column;gap:10px}
 .oroh5 .hd{font:700 12px/1 'Barlow Condensed',sans-serif;letter-spacing:2.5px;color:#A8861C;text-transform:uppercase;display:flex;align-items:center;gap:10px}
 .oroh5 .hd::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#C9A227,transparent)}
-.oroh5 .rw5{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.oroh5 .r5{height:190px;background:#fff;border:1px solid var(--line,#DCE3EA);border-bottom:4px solid #C9A227}
+.oroh5 .rw5{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.oroh5 .r5{height:230px;background:#fff;border:1px solid var(--line,#DCE3EA);border-bottom:4px solid #C9A227}
 .oroh5 .r5i{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:18px 16px 16px;text-decoration:none;color:#0C1A29}
 .oroh5 .r5i .lgw{flex:1;width:100%;display:flex;align-items:center;justify-content:center}
-.oroh5 .r5i img{max-width:85%;max-height:78px;width:auto;height:auto;object-fit:contain}
+.oroh5 .r5i img{max-width:80%;max-height:110px;width:auto;height:auto;object-fit:contain}
 .oroh5 .r5i b{font:400 22px/1 'Bebas Neue','Barlow Condensed',sans-serif;letter-spacing:.5px}
 .oroh5 .r5i small{font-size:12px;color:#4A5B6C;line-height:1.3}
 .oroh5 .ary{background:#1D1D1B;color:#fff}.oroh5 .ary small{color:#cfcfcf}
@@ -95,7 +95,7 @@
   .sp5 .r5i{gap:12px;padding:10px 12px 10px 20px}
   .sp5 img{height:44px;max-width:120px}
   .sp5 b{font-size:16px}.sp5 span.s{display:none}
-  .pb5 .pl,.pb5 .br,.oroh5 .rw5{grid-template-columns:1fr}
+  .pb5 .pl,.oroh5 .rw5{grid-template-columns:1fr}.pb5 .br{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pb5 .plata{height:140px}.pb5 .bronce{height:100px}
   .oroh5 .r5{height:150px}
 }
@@ -171,15 +171,15 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
   function oro(sq){var a=shuffle(ORO);return '<div class="oro5 r5'+(sq?' sq':'')+'" aria-roledescription="carrusel de publicidad">'+a.map(oroItem).join('')+dots(a.length)+'</div>';}
   function lg(x){return '<a class="r5i" '+hr(x)+'><span class="tag5">PUBLICIDAD</span><img src="'+L+x.k+'.png" alt="'+x.n+'"><span>'+x.n+'</span></a>';}
   function slot(cls,lvl,arr){arr=shuffle(arr);return '<div class="r5 '+cls+'" aria-roledescription="carrusel de publicidad"><span class="lvl">'+lvl+'</span>'+arr.map(lg).join('')+dots(arr.length)+'</div>';}
-  function pb(){var p=shuffle(PLATA),b=shuffle(BRONCE);return '<div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,3))+slot('plata','PLATA',p.slice(3))+'</div><div class="rw5 br">'+slot('bronce','BRONCE',b.slice(0,4))+slot('bronce','BRONCE',b.slice(4,8))+slot('bronce','BRONCE',b.slice(8))+'</div></div>';}
+  function pb(){var p=shuffle(PLATA),b=shuffle(BRONCE);return '<div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,2))+slot('plata','PLATA',p.slice(2,4))+slot('plata','PLATA',p.slice(4))+'</div><div class="rw5 br">'+slot('bronce','BRONCE',b.slice(0,3))+slot('bronce','BRONCE',b.slice(3,6))+slot('bronce','BRONCE',b.slice(6,9))+slot('bronce','BRONCE',b.slice(9))+'</div></div>';}
   function hItem(o){
     if(o.custom) return '<a class="r5i ary" href="https://www.aryesparaguay.com.py" target="_blank" rel="noopener"><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="logo-aryes-blanco.png" alt="Aryes Energías"></div><b>Aryes Energías</b><small>Obras civiles y electromecánicas · 0985 460 888</small></a>';
     return '<a class="r5i" '+hr(o)+'><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="'+L+o.k+'.png" alt="'+o.n+'"></div><b>'+o.n+'</b><small>'+o.r+'</small></a>';}
   function notaTop(){var a=shuffle(ORO),p=shuffle(PLATA);
     var o=function(g){return '<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(g.length)+'</div>';};
-    return '<div class="nt5"><div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5 dos5">'+o(a.slice(0,3))+o(a.slice(3))+'</div></div><div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,3))+slot('plata','PLATA',p.slice(3))+'</div></div></div>';}
+    return '<div class="nt5"><div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5 dos5">'+o(a.slice(0,3))+o(a.slice(3))+'</div></div><div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,2))+slot('plata','PLATA',p.slice(2,4))+slot('plata','PLATA',p.slice(4))+'</div></div></div>';}
   function bronceList(){return '<div class="brl5"><div class="hd">Proveedores Bronce</div><div class="grid">'+BRONCE.map(function(x){return '<a '+hr(x)+' title="'+x.n+'"><img src="'+L+x.k+'.png" alt="'+x.n+'"></a>';}).join('')+'</div></div>';}
-  function oroH(){var a=shuffle(ORO),h='';for(var i=0;i<3;i++){var g=[a[i],a[i+3]];h+='<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(2)+'</div>';}
+  function oroH(){var a=shuffle(ORO),h='';for(var i=0;i<2;i++){var g=a.slice(i*3,i*3+3);h+='<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(g.length)+'</div>';}
     return '<div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5">'+h+'</div></div>';}
   function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild;}
   // Reemplazos
