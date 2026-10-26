@@ -30,16 +30,21 @@ oil:'<rect width="30" height="20" rx="3" fill="#1E3A66"/><path d="M15 3c-3 4.5-5
 function fl(c){return '<svg viewBox="0 0 30 20" width="21" height="14" aria-hidden="true">'+F[c]+'</svg>'}
 function nf(v,d){return v.toLocaleString('es-PY',{minimumFractionDigits:d,maximumFractionDigits:d})}
 function vr(a,b){if(!b)return '';var p=(a-b)/b*100;if(Math.abs(p)<.05)return ' <span class="cz1-eq">=</span>';return ' <span class="'+(p>0?'cz1-up':'cz1-dn')+'">'+(p>0?'▲':'▼')+nf(Math.abs(p),1)+'%</span>'}
-var L=[['py','PYG','Gs',0],['ar','ARS','$ AR',0],['br','BRL','R$',2],['cl','CLP','$ CL',0],['uy','UYU','$ UY',2],['bo','BOB','Bs',2],['pe','PEN','S/',2],['eu','EUR','€',2]];
 fetch('/cotiz.php').then(function(r){return r.json()}).then(function(j){
- var u=j.usd||{},pv=(j.prev&&j.prev.usd)||{},it=[];
- L.forEach(function(x){var v=u[x[1]];if(!v)return;var t='<span class="cz1-it">'+fl(x[0])+'<small>'+x[2]+'</small> <b>'+nf(v,x[3])+'</b>'+vr(v,pv[x[1]]);
-  if(x[1]==='ARS'&&j.ar&&j.ar.blue)t+=' <small>· blue</small> <b>'+nf(j.ar.blue.venta,0)+'</b>';
-  it.push(t+'</span>')});
- var o=j.oil||{},po=(j.prev&&j.prev.oil)||{};
- if(o.brent)it.push('<span class="cz1-it">'+fl('oil')+'<small>Brent</small> <b>US$ '+nf(o.brent.usd,2)+'</b>'+vr(o.brent.usd,po.brent&&po.brent.usd)+'</span>');
- if(o.wti)it.push('<span class="cz1-it">'+fl('oil')+'<small>WTI</small> <b>US$ '+nf(o.wti.usd,2)+'</b>'+vr(o.wti.usd,po.wti&&po.wti.usd)+'</span>');
+ var it=[],mk=j.mk||{};
+ function pc(p){if(p===null||p===undefined||isNaN(p))return '';if(Math.abs(p)<.05)return ' <span class="cz1-eq">=</span>';return ' <span class="'+(p>0?'cz1-up':'cz1-dn')+'">'+(p>0?'▲':'▼')+nf(Math.abs(p),1)+'%</span>'}
+ // Paraguay: compra / venta de casa de cambios
+ if(j.py&&j.py.USD){var u=j.py.USD,pv=j.py_prev&&j.py_prev.USD;it.push('<span class="cz1-it">'+fl('py')+'<small>Gs</small> <small>C</small> <b>'+nf(u.compra,0)+'</b> <small>V</small> <b>'+nf(u.venta,0)+'</b>'+(pv?pc((u.venta-pv.venta)/pv.venta*100):'')+'</span>')}
+ else if(mk.PYG)it.push('<span class="cz1-it">'+fl('py')+'<small>Gs</small> <b>'+nf(mk.PYG.ask,0)+'</b>'+pc(mk.PYG.pct)+'</span>');
+ // Argentina: oficial y blue
+ if(j.ar&&j.ar.oficial)it.push('<span class="cz1-it">'+fl('ar')+'<small>$ AR oficial</small> <b>'+nf(j.ar.oficial.venta,0)+'</b>'+(j.ar.blue?' <small>· blue</small> <b>'+nf(j.ar.blue.venta,0)+'</b>':'')+'</span>');
+ else if(mk.ARS)it.push('<span class="cz1-it">'+fl('ar')+'<small>$ AR</small> <b>'+nf(mk.ARS.ask,0)+'</b>'+pc(mk.ARS.pct)+'</span>');
+ [['br','BRL','R$',2],['cl','CLP','$ CL',0],['uy','UYU','$ UY',2],['bo','BOB','Bs',2],['pe','PEN','S/',2]].forEach(function(x){var v=mk[x[1]];if(v)it.push('<span class="cz1-it">'+fl(x[0])+'<small>'+x[2]+'</small> <b>'+nf(v.ask,x[3])+'</b>'+pc(v.pct)+'</span>')});
+ if(mk['EUR-USD'])it.push('<span class="cz1-it">'+fl('eu')+'<small>€</small> <b>'+nf(1/mk['EUR-USD'].bid,2)+'</b>'+pc(-mk['EUR-USD'].pct)+'</span>');
+ var o=j.oil||{};
+ ['brent','wti'].forEach(function(k){var v=o[k];if(v)it.push('<span class="cz1-it">'+fl('oil')+'<small>'+(k==='brent'?'Brent':'WTI')+'</small> <b>US$ '+nf(v.usd,2)+'</b>'+(v.prev?pc((v.usd-v.prev)/v.prev*100):'')+'</span>')});
  if(!it.length)throw 0;
+ var t=new Date(j.upd);it.push('<span class="cz1-it"><small>Actualizado '+t.toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit'})+'</small></span>');
  var h=it.join('<span class="cz1-sep">|</span>');
  document.getElementById('cz1tr').innerHTML='<div class="cz1-rail">'+h+'<span class="cz1-sep">|</span>'+h+'<span class="cz1-sep">|</span></div>';
 }).catch(function(){var e=document.getElementById('cz1');if(e)e.style.display='none'});
