@@ -1,0 +1,73 @@
+<!-- Cotizaciones v2 -->
+<div class="cz2" id="cz2" aria-label="Cotización del dólar en la región"><div class="cz2-in"><span class="cz2-k">1 US$ =</span><div class="cz2-tr" id="cz2tr"><span class="cz2-ld">Cargando cotizaciones…</span></div><button class="cz2-i" id="cz2i" type="button" aria-haspopup="dialog">Fuentes y fechas</button></div></div>
+<div class="cz2-m" id="cz2m" role="dialog" aria-modal="true" aria-labelledby="cz2t" hidden><div class="cz2-p"><div class="cz2-h"><h2 id="cz2t">Cotizaciones: fuentes y fechas</h2><button type="button" id="cz2x" aria-label="Cerrar">×</button></div>
+<p class="cz2-n">Cuánto vale 1 dólar estadounidense en cada moneda. <b>Fecha del valor</b> es el día al que corresponde el dato según la fuente; <b>consultado</b> es cuándo lo leyó nuestro sistema. Los valores no son una oferta de cambio: confirmá siempre con la fuente.</p>
+<div class="cz2-tw"><table><thead><tr><th>Moneda</th><th>1 US$ =</th><th>Tipo</th><th>Fecha del valor</th><th>Consultado</th><th>Fuente</th></tr></thead><tbody id="cz2b"></tbody></table></div>
+<p class="cz2-n" id="cz2g"></p></div></div>
+<style>
+.cz2{background:#0A1730;color:#fff;font:600 14px Barlow,Arial,sans-serif;border-bottom:1px solid #1E3A66}
+.cz2-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:0 12px;height:38px}
+.cz2-k{flex:none;color:#76C46E;font-weight:700;letter-spacing:1px;font-size:13px}
+.cz2-tr{flex:1;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.cz2-rail{display:inline-flex;gap:24px;white-space:nowrap;animation:cz2m 50s linear infinite}
+.cz2:hover .cz2-rail,.cz2:focus-within .cz2-rail{animation-play-state:paused}
+.cz2-it{display:inline-flex;align-items:center;gap:6px}.cz2-it svg{border-radius:2px;flex:none}
+.cz2-it b{font-weight:700}.cz2-it small{color:#9FB3C8;font-weight:600}
+.cz2-up{color:#8FD786}.cz2-dn{color:#FF8A80}.cz2-eq{color:#9FB3C8}.cz2-w{color:#F5B82E}
+.cz2-sep{color:#3A5A88}.cz2-ld{color:#9FB3C8}
+.cz2-i{flex:none;background:transparent;border:1px solid #3A5A88;color:#C9D6E3;font:700 12px Barlow,Arial,sans-serif;border-radius:999px;padding:5px 10px;cursor:pointer}
+.cz2-i:hover,.cz2-i:focus-visible{border-color:#76C46E;color:#fff}
+.cz2-m{position:fixed;inset:0;z-index:9999;background:rgba(10,23,48,.6);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;overflow:auto}
+.cz2-m[hidden]{display:none}
+.cz2-p{background:#fff;color:#0F213D;border-radius:12px;max-width:1000px;width:100%;padding:20px;font-family:Barlow,Arial,sans-serif;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.cz2-h{display:flex;align-items:center;justify-content:space-between;gap:10px}.cz2-h h2{margin:0;font:400 30px/1 'Bebas Neue',sans-serif}
+.cz2-h button{border:0;background:#EEF2F6;border-radius:8px;font-size:24px;line-height:1;width:38px;height:38px;cursor:pointer}
+.cz2-n{color:#4A5B6C;font-size:14px;line-height:1.5}
+.cz2-tw{overflow-x:auto}.cz2-p table{border-collapse:collapse;width:100%;font-size:14px}
+.cz2-p th{background:#0F213D;color:#fff;text-align:left;padding:8px;white-space:nowrap}.cz2-p td{padding:8px;border-bottom:1px solid #E3E9F0;vertical-align:top}
+.cz2-p td:nth-child(2){white-space:nowrap;font-weight:700}.cz2-p a{color:#2E7D32;font-weight:700}
+.cz2-p .w{color:#B26A00;font-weight:700}
+@keyframes cz2m{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:600px){.cz2-i{font-size:11px;padding:4px 8px}.cz2-k{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.cz2-rail{animation:none}.cz2-tr{overflow-x:auto}}
+@media print{.cz2,.cz2-m{display:none}}
+</style>
+<script>
+(function(){
+var F={py:'<rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#D52B1E"/><rect y="13.33" width="30" height="6.67" fill="#0038A8"/>',
+ar:'<rect width="30" height="20" fill="#74ACDF"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="2.2" fill="#F6B40E"/>',
+br:'<rect width="30" height="20" fill="#009C3B"/><path d="M15 2.5L27 10 15 17.5 3 10z" fill="#FFDF00"/><circle cx="15" cy="10" r="3.6" fill="#002776"/>',
+cl:'<rect width="30" height="20" fill="#fff"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/><circle cx="5" cy="5" r="1.6" fill="#fff"/>',
+uy:'<rect width="30" height="20" fill="#fff"/><g fill="#0038A8"><rect y="2.2" width="30" height="2.2"/><rect y="6.7" width="30" height="2.2"/><rect y="11.1" width="30" height="2.2"/><rect y="15.6" width="30" height="2.2"/></g><rect width="12" height="11.1" fill="#fff"/><circle cx="6" cy="5.5" r="3" fill="#FCD116"/>',
+bo:'<rect width="30" height="6.67" fill="#D52B1E"/><rect y="6.67" width="30" height="6.67" fill="#F9E300"/><rect y="13.33" width="30" height="6.67" fill="#007934"/>',
+pe:'<rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#D91023"/><rect x="20" width="10" height="20" fill="#D91023"/>',
+eu:'<rect width="30" height="20" fill="#003399"/><circle cx="15" cy="10" r="5" fill="none" stroke="#FFCC00" stroke-width="1.2" stroke-dasharray="1 1.6"/>',
+oil:'<rect width="30" height="20" rx="3" fill="#1E3A66"/><path d="M15 3c-3 4.5-5 7-5 9.5a5 5 0 0010 0C20 10 18 7.5 15 3z" fill="#F5B82E"/>'};
+function fl(c){return '<svg viewBox="0 0 30 20" width="21" height="14" aria-hidden="true">'+(F[c]||F.oil)+'</svg>'}
+function nf(v,d){return Number(v).toLocaleString('es-PY',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function pc(p){if(p===null||p===undefined||isNaN(p))return '';if(Math.abs(p)<.05)return ' <span class="cz2-eq">=</span>';return ' <span class="'+(p>0?'cz2-up':'cz2-dn')+'">'+(p>0?'▲':'▼')+nf(Math.abs(p),1)+'%</span>'}
+function fh(s){if(!s)return '';var d=new Date(s);if(isNaN(d))return s;return d.toLocaleDateString('es-PY',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit',hour12:false})+' h'}
+function fd(s){if(!s)return '';if(/^\d{4}-\d{2}-\d{2}$/.test(s)){var p=s.split('-');return p[2]+'/'+p[1]+'/'+p[0]}if(/^\d{4}-\d{2}-\d{2}[ T]\d/.test(s))return fh(s);return s}
+function dec(i){return i.id==='py'?0:(i.id==='cl'||i.id==='ar')?0:i.id==='pe'?3:2}
+function val(i){var d=dec(i);if(i.id==='ar')return 'oficial '+nf(i.oficial.venta,0)+(i.blue?' · blue '+nf(i.blue.venta,0):'');if(i.compra)return 'C '+nf(i.compra,d)+' / V '+nf(i.venta,d);return nf(i.v,d)+(i.unidad?' por '+i.unidad:'')}
+function chip(i){var w=i.sin_actualizar?' <span class="cz2-w" title="Sin actualizar: se muestra el último dato válido">⚠</span>':'';var d=dec(i),h;
+ if(i.id==='ar')h='<small>$ AR oficial</small> <b>'+nf(i.oficial.venta,0)+'</b>'+(i.blue?' <small>· blue</small> <b>'+nf(i.blue.venta,0)+'</b>':'');
+ else if(i.compra)h='<small>'+i.mon+'</small> <small>C</small> <b>'+nf(i.compra,d)+'</b> <small>V</small> <b>'+nf(i.venta,d)+'</b>';
+ else if(i.unidad)h='<small>'+i.pais+'</small> <b>US$ '+nf(i.v,2)+'</b><small>/'+i.unidad+'</small>'+(i.prev?pc((i.v-i.prev)/i.prev*100):'')+(i.fecha_valor?' <small>('+fd(i.fecha_valor).slice(0,5)+')</small>':'');
+ else h='<small>'+i.mon+'</small> <b>'+nf(i.v,d)+'</b>'+(i.pct!==undefined?pc(i.pct):i.prev?pc((i.v-i.prev)/i.prev*100):'');
+ return '<span class="cz2-it">'+fl(i.id==='brent'||i.id==='wti'?'oil':i.id)+h+w+'</span>'}
+fetch('/cotiz2.php').then(function(r){return r.json()}).then(function(j){
+ var it=j.items||[];if(!it.length)throw 0;
+ var h=it.map(chip).join('<span class="cz2-sep">|</span>');
+ document.getElementById('cz2tr').innerHTML='<div class="cz2-rail">'+h+'<span class="cz2-sep">|</span>'+h+'<span class="cz2-sep">|</span></div>';
+ document.getElementById('cz2b').innerHTML=it.map(function(i){return '<tr><td>'+fl(i.id==='brent'||i.id==='wti'?'oil':i.id)+' '+i.pais+'</td><td>'+(i.mon==='US$'?'US$ ':i.mon+' ')+val(i)+'</td><td>'+i.tipo+'</td><td>'+fd(i.fecha_valor)+'</td><td>'+fh(i.consultado)+(i.sin_actualizar?'<br><span class="w">⚠ sin actualizar: último dato válido</span>':'')+'</td><td><a href="'+i.url+'" target="_blank" rel="noopener nofollow">'+i.fuente+'</a></td></tr>'}).join('');
+ document.getElementById('cz2g').textContent='Revisamos las fuentes cada 30 a 60 minutos (el petróleo, cada 6 horas; la EIA publica una vez por semana). Si una fuente no responde, se mantiene su último dato válido con la advertencia ⚠.';
+}).catch(function(){var e=document.getElementById('cz2');if(e)e.style.display='none'});
+var m=document.getElementById('cz2m');
+function abrir(){m.hidden=false;document.getElementById('cz2x').focus();try{gtag('event','cotizaciones_fuentes')}catch(e){}}
+function cerrar(){m.hidden=true;document.getElementById('cz2i').focus()}
+document.getElementById('cz2i').onclick=abrir;document.getElementById('cz2x').onclick=cerrar;
+m.addEventListener('click',function(e){if(e.target===m)cerrar()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)cerrar()});
+document.getElementById('cz2tr').addEventListener('click',abrir);
+})();
+</script>
