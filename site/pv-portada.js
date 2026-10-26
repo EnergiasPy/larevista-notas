@@ -39,9 +39,10 @@
     '.pv-sub small{display:block;margin-top:8px;color:#4A5B6C;font:500 12.5px/1.4 Barlow,Arial,sans-serif}.pv-sub small a{color:#2E7D32;font-weight:700}',
     '.pv-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:34px 0 12px;border-top:4px solid #0F213D;padding-top:10px}',
     '.pv-h h3{margin:0;font:400 30px/1 "Bebas Neue",sans-serif;color:#0F213D;letter-spacing:.5px}.pv-h span{color:#6F849A;font:600 14px Barlow,Arial,sans-serif}',
+    '.pv-foro{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;align-items:start}.pv-foro .oroh5{display:none}',
     '.pv-brands{background:#F4F6F9;border-top:1px solid #E3E9F0}.pv-brands .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-top:22px;padding-bottom:22px}',
     '.pv-brands b{display:block;font:400 22px/1 "Bebas Neue",sans-serif;color:#0F213D;letter-spacing:.5px;margin-bottom:4px}.pv-brands p{margin:0;color:#4A5B6C;font:500 14px/1.45 Barlow,Arial,sans-serif}',
-    '@media(max-width:860px){.pv-news,.pv-row,.pv-brands .wrap{grid-template-columns:1fr}.pv-lead h2{font-size:26px}.pv-mast h1{font-size:32px}}',
+    '@media(max-width:860px){.pv-news,.pv-row,.pv-foro,.pv-brands .wrap{grid-template-columns:1fr}.pv-lead h2{font-size:26px}.pv-mast h1{font-size:32px}}',
     '@media(max-width:420px){.pv-sec a{grid-template-columns:96px 1fr}.pv-sec img{width:96px;height:64px}}'
   ].join('\n');
   document.head.appendChild(css);
@@ -113,7 +114,7 @@
     if (vids) { main.insertBefore(vids, hV.nextSibling); var vh = vids.querySelector('.vids-head'); if (vh) vh.style.display = 'none'; }
     var hF = el('<div class="pv-h"><h3>Foro &amp; Expo Energías Paraguay</h3><span>El encuentro del sector, organizado por los creadores de este medio</span></div>');
     main.insertBefore(hF, (vids || hV).nextSibling);
-    if (lead) { var fx = el('<div style="display:grid;grid-template-columns:1fr;gap:18px"></div>'); fx.appendChild(lead); if (foro27) fx.appendChild(foro27); main.insertBefore(fx, hF.nextSibling); var h1 = lead.querySelector('h1'); if (h1) { var h2 = document.createElement('h2'); h2.innerHTML = h1.innerHTML; h2.className = h1.className; h1.parentNode.replaceChild(h2, h1); } }
+    if (lead) { var fx = el('<div class="pv-foro"></div>'); var col = lead.querySelector('.collage'); if (col) { col.style.maxHeight = '320px'; col.style.overflow = 'hidden'; } fx.appendChild(lead); if (foro27) fx.appendChild(foro27); main.insertBefore(fx, hF.nextSibling); var h1 = lead.querySelector('h1'); if (h1) { var h2 = document.createElement('h2'); h2.innerHTML = h1.innerHTML; h2.className = h1.className; h1.parentNode.replaceChild(h2, h1); } }
     if (grid) grid.style.display = 'none';
     if (ds2) ds2.style.display = 'none'; // reemplazado por el bloque de datos de arriba
 
