@@ -2,7 +2,7 @@
    Reacomoda los bloques existentes de index.html sin borrar contenido ni compromisos comerciales. */
 (function () {
   var RAW = 'https://raw.githubusercontent.com/EnergiasPy/larevista-notas/main/';
-  var FREQ = 'cada semana'; // ← confirmar con Diego (semanal / quincenal)
+  var FREQ = 'todos los lunes';
   function $(s, c) { return (c || document).querySelector(s); }
   function el(h) { var d = document.createElement('div'); d.innerHTML = h.trim(); return d.firstChild; }
   function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
