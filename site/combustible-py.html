@@ -95,6 +95,64 @@ ol.bars li:hover,ol.bars li.on{background:#EEF6EE}
 </style></head>
 <body><div class="top"></div><div class="top2"></div>
 <header><div class="hw"><a href="/"><img src="/logo-latam-v2-512.png" alt="Energías LATAM"></a><a href="/"><b>ENERGÍAS <span>LATAM</span></b><small>La Estación del Futuro</small></a><a class="bk" href="/combustible">← Todos los países</a></div></header>
+<!-- Cotizaciones v1 -->
+<div class="cz1" id="cz1" aria-label="Cotización del dólar en la región"><div class="cz1-in"><span class="cz1-k">1 US$ =</span><div class="cz1-tr" id="cz1tr"><span class="cz1-ld">Cargando cotizaciones…</span></div></div></div>
+<style>
+.cz1{background:#0A1730;color:#fff;font:600 14px Barlow,Arial,sans-serif;border-bottom:1px solid #1E3A66;overflow:hidden}
+.cz1-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:0 16px;height:38px}
+.cz1-k{flex:none;color:#76C46E;font-weight:700;letter-spacing:1px;font-size:13px}
+.cz1-tr{flex:1;overflow:hidden;position:relative;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.cz1-rail{display:inline-flex;gap:26px;white-space:nowrap;animation:cz1m 45s linear infinite}
+.cz1:hover .cz1-rail{animation-play-state:paused}
+.cz1-it{display:inline-flex;align-items:center;gap:6px}.cz1-it svg{border-radius:2px;flex:none}
+.cz1-it b{font-weight:700}.cz1-it small{color:#9FB3C8;font-weight:600}
+.cz1-up{color:#8FD786}.cz1-dn{color:#FF8A80}.cz1-eq{color:#9FB3C8}
+.cz1-sep{color:#3A5A88}
+.cz1-ld{color:#9FB3C8}
+@keyframes cz1m{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.cz1-rail{animation:none}.cz1-tr{overflow-x:auto}}
+@media print{.cz1{display:none}}
+</style>
+<script>
+(function(){
+var F={py:'<rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#D52B1E"/><rect y="13.33" width="30" height="6.67" fill="#0038A8"/>',
+ar:'<rect width="30" height="20" fill="#74ACDF"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="2.2" fill="#F6B40E"/>',
+br:'<rect width="30" height="20" fill="#009C3B"/><path d="M15 2.5L27 10 15 17.5 3 10z" fill="#FFDF00"/><circle cx="15" cy="10" r="3.6" fill="#002776"/>',
+cl:'<rect width="30" height="20" fill="#fff"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/><circle cx="5" cy="5" r="1.6" fill="#fff"/>',
+uy:'<rect width="30" height="20" fill="#fff"/><g fill="#0038A8"><rect y="2.2" width="30" height="2.2"/><rect y="6.7" width="30" height="2.2"/><rect y="11.1" width="30" height="2.2"/><rect y="15.6" width="30" height="2.2"/></g><rect width="12" height="11.1" fill="#fff"/><circle cx="6" cy="5.5" r="3" fill="#FCD116"/>',
+bo:'<rect width="30" height="6.67" fill="#D52B1E"/><rect y="6.67" width="30" height="6.67" fill="#F9E300"/><rect y="13.33" width="30" height="6.67" fill="#007934"/>',
+pe:'<rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#D91023"/><rect x="20" width="10" height="20" fill="#D91023"/>',
+eu:'<rect width="30" height="20" fill="#003399"/><circle cx="15" cy="10" r="5" fill="none" stroke="#FFCC00" stroke-width="1.2" stroke-dasharray="1 1.6"/>',
+oil:'<rect width="30" height="20" rx="3" fill="#1E3A66"/><path d="M15 3c-3 4.5-5 7-5 9.5a5 5 0 0010 0C20 10 18 7.5 15 3z" fill="#F5B82E"/>'};
+function fl(c){return '<svg viewBox="0 0 30 20" width="21" height="14" aria-hidden="true">'+F[c]+'</svg>'}
+function nf(v,d){return v.toLocaleString('es-PY',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function vr(a,b){if(!b)return '';var p=(a-b)/b*100;if(Math.abs(p)<.05)return ' <span class="cz1-eq">=</span>';return ' <span class="'+(p>0?'cz1-up':'cz1-dn')+'">'+(p>0?'▲':'▼')+nf(Math.abs(p),1)+'%</span>'}
+fetch('/cotiz.php').then(function(r){return r.json()}).then(function(j){
+ var it=[],mk=j.mk||{};
+ function pc(p){if(p===null||p===undefined||isNaN(p))return '';if(Math.abs(p)<.05)return ' <span class="cz1-eq">=</span>';return ' <span class="'+(p>0?'cz1-up':'cz1-dn')+'">'+(p>0?'▲':'▼')+nf(Math.abs(p),1)+'%</span>'}
+ // Paraguay: compra / venta de casa de cambios
+ if(j.py&&j.py.USD){var u=j.py.USD,pv=j.py_prev&&j.py_prev.USD;it.push('<span class="cz1-it">'+fl('py')+'<small>Gs</small> <small>C</small> <b>'+nf(u.compra,0)+'</b> <small>V</small> <b>'+nf(u.venta,0)+'</b>'+(pv?pc((u.venta-pv.venta)/pv.venta*100):'')+'</span>')}
+ else if(mk.PYG)it.push('<span class="cz1-it">'+fl('py')+'<small>Gs</small> <b>'+nf(mk.PYG.ask,0)+'</b>'+pc(mk.PYG.pct)+'</span>');
+ // Argentina: oficial y blue
+ if(j.ar&&j.ar.oficial)it.push('<span class="cz1-it">'+fl('ar')+'<small>$ AR oficial</small> <b>'+nf(j.ar.oficial.venta,0)+'</b>'+(j.ar.blue?' <small>· blue</small> <b>'+nf(j.ar.blue.venta,0)+'</b>':'')+'</span>');
+ else if(mk.ARS)it.push('<span class="cz1-it">'+fl('ar')+'<small>$ AR</small> <b>'+nf(mk.ARS.ask,0)+'</b>'+pc(mk.ARS.pct)+'</span>');
+ if(j.cl)it.push('<span class="cz1-it">'+fl('cl')+'<small>$ CL</small> <b>'+nf(j.cl.v,0)+'</b>'+(j.cl.prev?pc((j.cl.v-j.cl.prev)/j.cl.prev*100):'')+'</span>');
+ if(j.bo)it.push('<span class="cz1-it">'+fl('bo')+'<small>Bs oficial</small> <b>'+nf(j.bo.v,2)+'</b></span>');
+ if(j.uy)it.push('<span class="cz1-it">'+fl('uy')+'<small>$ UY</small> <small>C</small> <b>'+nf(j.uy.compra,2)+'</b> <small>V</small> <b>'+nf(j.uy.venta,2)+'</b></span>');
+ if(j.pe)it.push('<span class="cz1-it">'+fl('pe')+'<small>S/</small> <small>C</small> <b>'+nf(j.pe.compra,3)+'</b> <small>V</small> <b>'+nf(j.pe.venta,3)+'</b></span>');
+ [['br','BRL','R$',2]].forEach(function(x){var v=mk[x[1]];if(v)it.push('<span class="cz1-it">'+fl(x[0])+'<small>'+x[2]+'</small> <b>'+nf(v.ask,x[3])+'</b>'+pc(v.pct)+'</span>')});
+ if(mk.EURUSD)it.push('<span class="cz1-it">'+fl('eu')+'<small>€</small> <b>'+nf(1/mk.EURUSD.bid,2)+'</b>'+pc(-mk.EURUSD.pct)+'</span>');
+ var o=j.oil||{};
+ ['brent','wti'].forEach(function(k){var v=o[k];if(v)it.push('<span class="cz1-it">'+fl('oil')+'<small>Petróleo '+(k==='brent'?'Brent':'WTI')+'</small> <b>US$ '+nf(v.usd,2)+'</b><small>/barril</small>'+(v.prev?pc((v.usd-v.prev)/v.prev*100):'')+(v.fecha?' <small>('+v.fecha.slice(3,5)+'/'+v.fecha.slice(0,2)+')</small>':'')+'</span>')});
+ if(o.diesel_golfo){var dg=o.diesel_golfo;it.push('<span class="cz1-it">'+fl('oil')+'<small>Diésel Golfo EE.UU.</small> <b>US$ '+nf(dg.usd/3.78541,2)+'</b><small>/litro</small>'+(dg.prev?pc((dg.usd-dg.prev)/dg.prev*100):'')+(dg.fecha?' <small>('+dg.fecha.slice(3,5)+'/'+dg.fecha.slice(0,2)+')</small>':'')+'</span>')}
+ if(!it.length)throw 0;
+ var t=new Date(j.upd);it.push('<span class="cz1-it"><small>Actualizado '+t.toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit'})+'</small></span>');
+ var h=it.join('<span class="cz1-sep">|</span>');
+ document.getElementById('cz1tr').innerHTML='<div class="cz1-rail">'+h+'<span class="cz1-sep">|</span>'+h+'<span class="cz1-sep">|</span></div>';
+}).catch(function(){var e=document.getElementById('cz1');if(e)e.style.display='none'});
+})();
+</script>
+
 
 <main class="wrap">
 <div class="intro">

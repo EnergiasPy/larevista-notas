@@ -42,7 +42,7 @@ if (!is_file($bo) || time() - filemtime($bo) > 6 * 3600) {
   if ($h) { $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags($h)));
     if (preg_match('/Tipo de cambio oficial.{0,120}?VIGENTE PARA (.{5,80}?\d{4}).{0,40}?(\d{1,2},\d{2})/iu', $t, $m)) file_put_contents($bo, json_encode(['v' => (float)str_replace(',', '.', $m[2]), 'vigencia' => trim($m[1])])); }
 }
-if (is_file($bo)) { $out['bo'] = json_decode(file_get_contents($bo), true); $out['fuentes'][] = 'bo:bcb'; }
+if (is_file($bo) && time() - filemtime($bo) < 48 * 3600) { $out['bo'] = json_decode(file_get_contents($bo), true); $out['fuentes'][] = 'bo:bcb'; }
 // Chile · dólar observado del Banco Central de Chile (vía mindicador.cl)
 $cl = json_decode(g('https://mindicador.cl/api/dolar') ?: 'null', true);
 if (!empty($cl['serie'][0]['valor'])) { $out['cl'] = ['v' => (float)$cl['serie'][0]['valor'], 'fecha' => substr($cl['serie'][0]['fecha'], 0, 10), 'prev' => (float)($cl['serie'][1]['valor'] ?? 0)]; $out['fuentes'][] = 'cl:bcch'; }
@@ -56,7 +56,7 @@ if (!is_file($pe) || time() - filemtime($pe) > 3600) {
       $c = (float)$c1[1]; $v = (float)$v1[1];
       if ($c > 2 && $c < 6 && $v >= $c && $v < 6) file_put_contents($pe, json_encode(['compra' => $c, 'venta' => $v, 'fecha' => date('c')])); } }
 }
-if (is_file($pe)) { $out['pe'] = json_decode(file_get_contents($pe), true); $out['fuentes'][] = 'pe:kambista'; }
+if (is_file($pe) && time() - filemtime($pe) < 48 * 3600) { $out['pe'] = json_decode(file_get_contents($pe), true); $out['fuentes'][] = 'pe:kambista'; }
 
 // Uruguay · Altercambio (casa de cambio, compra / venta en pesos uruguayos por US$)
 $uy = "$dir/uy.json";
@@ -67,7 +67,7 @@ if (!is_file($uy) || time() - filemtime($uy) > 3600) {
       $c = (float)str_replace(',', '.', $m[1]); $v = (float)str_replace(',', '.', $m[2]);
       if ($c > 20 && $c < 80 && $v >= $c && $v < 80) file_put_contents($uy, json_encode(['compra' => $c, 'venta' => $v, 'fecha' => date('c')])); } }
 }
-if (is_file($uy)) { $out['uy'] = json_decode(file_get_contents($uy), true); $out['fuentes'][] = 'uy:altercambio'; }
+if (is_file($uy) && time() - filemtime($uy) < 48 * 3600) { $out['uy'] = json_decode(file_get_contents($uy), true); $out['fuentes'][] = 'uy:altercambio'; }
 
 // Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
 $eia = "$dir/eia.json";
@@ -84,7 +84,7 @@ if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
     if ($res) file_put_contents($eia, json_encode(['fechas' => $fechas, 'v' => $res]));
   }
 }
-if (is_file($eia)) {
+if (is_file($eia) && time() - filemtime($eia) < 14 * 86400) {
   $e = json_decode(file_get_contents($eia), true); $f = $e['fechas'] ?? [];
   foreach (($e['v'] ?? []) as $k => $vals) { $n = count($vals); if (!$n) continue;
     $out['oil'][$k] = ['usd' => $vals[$n - 1], 'prev' => $n > 1 ? $vals[$n - 2] : 0, 'fecha' => $f[min($n, count($f)) - 1] ?? '', 'unidad' => $k === 'diesel_golfo' ? 'galón' : 'barril']; }
