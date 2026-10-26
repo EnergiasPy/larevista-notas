@@ -7,10 +7,10 @@ header('Cache-Control: public, max-age=900');
 $dir = __DIR__ . '/datos/cotiz'; if (!is_dir($dir)) @mkdir($dir, 0755, true);
 $cache = "$dir/actual.json";
 if (is_file($cache) && empty($_GET['fresh']) && time() - filemtime($cache) < 1800) { readfile($cache); exit; }
-function g($u) {
+function g($u, $html = false) {
   $ch = curl_init($u);
   curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 20, CURLOPT_CONNECTTIMEOUT => 8, CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_USERAGENT => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36', CURLOPT_HTTPHEADER => ['Accept: application/json, text/plain, */*']]);
+    CURLOPT_USERAGENT => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36', CURLOPT_HTTPHEADER => [$html ? 'Accept: text/html,application/xhtml+xml' : 'Accept: application/json, text/plain, */*']]);
   $r = curl_exec($ch); $c = curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
   return $c === 200 ? $r : null;
 }
@@ -38,7 +38,7 @@ if ($out['mk']) $out['fuentes'][] = 'mk:awesomeapi';
 // Bolivia · Banco Central de Bolivia, tipo de cambio oficial (Bs por US$)
 $bo = "$dir/bo.json";
 if (!is_file($bo) || time() - filemtime($bo) > 6 * 3600) {
-  $h = g('https://www.bcb.gob.bo/');
+  $h = g('https://www.bcb.gob.bo/', true);
   if ($h) { $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags($h)));
     if (preg_match('/Tipo de cambio oficial.{0,120}?VIGENTE PARA (.{5,80}?\d{4}).{0,40}?(\d{1,2},\d{2})/iu', $t, $m)) file_put_contents($bo, json_encode(['v' => (float)str_replace(',', '.', $m[2]), 'vigencia' => trim($m[1])])); }
 }
@@ -50,7 +50,7 @@ if (!empty($cl['serie'][0]['valor'])) { $out['cl'] = ['v' => (float)$cl['serie']
 // Perú · Kambista (casa de cambio online, compra / venta en soles por US$)
 $pe = "$dir/pe.json";
 if (!is_file($pe) || time() - filemtime($pe) > 3600) {
-  $h = g('https://kambista.com/');
+  $h = g('https://kambista.com/', true);
   if ($h) { $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(preg_replace('#<(script|style)[^>]*>.*?</\1>#is', ' ', $h))));
     if (preg_match('/Compra[^0-9]{0,40}(\d\.\d{2,4})/iu', $t, $c1) && preg_match('/Venta[^0-9]{0,40}(\d\.\d{2,4})/iu', $t, $v1)) {
       $c = (float)$c1[1]; $v = (float)$v1[1];
@@ -61,7 +61,7 @@ if (is_file($pe)) { $out['pe'] = json_decode(file_get_contents($pe), true); $out
 // Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
 $eia = "$dir/eia.json";
 if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
-  $h = g('https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm');
+  $h = g('https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm', true);
   if ($h) {
     $fechas = []; $res = [];
     foreach (preg_split('#<tr#i', $h) as $tr) {
