@@ -171,15 +171,15 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
   function oro(sq){var a=shuffle(ORO);return '<div class="oro5 r5'+(sq?' sq':'')+'" aria-roledescription="carrusel de publicidad">'+a.map(oroItem).join('')+dots(a.length)+'</div>';}
   function lg(x){return '<a class="r5i" '+hr(x)+'><span class="tag5">PUBLICIDAD</span><img src="'+L+x.k+'.png" alt="'+x.n+'"><span>'+x.n+'</span></a>';}
   function slot(cls,lvl,arr){arr=shuffle(arr);return '<div class="r5 '+cls+'" aria-roledescription="carrusel de publicidad"><span class="lvl">'+lvl+'</span>'+arr.map(lg).join('')+dots(arr.length)+'</div>';}
-  function pb(){var p=shuffle(PLATA),b=shuffle(BRONCE);return '<div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,2))+slot('plata','PLATA',p.slice(2,4))+slot('plata','PLATA',p.slice(4))+'</div><div class="rw5 br">'+slot('bronce','BRONCE',b.slice(0,3))+slot('bronce','BRONCE',b.slice(3,6))+slot('bronce','BRONCE',b.slice(6,9))+slot('bronce','BRONCE',b.slice(9))+'</div></div>';}
+  function pb(){var p=shuffle(PLATA),b=shuffle(BRONCE);return '<div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p)+slot('plata','PLATA',p)+slot('plata','PLATA',p)+'</div><div class="rw5 br">'+slot('bronce','BRONCE',b)+slot('bronce','BRONCE',b)+slot('bronce','BRONCE',b)+slot('bronce','BRONCE',b)+'</div></div>';}
   function hItem(o){
     if(o.custom) return '<a class="r5i ary" href="https://www.aryesparaguay.com.py" target="_blank" rel="noopener"><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="logo-aryes-blanco.png" alt="Aryes Energías"></div><b>Aryes Energías</b><small>Obras civiles y electromecánicas · 0985 460 888</small></a>';
     return '<a class="r5i" '+hr(o)+'><span class="tag5">PUBLICIDAD</span><div class="lgw"><img src="'+L+o.k+'.png" alt="'+o.n+'"></div><b>'+o.n+'</b><small>'+o.r+'</small></a>';}
   function notaTop(){var a=shuffle(ORO),p=shuffle(PLATA);
     var o=function(g){return '<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(g.length)+'</div>';};
-    return '<div class="nt5"><div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5 dos5">'+o(a.slice(0,3))+o(a.slice(3))+'</div></div><div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p.slice(0,2))+slot('plata','PLATA',p.slice(2,4))+slot('plata','PLATA',p.slice(4))+'</div></div></div>';}
+    return '<div class="nt5"><div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5 dos5">'+o(shuffle(ORO))+o(shuffle(ORO))+'</div></div><div class="pb5"><div class="rw5 pl">'+slot('plata','PLATA',p)+slot('plata','PLATA',p)+slot('plata','PLATA',p)+'</div></div></div>';}
   function bronceList(){return '<div class="brl5"><div class="hd">Proveedores Bronce</div><div class="grid">'+BRONCE.map(function(x){return '<a '+hr(x)+' title="'+x.n+'"><img src="'+L+x.k+'.png" alt="'+x.n+'"></a>';}).join('')+'</div></div>';}
-  function oroH(){var a=shuffle(ORO),h='';for(var i=0;i<2;i++){var g=a.slice(i*3,i*3+3);h+='<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(g.length)+'</div>';}
+  function oroH(){var a=shuffle(ORO),h='';for(var i=0;i<2;i++){var g=shuffle(ORO);h+='<div class="r5" aria-roledescription="carrusel de publicidad">'+g.map(hItem).join('')+dots(g.length)+'</div>';}
     return '<div class="oroh5"><div class="hd">Proveedores Oro</div><div class="rw5">'+h+'</div></div>';}
   function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild;}
   // Reemplazos
@@ -211,11 +211,15 @@ section[data-view="anuncia"] a[href^="mailto"],section[data-view="anuncia"] a.wa
     setTimeout(function(){var an=document.querySelector('.an5');if(an&&!an.querySelector('.ind5')){var q=document.createElement('p');q.className='ind5';q.textContent='Los anunciantes no deciden el contenido editorial. El contenido de marca se identifica como tal.';an.appendChild(q);}},300);})();
   // Rotación 3,5 s
   function rot5(box,bi){if(box.dataset.rot)return;box.dataset.rot=1;
-    var it=box.querySelectorAll(':scope>.r5i'),dt=box.querySelectorAll('.dots5 i'),i=0,hold=false;
-    function show(n){it.forEach(function(x,j){x.classList.toggle('on',j===n);});dt.forEach(function(x,j){x.classList.toggle('on',j===n);});}
-    show(0); if(it.length<2)return;
+    var it=[].slice.call(box.querySelectorAll(':scope>.r5i')),hold=false,row=box.parentNode;
+    var dw=box.querySelector('.dots5');if(dw)dw.style.display='none';
+    function key(x){var im=x.querySelector('img');return (im&&im.getAttribute('src'))||x.textContent;}
+    function taken(){var t={};[].forEach.call(row.children,function(b){if(b===box||!b.classList||!b.classList.contains('r5'))return;var o=b.querySelector(':scope>.r5i.on');if(o)t[key(o)]=1;});return t;}
+    function pick(){var t=taken(),cur=box.querySelector(':scope>.r5i.on'),c=it.filter(function(x){return x!==cur&&!t[key(x)];});if(!c.length)c=it.filter(function(x){return x!==cur;});return c.length?c[Math.floor(Math.random()*c.length)]:cur;}
+    function show(x){it.forEach(function(y){y.classList.toggle('on',y===x);});}
+    show(pick()||it[0]); if(it.length<2)return;
     box.addEventListener('mouseenter',function(){hold=true;});box.addEventListener('mouseleave',function(){hold=false;});
-    setTimeout(function(){setInterval(function(){if(hold||document.hidden)return;i=(i+1)%it.length;show(i);},3500);},(bi%4)*800);
+    setTimeout(function(){setInterval(function(){if(hold||document.hidden)return;show(pick());},4000+Math.floor(Math.random()*2500));},(bi%4)*900+Math.floor(Math.random()*1500));
   }
   window.rot5=rot5;
   // Notas: sponsor arriba, nota, Oro en el medio del texto, Plata y Bronce al final
