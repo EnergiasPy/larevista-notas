@@ -36,6 +36,7 @@ if ($out['mk']) $out['fuentes'][] = 'mk:awesomeapi';
 
 // Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
 $eia = "$dir/eia.json";
+if (!empty($_GET['eiadebug'])) { $h = g('https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm'); header('Content-Type: text/plain'); echo 'len ', strlen((string)$h), "\n"; foreach (preg_split('#<tr#i', (string)$h) as $tr) { $t = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</td>', '</th>'], ' | ', $tr))))); if (stripos($t, 'Brent') !== false || preg_match('#\d{2}/\d{2}/\d{2}#', $t)) echo substr($t, 0, 300), "\n"; } exit; }
 if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
   $h = g('https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm');
   if ($h) {
