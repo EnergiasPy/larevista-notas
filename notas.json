@@ -88,5 +88,16 @@
     "img": "img/2026-10-26-itaipu-42-centro-ia-1.jpg",
     "pais": "py",
     "img_abs": "https://energiaslatam.com/img/notas/2026-10-26-itaipu-42-centro-ia-1.jpg"
+  },
+  {
+    "id": "2026-10-26-cocinas-electricas-glp",
+    "estado": "borrador",
+    "fecha": "2026-10-26",
+    "cat": "Energía y minería",
+    "titulo": "Cocinas eléctricas: el plan para que 860.000 hogares dejen la garrafa y lo que significa para la estación",
+    "bajada": "Un estudio del MOPC y la ANDE propone pasar los hogares del GLP a la electricidad en 46 meses, con ahorros de hasta G. 826.980 por año. La garrafa es una de las ventas que más clientes lleva a la estación.",
+    "autor": "Fernando Berdichevsky",
+    "img": "img/2026-10-26-cocinas-electricas-glp-1.jpg",
+    "pais": "py"
   }
 ]
