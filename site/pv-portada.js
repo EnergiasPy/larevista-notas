@@ -19,7 +19,7 @@
     '.pv-btn{display:inline-block;background:#3A963E;color:#fff!important;font:700 15px Barlow,Arial,sans-serif;padding:11px 18px;border-radius:8px;text-decoration:none;white-space:nowrap}',
     '.pv-btn:hover{background:#2E7D32}.pv-btn2{background:transparent;color:#0F213D!important;border:2px solid #0F213D}',
     '.pv-news{display:grid;grid-template-columns:1.55fr 1fr;gap:28px;margin:26px 0 30px}',
-    '.pv-lead a{color:inherit;text-decoration:none}.pv-lead img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:10px;display:block;background:#EEF2F6}',
+    '.pv-lead a{color:inherit;text-decoration:none}.pv-lead img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;display:block;background:#EEF2F6}',
     '.pv-cat{display:inline-block;color:#3A963E;font:700 12px Barlow,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 6px}',
     '.pv-lead h2{margin:0 0 8px;font:700 32px/1.12 Barlow,Arial,sans-serif;color:#0F213D}.pv-lead p{margin:0 0 8px;color:#4A5B6C;font:500 17px/1.45 Barlow,Arial,sans-serif}',
     '.pv-by{color:#6F849A;font:600 13px Barlow,Arial,sans-serif}',
@@ -30,6 +30,7 @@
     '.pv-row{display:grid;grid-template-columns:1.2fr 1fr;gap:22px;margin:0 0 30px}',
     '.pv-box{border-radius:12px;padding:22px}.pv-data{background:#0F213D;color:#fff}.pv-data h3,.pv-sub h3{margin:0 0 6px;font:400 30px/1.05 "Bebas Neue",sans-serif;letter-spacing:.5px}',
     '.pv-data p{margin:0 0 14px;color:#C9D6E3;font:500 15px/1.45 Barlow,Arial,sans-serif}',
+    '.pv-kpi{display:flex;gap:22px;flex-wrap:wrap;margin:0 0 16px}.pv-kpi b{display:block;font:400 40px/1 "Bebas Neue",sans-serif;color:#76C46E}.pv-kpi span{color:#C9D6E3;font:500 13px/1.3 Barlow,Arial,sans-serif}',
     '.pv-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}.pv-chips a{background:#1E3A66;color:#fff!important;text-decoration:none;font:700 14px Barlow,Arial,sans-serif;padding:8px 12px;border-radius:999px}',
     '.pv-chips a:hover{background:#3A963E}.pv-src{color:#9FB3C8;font:500 12.5px/1.4 Barlow,Arial,sans-serif}.pv-src a{color:#C9D6E3}',
     '.pv-sub{background:#EEF6EE;border:2px solid #3A963E;color:#0F213D}.pv-sub h3{color:#0F213D}',
@@ -80,13 +81,21 @@
 
     // 5 · datos del sector + suscripción, lado a lado
     var row = el('<div class="pv-row" id="suscribite"></div>');
-    row.appendChild(el('<section class="pv-box pv-data"><h3>Datos del sector</h3><p>Ventas de combustibles por emblema, precios, red de estaciones y GLP en Paraguay, con datos oficiales del MIC. Cada gráfico indica su fecha y unidad.</p><div class="pv-chips"><a href="/combustible/py#ranking">Ranking mensual</a><a href="/combustible/py#precios">Precios por emblema</a><a href="/combustible/py#estaciones">Estaciones</a><a href="/combustible/py#glp">GLP</a><a href="/combustible">Otros países</a></div><div class="pv-src">Fuente: <a href="https://www.mic.gov.py/" target="_blank" rel="noopener">Observatorio de Combustibles del MIC</a>. Chile y Perú con datos oficiales de cada país; el resto, en preparación.</div></section>'));
+    row.appendChild(el('<section class="pv-box pv-data"><h3>Datos del sector</h3><p>Ventas de combustibles por emblema, precios, red de estaciones y GLP en Paraguay, con datos oficiales del MIC. Cada gráfico indica su fecha y unidad.</p><div class="pv-kpi" id="pvKpi"></div><div class="pv-chips"><a href="/combustible/py#ranking">Ranking mensual</a><a href="/combustible/py#precios">Precios por emblema</a><a href="/combustible/py#estaciones">Estaciones</a><a href="/combustible/py#glp">GLP</a><a href="/combustible">Otros países</a></div><div class="pv-src">Fuente: <a href="https://www.mic.gov.py/" target="_blank" rel="noopener">Observatorio de Combustibles del MIC</a>. Chile y Perú con datos oficiales de cada país; el resto, en preparación.</div></section>'));
     var sub = el('<section class="pv-box pv-sub"><h3>Suscribite gratis</h3><div style="font:600 15px Barlow,Arial,sans-serif;color:#24384F">Recibí La Estación del Futuro ' + FREQ + ' en tu correo:</div><ul><li>Las noticias que mueven al sector, con qué significan para una estación.</li><li>El ranking mensual de ventas por emblema y los precios.</li><li>Novedades de proveedores y del Foro &amp; Expo.</li></ul></section>');
     var form = two && two.querySelector('form');
     if (form) { form.style.margin = '0'; sub.appendChild(form); }
     sub.appendChild(el('<small>Es gratis y te podés dar de baja cuando quieras. <a href="/newsletter-01.html" target="_blank" rel="noopener">Ver una edición de muestra →</a></small>'));
     row.appendChild(sub);
     main.insertBefore(row, news.nextSibling);
+    var Y = new Date().getFullYear();
+    fetch('/mic.php?y=' + Y).then(function (r) { return r.json(); }).then(function (j) {
+      var tot = {}; (j.vp || []).forEach(function (r) { tot[r[0]] = (tot[r[0]] || 0) + r[3]; });
+      var ms = Object.keys(tot).map(Number).sort(function (a, b) { return a - b; }); if (!ms.length) return;
+      var m = ms[ms.length - 1], M = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      var k = document.getElementById('pvKpi'); if (!k) return;
+      k.innerHTML = '<div><b>' + (tot[m] / 1e6).toLocaleString('es-PY', { maximumFractionDigits: 1 }) + ' M</b><span>litros vendidos en ' + M[m - 1] + ' ' + Y + '<br>(último mes publicado por el MIC)</span></div><div><b>2.883</b><span>estaciones de servicio<br>en el registro del MIC</span></div>';
+    }).catch(function () {});
 
     // 6 · publicidad: el sponsor oficial y los proveedores oro siguen en la portada, después de la actualidad
     if (sp5) main.insertBefore(sp5, row.nextSibling);
