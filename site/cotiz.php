@@ -47,6 +47,17 @@ if (is_file($bo)) { $out['bo'] = json_decode(file_get_contents($bo), true); $out
 $cl = json_decode(g('https://mindicador.cl/api/dolar') ?: 'null', true);
 if (!empty($cl['serie'][0]['valor'])) { $out['cl'] = ['v' => (float)$cl['serie'][0]['valor'], 'fecha' => substr($cl['serie'][0]['fecha'], 0, 10), 'prev' => (float)($cl['serie'][1]['valor'] ?? 0)]; $out['fuentes'][] = 'cl:bcch'; }
 
+// Perú · Kambista (casa de cambio online, compra / venta en soles por US$)
+$pe = "$dir/pe.json";
+if (!is_file($pe) || time() - filemtime($pe) > 3600) {
+  $h = g('https://kambista.com/');
+  if ($h) { $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(preg_replace('#<(script|style)[^>]*>.*?</\1>#is', ' ', $h))));
+    if (preg_match('/Compra[^0-9]{0,40}(\d\.\d{2,4})/iu', $t, $c1) && preg_match('/Venta[^0-9]{0,40}(\d\.\d{2,4})/iu', $t, $v1)) {
+      $c = (float)$c1[1]; $v = (float)$v1[1];
+      if ($c > 2 && $c < 6 && $v >= $c && $v < 6) file_put_contents($pe, json_encode(['compra' => $c, 'venta' => $v, 'fecha' => date('c')])); } }
+}
+if (is_file($pe)) { $out['pe'] = json_decode(file_get_contents($pe), true); $out['fuentes'][] = 'pe:kambista'; }
+
 // Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
 $eia = "$dir/eia.json";
 if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
