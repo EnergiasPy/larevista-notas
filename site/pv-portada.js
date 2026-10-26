@@ -86,7 +86,8 @@
     var sub = el('<section class="pv-box pv-sub"><h3>Suscribite gratis</h3><div style="font:600 15px Barlow,Arial,sans-serif;color:#24384F">Recibí La Estación del Futuro ' + FREQ + ' en tu correo:</div><ul><li>Las noticias que mueven al sector, con qué significan para una estación.</li><li>El ranking mensual de ventas por emblema y los precios.</li><li>Novedades de proveedores y del Foro &amp; Expo.</li></ul></section>');
     var form = two && two.querySelector('form');
     if (form) { form.style.margin = '0'; sub.appendChild(form); }
-    sub.appendChild(el('<small>Es gratis y te podés dar de baja cuando quieras. <a href="/newsletter-01.html" target="_blank" rel="noopener">Ver una edición de muestra →</a></small>'));
+    var nota = el('<small>Es gratis y te podés dar de baja cuando quieras.</small>'); sub.appendChild(nota);
+    fetch('/newsletter-01.html', { method: 'HEAD' }).then(function (r) { if (r.ok) nota.insertAdjacentHTML('beforeend', ' <a href="/newsletter-01.html" target="_blank" rel="noopener">Ver una edición de muestra →</a>'); }).catch(function () {});
     row.appendChild(sub);
     main.insertBefore(row, news.nextSibling);
     var Y = new Date().getFullYear();
