@@ -18,7 +18,13 @@
     '.pv-mast p{margin:0;flex:1;min-width:240px;color:#4A5B6C;font:500 16px/1.4 Barlow,Arial,sans-serif}',
     '.pv-btn{display:inline-block;background:#3A963E;color:#fff!important;font:700 15px Barlow,Arial,sans-serif;padding:11px 18px;border-radius:8px;text-decoration:none;white-space:nowrap}',
     '.pv-btn:hover{background:#2E7D32}.pv-btn2{background:transparent;color:#0F213D!important;border:2px solid #0F213D}',
-    '.pv-news{min-height:420px;display:grid;grid-template-columns:1.55fr 1fr;gap:28px;margin:26px 0 30px}',
+    '.pv-spon{margin:22px 0 0}.pv-spon-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}.pv-spon-h span{font:700 12px Barlow,Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#0F213D}.pv-spon-h small{font:600 11px Barlow,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#9FB3C8}',
+    '.pv-spon-g{display:grid;grid-template-columns:1fr 1fr;gap:14px}',
+    '.pv-spon-i{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #DCE3EA;border-left:6px solid var(--bc);border-radius:10px;padding:14px 18px;text-decoration:none;color:#0F213D;box-shadow:0 2px 8px rgba(15,33,61,.06);transition:box-shadow .2s}',
+    '.pv-spon-i:hover{box-shadow:0 6px 18px rgba(15,33,61,.14)}.pv-spon-i img{height:52px;width:auto;max-width:150px;object-fit:contain;flex:none}',
+    '.pv-spon-i b{display:block;font:400 26px/1 "Bebas Neue",sans-serif;letter-spacing:.5px}.pv-spon-i small{display:block;color:#4A5B6C;font:600 13px Barlow,Arial,sans-serif;margin-top:2px}',
+    '@media(max-width:560px){.pv-spon-g{gap:8px}.pv-spon-i{flex-direction:column;align-items:flex-start;gap:8px;padding:10px 12px}.pv-spon-i img{height:36px;max-width:110px}.pv-spon-i b{font-size:20px}}',
+    '.pv-news{min-height:420px;display:grid;grid-template-columns:1.55fr 1fr;gap:28px;margin:22px 0 30px}',
     '.pv-lead a{color:inherit;text-decoration:none}.pv-lead img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;display:block;background:#EEF2F6}',
     '.pv-cat{display:inline-block;color:#3A963E;font:700 12px Barlow,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 6px}',
     '.pv-lead h2{margin:0 0 8px;font:700 32px/1.12 Barlow,Arial,sans-serif;color:#0F213D}.pv-lead p{margin:0 0 8px;color:#4A5B6C;font:500 17px/1.45 Barlow,Arial,sans-serif}',
@@ -91,12 +97,22 @@
     }).catch(function () {});
 
     // 6 · publicidad: el sponsor oficial y los proveedores oro siguen en la portada, después de la actualidad
-    if (sp5) main.insertBefore(sp5, row.nextSibling);
-    if (oroh) { var oh = el('<div style="margin:0 0 24px"></div>'); oh.appendChild(oroh); main.insertBefore(oh, sp5 ? sp5.nextSibling : row.nextSibling); }
+    if (sp5) {
+      var spon = el('<section class="pv-spon" aria-label="Sponsors oficiales"><div class="pv-spon-h"><span>Sponsors oficiales</span><small>Publicidad</small></div><div class="pv-spon-g"></div></section>');
+      var g = spon.querySelector('.pv-spon-g');
+      Array.prototype.forEach.call(sp5.querySelectorAll('a.r5i'), function (a) {
+        var img = a.querySelector('img'), b = a.querySelector('b');
+        var nombre = b ? b.textContent.split('·')[0].trim() : (img ? img.alt : '');
+        g.appendChild(el('<a class="pv-spon-i" href="' + esc(a.getAttribute('href')) + '" target="_blank" rel="noopener sponsored" style="--bc:' + esc(a.style.getPropertyValue('--bc') || '#3A963E') + '"><img src="' + esc(img ? img.getAttribute('src') : '') + '" alt="' + esc(nombre) + '"><span><b>' + esc(nombre) + '</b><small>Sponsor oficial</small></span></a>'));
+      });
+      sp5.style.display = 'none';
+      main.insertBefore(spon, news);
+    }
+    if (oroh) { var oh = el('<div style="margin:0 0 24px"></div>'); oh.appendChild(oroh); main.insertBefore(oh, row.nextSibling); }
     if (oro) oro.style.display = 'none'; // Bancard ya figura en la fila de proveedores oro
 
     // 7 · bloques diferenciados: guía, videos, foro
-    var after = oroh ? oroh.parentNode : (sp5 || row);
+    var after = oroh ? oroh.parentNode : row;
     var hG = el('<div class="pv-h"><h3>Guía de proveedores</h3><span>Contratistas y proveedores de estaciones de servicio</span></div>');
     main.insertBefore(hG, after.nextSibling);
     if (two) { main.insertBefore(two, hG.nextSibling); var p2 = two.children[1]; if (p2 && !p2.querySelector('form')) p2.style.display = 'none'; two.style.gridTemplateColumns = '1fr'; }
