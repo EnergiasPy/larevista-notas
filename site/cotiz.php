@@ -35,6 +35,18 @@ $m = json_decode(g("https://economia.awesomeapi.com.br/json/last/$pairs") ?: 'nu
 if (is_array($m)) foreach ($m as $k => $v) $out['mk'][substr($k, 0, 3) === 'USD' ? substr($k, 3) : $k] = ['bid' => (float)$v['bid'], 'ask' => (float)$v['ask'], 'pct' => (float)($v['pctChange'] ?? 0), 'fecha' => $v['create_date'] ?? ''];
 if ($out['mk']) $out['fuentes'][] = 'mk:awesomeapi';
 
+// Bolivia · Banco Central de Bolivia, tipo de cambio oficial (Bs por US$)
+$bo = "$dir/bo.json";
+if (!is_file($bo) || time() - filemtime($bo) > 6 * 3600) {
+  $h = g('https://www.bcb.gob.bo/');
+  if ($h) { $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags($h)));
+    if (preg_match('/Tipo de cambio oficial.{0,120}?VIGENTE PARA (.{5,80}?\d{4}).{0,40}?(\d{1,2},\d{2})/iu', $t, $m)) file_put_contents($bo, json_encode(['v' => (float)str_replace(',', '.', $m[2]), 'vigencia' => trim($m[1])])); }
+}
+if (is_file($bo)) { $out['bo'] = json_decode(file_get_contents($bo), true); $out['fuentes'][] = 'bo:bcb'; }
+// Chile · dólar observado del Banco Central de Chile (vía mindicador.cl)
+$cl = json_decode(g('https://mindicador.cl/api/dolar') ?: 'null', true);
+if (!empty($cl['serie'][0]['valor'])) { $out['cl'] = ['v' => (float)$cl['serie'][0]['valor'], 'fecha' => substr($cl['serie'][0]['fecha'], 0, 10), 'prev' => (float)($cl['serie'][1]['valor'] ?? 0)]; $out['fuentes'][] = 'cl:bcch'; }
+
 // Petróleo y diésel · precios spot oficiales de la EIA (EE. UU.), publicación semanal con datos diarios
 $eia = "$dir/eia.json";
 if (!is_file($eia) || time() - filemtime($eia) > 6 * 3600) {
