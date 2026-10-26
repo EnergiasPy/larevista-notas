@@ -1,4 +1,1 @@
-<?php
-header('Content-Type: text/plain; charset=utf-8');
-$ch=curl_init('https://www.sbs.gob.pe/app/pp/sistip_portal/paginas/publicacion/tipocambiopromedio.aspx');curl_setopt_array($ch,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_TIMEOUT=>25,CURLOPT_FOLLOWLOCATION=>true,CURLOPT_USERAGENT=>'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/130 Safari/537.36',CURLOPT_HTTPHEADER=>['Accept: text/html,application/xhtml+xml','Accept-Language: es-PE,es;q=0.9']]);$h=(string)curl_exec($ch);$c=curl_getinfo($ch,CURLINFO_HTTP_CODE);curl_close($ch);
-echo "$c len ",strlen($h),"\n";$t=preg_replace('/\s+/',' ',html_entity_decode(strip_tags($h)));echo stripos($t,'Incapsula')!==false?"BLOQUEO Incapsula\n":"";$p=stripos($t,'D[oó]lar');if(preg_match('/D.lar de N\.?A\.?.{0,200}/iu',$t,$m))echo $m[0],"\n";else echo substr($t,0,300),"\n";
+<?php http_response_code(404);
