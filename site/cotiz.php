@@ -40,6 +40,10 @@ foreach (['brent' => 'BZ=F', 'wti' => 'CL=F'] as $k => $s) {
   $mt = $y['chart']['result'][0]['meta'] ?? null;
   if ($mt && isset($mt['regularMarketPrice'])) $out['oil'][$k] = ['usd' => (float)$mt['regularMarketPrice'], 'prev' => (float)($mt['chartPreviousClose'] ?? 0), 'fecha' => date('c', (int)($mt['regularMarketTime'] ?? time()))];
 }
+if (!$out['oil']) foreach (['brent' => 'cb.f', 'wti' => 'cl.f'] as $k => $s) {
+  $csv = g("https://stooq.com/q/l/?s=$s&f=sd2t2ohlcp&h&e=csv");
+  if ($csv) { $l = explode("\n", trim($csv)); $c = isset($l[1]) ? str_getcsv($l[1]) : []; if (count($c) >= 8 && is_numeric($c[6])) $out['oil'][$k] = ['usd' => (float)$c[6], 'prev' => is_numeric($c[7]) ? (float)$c[7] : 0, 'fecha' => $c[1] . ' ' . $c[2]]; }
+}
 if ($out['oil']) $out['fuentes'][] = 'oil:mercado';
 
 // foto diaria (para variación propia de Paraguay)

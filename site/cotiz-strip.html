@@ -40,7 +40,7 @@ fetch('/cotiz.php').then(function(r){return r.json()}).then(function(j){
  if(j.ar&&j.ar.oficial)it.push('<span class="cz1-it">'+fl('ar')+'<small>$ AR oficial</small> <b>'+nf(j.ar.oficial.venta,0)+'</b>'+(j.ar.blue?' <small>· blue</small> <b>'+nf(j.ar.blue.venta,0)+'</b>':'')+'</span>');
  else if(mk.ARS)it.push('<span class="cz1-it">'+fl('ar')+'<small>$ AR</small> <b>'+nf(mk.ARS.ask,0)+'</b>'+pc(mk.ARS.pct)+'</span>');
  [['br','BRL','R$',2],['cl','CLP','$ CL',0],['uy','UYU','$ UY',2],['bo','BOB','Bs',2],['pe','PEN','S/',2]].forEach(function(x){var v=mk[x[1]];if(v)it.push('<span class="cz1-it">'+fl(x[0])+'<small>'+x[2]+'</small> <b>'+nf(v.ask,x[3])+'</b>'+pc(v.pct)+'</span>')});
- if(mk['EUR-USD'])it.push('<span class="cz1-it">'+fl('eu')+'<small>€</small> <b>'+nf(1/mk['EUR-USD'].bid,2)+'</b>'+pc(-mk['EUR-USD'].pct)+'</span>');
+ if(mk.EURUSD)it.push('<span class="cz1-it">'+fl('eu')+'<small>€</small> <b>'+nf(1/mk.EURUSD.bid,2)+'</b>'+pc(-mk.EURUSD.pct)+'</span>');
  var o=j.oil||{};
  ['brent','wti'].forEach(function(k){var v=o[k];if(v)it.push('<span class="cz1-it">'+fl('oil')+'<small>'+(k==='brent'?'Brent':'WTI')+'</small> <b>US$ '+nf(v.usd,2)+'</b>'+(v.prev?pc((v.usd-v.prev)/v.prev*100):'')+'</span>')});
  if(!it.length)throw 0;
