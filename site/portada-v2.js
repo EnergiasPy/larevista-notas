@@ -97,17 +97,7 @@
     }).catch(function () {});
 
     // 6 · publicidad: el sponsor oficial y los proveedores oro siguen en la portada, después de la actualidad
-    if (sp5) {
-      var spon = el('<section class="pv-spon" aria-label="Sponsors oficiales"><div class="pv-spon-h"><span>Sponsors oficiales</span><small>Publicidad</small></div><div class="pv-spon-g"></div></section>');
-      var g = spon.querySelector('.pv-spon-g');
-      Array.prototype.forEach.call(sp5.querySelectorAll('a.r5i'), function (a) {
-        var img = a.querySelector('img'), b = a.querySelector('b');
-        var nombre = b ? b.textContent.split('·')[0].trim() : (img ? img.alt : '');
-        g.appendChild(el('<a class="pv-spon-i" href="' + esc(a.getAttribute('href')) + '" target="_blank" rel="noopener sponsored" style="--bc:' + esc(a.style.getPropertyValue('--bc') || '#3A963E') + '"><img src="' + esc(img ? img.getAttribute('src') : '') + '" alt="' + esc(nombre) + '"><span><b>' + esc(nombre) + '</b><small>Sponsor oficial</small></span></a>'));
-      });
-      sp5.style.display = 'none';
-      main.insertBefore(spon, news);
-    }
+    if (sp5) sp5.style.display = 'none'; // los sponsors oficiales van en la franja común (sponsors.js)
     if (oroh) { var oh = el('<div style="margin:0 0 24px"></div>'); oh.appendChild(oroh); main.insertBefore(oh, row.nextSibling); }
     if (oro) oro.style.display = 'none'; // Bancard ya figura en la fila de proveedores oro
 
