@@ -123,5 +123,18 @@
     "autor": "NdR",
     "img": "img/2026-10-27-descuentos-tarjetas-combustible-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-10-27-deconews-tiendas",
+    "estado": "borrador",
+    "fecha": "2026-10-27",
+    "cat": "Notas del sector",
+    "titulo": "Deconews: la tienda de la estación, hecha a medida desde una planta de 4.000 m² en Tandil",
+    "bajada": "La empresa diseña, fabrica e instala mobiliario para tiendas de conveniencia en estaciones de servicio, está homologada por cinco emblemas y dice acompañar a más de 800 estaciones.",
+    "autor": "NdR",
+    "img": "img/2026-10-27-deconews-tiendas-1.jpg",
+    "pais": "py",
+    "tipo": "sector",
+    "empresa": "Deconews CR"
   }
 ]
