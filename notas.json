@@ -25,12 +25,14 @@
     "id": "2026-10-20-latitude-arpec",
     "estado": "publicada",
     "fecha": "2026-10-20",
-    "cat": "Novedades de la industria",
+    "cat": "Notas del sector",
     "titulo": "Gilbarco eligió el Foro de Energías Paraguay para presentar Latitude por primera vez en América Latina",
     "bajada": "El nuevo surtidor de Gilbarco Veeder-Root se mostró en el stand de ARPEC Paraguay, su distribuidor en el país, que además recibió un reconocimiento durante el evento.",
     "autor": "Ana Paula Scacciaferro",
     "img": "img/2026-10-20-latitude-arpec-1.jpg",
-    "pais": "py"
+    "pais": "py",
+    "tipo": "sector",
+    "empresa": "ARPEC Paraguay · Gilbarco Veeder-Root"
   },
   {
     "id": "2026-10-23-uranio-paraguay",
