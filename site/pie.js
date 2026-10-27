@@ -46,7 +46,11 @@
 
   function poner() {
     var c = document.querySelector('.cred5');
-    if (!c) { var ft = document.querySelector('footer'); if (!ft) return false; c = document.createElement('p'); c.className = 'cred5'; ft.appendChild(c); }
+    if (!c) {
+      // Páginas secundarias: pie simple (p.ft) con el link de privacidad → se agrega el de Política editorial al lado
+      var pf = document.querySelector('p.ft'), pr = pf && pf.querySelector('a[href*="privacidad"]');
+      if (pr) { if (!pf.querySelector('a.pie-ed')) pr.insertAdjacentHTML('afterend', ' · <a href="#politica-editorial" class="pie-ed" style="color:inherit">Política editorial</a>'); return true; }
+      var ft = document.querySelector('footer'); if (!ft) return false; c = document.createElement('p'); c.className = 'cred5'; ft.appendChild(c); }
     if (c.getAttribute('data-pie') !== '1') { c.innerHTML = CRED; c.setAttribute('data-pie', '1'); }
     return true;
   }
