@@ -99,5 +99,16 @@
     "autor": "Fernando Berdichevsky",
     "img": "img/2026-10-26-cocinas-electricas-glp-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-10-27-troche-alcohol-zafra",
+    "estado": "borrador",
+    "fecha": "2026-10-27",
+    "cat": "Biocombustibles",
+    "titulo": "Troche: la zafra de Petropar ya molió 347.000 toneladas de caña y produce 62 % más alcohol",
+    "bajada": "La planta alcoholera de la estatal informó 19,8 millones de litros de alcohol en cinco meses de molienda. Mientras el diésel sube, el alcohol nacional es parte de la cuenta de la nafta.",
+    "autor": "NdR",
+    "img": "img/2026-10-27-troche-alcohol-zafra-1.jpg",
+    "pais": "py"
   }
 ]
