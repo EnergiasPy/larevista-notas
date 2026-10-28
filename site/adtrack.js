@@ -1,6 +1,6 @@
 /* Medición de publicidad · energiaslatam.com
-   - ad_click: cada click en un aviso (sponsor, oro, plata, bronce)
-   - ad_impression: cada aviso visto (≥50 % en pantalla durante ≥1 s), una vez por aviso y lugar por página vista
+   - aviso_click: cada click en un aviso (sponsor, oro, plata, bronce)
+   - aviso_visto: cada aviso visto (≥50 % en pantalla durante ≥1 s), una vez por aviso y lugar por página vista
    - UTM en los links salientes, para que el anunciante vea el tráfico en su propio Analytics
    No cambia nada visible del sitio. */
 (function () {
@@ -74,7 +74,7 @@
     var a = e.target.closest && e.target.closest(SEL); if (!a) return;
     utm(a);
     var d = datos(a); d.link_url = a.getAttribute('href') || ''; d.transport_type = 'beacon';
-    send('ad_click', d);
+    send('aviso_click', d);
   }
   document.addEventListener('click', onClick, true);
   document.addEventListener('auxclick', onClick, true);
@@ -105,7 +105,7 @@
       mostrados(n).forEach(function (a) {
         var d = datos(a), k = d.anunciante + '|' + d.nivel + '|' + d.posicion;
         actuales[k] = 1;
-        if (previos[k] && !vistos[k]) { vistos[k] = 1; send('ad_impression', d); }
+        if (previos[k] && !vistos[k]) { vistos[k] = 1; send('aviso_visto', d); }
       });
     });
     previos = actuales;

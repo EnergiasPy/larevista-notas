@@ -36,6 +36,6 @@
     s.addEventListener('click', function (e) { var a = e.target.closest('a'); if (!a) return; try { gtag('event', 'sponsor_click', { sponsor: a.querySelector('b').textContent }); } catch (x) {} });
   }
   // Medición de publicidad (clicks, impresiones y UTM) en todas las páginas
-  if (!document.querySelector('script[src*="adtrack.js"]')) { var at = document.createElement('script'); at.src = '/adtrack.js?v=1'; at.defer = true; document.head.appendChild(at); }
+  if (!document.querySelector('script[src*="adtrack.js"]')) { var at = document.createElement('script'); at.src = '/adtrack.js?v=2'; at.defer = true; document.head.appendChild(at); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poner); else poner();
 })();
