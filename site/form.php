@@ -63,7 +63,7 @@ function brevo_ya_suscripto($email) {
 
 // Manda el informe al mail de la persona (Brevo, mail transaccional)
 function brevo_informe($email, $nombre, $pais = 'py') {
-  $PN = ['py' => ['Paraguay', 'del MIC: ranking de ventas por emblema, quién creció, precios por emblema y producto, red de estaciones y GLP'], 'uy' => ['Uruguay', 'del MIEM y ANCAP: ranking de consumo por departamento, gasoil y gasolinas, y la tabla mes a mes'], 'cl' => ['Chile', 'de la SEC: ranking de consumo por región y producto, y la tabla mes a mes'], 'pe' => ['Perú', 'de Osinergmin: ranking de consumo por departamento y producto, y la tabla mes a mes']];
+  $PN = ['py' => ['Paraguay', 'del MIC: ranking de ventas por emblema, quién creció, precios por emblema y producto, red de estaciones y GLP'], 'uy' => ['Uruguay', 'del MIEM y ANCAP: ranking de consumo por departamento, gasoil y gasolinas, y la tabla mes a mes'], 'cl' => ['Chile', 'de la SEC: ranking de consumo por región y producto, y la tabla mes a mes'], 'pe' => ['Perú', 'de Osinergmin: ranking de consumo por departamento y producto, y la tabla mes a mes'], 'bo' => ['Bolivia', 'del INE: ranking de venta por producto, con las importaciones privadas, y la tabla mes a mes']];
   if (!isset($PN[$pais])) $pais = 'py';
   $kf = __DIR__ . '/datos/brevo.key';
   $key = is_file($kf) ? trim(file_get_contents($kf)) : '';
@@ -146,7 +146,7 @@ if ($enviado !== true) @file_put_contents($dir . '/errores.log', date('c') . ' '
 
 $brevo = null;
 $informe = null;
-if ($tipo === 'informe' && $mail) { $nm = ''; foreach ($campos as $k => $v) if (preg_match('/^nombre/iu', $k)) { $nm = $v; break; } $pp = isset($_POST['Pais']) && in_array($_POST['Pais'], ['py', 'uy', 'cl', 'pe'], true) ? $_POST['Pais'] : 'py'; $informe = brevo_informe($mail, $nm, $pp); if ($informe !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . $informe . "\n", FILE_APPEND); }
+if ($tipo === 'informe' && $mail) { $nm = ''; foreach ($campos as $k => $v) if (preg_match('/^nombre/iu', $k)) { $nm = $v; break; } $pp = isset($_POST['Pais']) && in_array($_POST['Pais'], ['py', 'uy', 'cl', 'pe', 'bo'], true) ? $_POST['Pais'] : 'py'; $informe = brevo_informe($mail, $nm, $pp); if ($informe !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . $informe . "\n", FILE_APPEND); }
 if (($tipo === 'newsletter' || $tipo === 'informe') && $mail && !$ya) { $brevo = brevo_alta($mail, $campos); if ($brevo !== true && $brevo !== 'sin-clave') @file_put_contents($dir . '/errores.log', date('c') . ' ' . $brevo . "\n", FILE_APPEND); }
 
 // Copia en planilla (CSV) por tipo

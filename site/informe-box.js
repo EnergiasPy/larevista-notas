@@ -28,7 +28,7 @@
   ].join('\n');
   document.head.appendChild(css);
 
-  var PAISES = { py: ['Paraguay', 'MIC', 'ranking por emblema, quién creció, precios, estaciones y GLP'], uy: ['Uruguay', 'MIEM', 'ranking de consumo por departamento, gasoil y gasolinas, y la tabla mes a mes'], cl: ['Chile', 'SEC', 'ranking de consumo por región y producto, y la tabla mes a mes'], pe: ['Perú', 'Osinergmin', 'ranking de consumo por departamento y producto, y la tabla mes a mes'] };
+  var PAISES = { py: ['Paraguay', 'MIC', 'ranking por emblema, quién creció, precios, estaciones y GLP'], uy: ['Uruguay', 'MIEM', 'ranking de consumo por departamento, gasoil y gasolinas, y la tabla mes a mes'], cl: ['Chile', 'SEC', 'ranking de consumo por región y producto, y la tabla mes a mes'], pe: ['Perú', 'Osinergmin', 'ranking de consumo por departamento y producto, y la tabla mes a mes'], bo: ['Bolivia', 'INE', 'ranking de venta por producto, con las importaciones privadas, y la tabla mes a mes'] };
   function tipDe(c) { var P = PAISES[c]; return 'Informe de ' + P[0] + ' en PDF con datos oficiales de ' + P[1] + ': ' + P[2] + '. Al pedirlo,'; }
   var TIP = 'Informe en PDF con datos oficiales del MIC: ranking por emblema, quién creció, precios, estaciones y GLP. Al pedirlo, tu mail queda registrado para recibir el newsletter y noticias de Energías LATAM; te podés dar de baja cuando quieras.';
   // ventana emergente: aviso de registro antes de enviar, y agradecimiento si ya estaba registrado
@@ -129,7 +129,7 @@
     if (w && !w.querySelector('.ib')) crear(function (b) { w.appendChild(b); }, 'inicio');
     var mh = document.querySelector('#v-noticias .masthead');
     if (mh && !mh.parentNode.classList.contains('ib-row')) crear(function (b) { var row = document.createElement('div'); row.className = 'ib-row'; mh.parentNode.insertBefore(row, mh); row.appendChild(mh); row.appendChild(b); }, 'noticias');
-    var pc = (location.pathname.match(/^\/combustible\/(py|uy|cl|pe)\/?$/) || [])[1];
+    var pc = (location.pathname.match(/^\/combustible\/(py|uy|cl|pe|bo)\/?$/) || [])[1];
     var it = pc && document.querySelector('main > .intro');
     if (it && !it.querySelector('.ib')) crear(function (b) { it.appendChild(b); }, 'datos', pc);
   }
