@@ -23,7 +23,7 @@
     if (a.closest('.spof, .sp5')) return 'sponsor';
     if (a.closest('.brl5, .bronce')) return 'bronce';
     if (a.closest('.plata')) return 'plata';
-    if (a.closest('.oro5, .oroh5')) return 'oro';
+    if (a.closest('.oro5, .oroh5, .nx-oro')) return 'oro';
     return 'otro';
   }
   function notaId() {
@@ -40,6 +40,7 @@
     return p.replace(/^\//, '');
   }
   function posicion(a) {
+    if (a.closest('.nx-oro')) return 'nota-lateral-' + ([].indexOf.call(a.parentNode.children, a) + 1);
     var box = a.closest('.r5, .spof-g, .brl5 .grid');
     if (!box) return '';
     var fila = box.parentNode, i = 1;
@@ -87,7 +88,7 @@
   }, { threshold: [0, 0.5, 1] });
   var observados = new WeakSet();
   function escanear() {
-    document.querySelectorAll('.r5, .spof-i, .brl5 a').forEach(function (n) {
+    document.querySelectorAll('.r5, .spof-i, .brl5 a, .nx-oro .r5i').forEach(function (n) {
       if (!observados.has(n)) { observados.add(n); io.observe(n); }
     });
   }
