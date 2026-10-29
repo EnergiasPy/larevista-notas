@@ -116,8 +116,25 @@ $eia = fuente('eia', 6 * 3600, function () {
     $o[$k] = ['v' => $vals[$n - 1], 'prev' => $n > 1 ? $vals[$n - 2] : 0, 'fecha_valor' => '20' . substr($fd, 6, 2) . '-' . substr($fd, 0, 2) . '-' . substr($fd, 3, 2)]; }
   return $o;
 });
+// Cierre diario más reciente · EIA "Today in Energy · Prices" (cada día hábil); se usa si es más nuevo que la tabla semanal
+$eh = fuente('eia-hoy', 3 * 3600, function () {
+  $h = g('https://www.eia.gov/todayinenergy/prices.php', true);
+  if (!$h || !preg_match('#(\d{1,2})/(\d{1,2})/(\d{2})\s*Close#', $h, $m)) return null;
+  $fv = '20' . $m[3] . '-' . sprintf('%02d-%02d', $m[1], $m[2]); $r = []; $prod = '';
+  foreach (preg_split('#<tr#i', substr($h, strpos($h, $m[0]))) as $tr) {
+    if (preg_match('#class="s1"[^>]*>(.*?)</td>#is', $tr, $q)) $prod = strtolower(trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace('#<br\s*/?>#i', ' ', $q[1])))));
+    if (strpos($prod, 'crude oil') !== 0 || !preg_match('#class="s2"[^>]*>(.*?)</td>\s*<td[^>]*>\s*([\d.]+)\s*</td>\s*<td[^>]*>\s*([-+]?[\d.]+)\s*</td>#is', $tr, $q)) continue;
+    $a = strtolower(trim(strip_tags($q[1]))); $k = $a === 'wti' ? 'wti' : ($a === 'brent' ? 'brent' : '');
+    if ($k && !isset($r[$k])) { $v = (float)$q[2]; $pc = (float)$q[3]; $r[$k] = ['v' => $v, 'prev' => $pc != -100 ? round($v / (1 + $pc / 100), 2) : 0, 'fecha_valor' => $fv]; }
+  }
+  return $r ?: null;
+});
+if ($eh) foreach (['wti', 'brent'] as $k) if (isset($eh[$k]) && (!$eia || !isset($eia[$k]) || strcmp($eh[$k]['fecha_valor'], $eia[$k]['fecha_valor'] ?? '') > 0)) {
+  if (!$eia) $eia = ['consultado' => $eh['consultado'], 'sin_actualizar' => $eh['sin_actualizar']];
+  $eia[$k] = $eh[$k]; $eia['diario'][$k] = 1; $eia['consultado'] = $eh['consultado']; $eia['sin_actualizar'] = $eh['sin_actualizar'];
+}
 if ($eia) foreach (['brent' => ['Brent', 'Brent, Europa'], 'wti' => ['WTI', 'WTI, Cushing (Oklahoma)']] as $k => $nm) if (isset($eia[$k]))
-  $items[] = $eia[$k] + ['id' => $k, 'pais' => 'Petróleo ' . $nm[0], 'mon' => 'US$', 'unidad' => 'barril', 'tipo' => 'Precio de contado (spot) ' . $nm[1] . ', no futuros. Publicación semanal', 'fuente' => 'EIA, Administración de Información Energética de EE. UU.', 'url' => 'https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm', 'consultado' => $eia['consultado'], 'sin_actualizar' => $eia['sin_actualizar']];
+  $items[] = $eia[$k] + ['id' => $k, 'pais' => 'Petróleo ' . $nm[0], 'mon' => 'US$', 'unidad' => 'barril', 'tipo' => 'Precio de contado (spot) ' . $nm[1] . ', no futuros. ' . (!empty($eia['diario'][$k]) ? 'Cierre diario' : 'Publicación semanal'), 'fuente' => 'EIA, Administración de Información Energética de EE. UU.', 'url' => !empty($eia['diario'][$k]) ? 'https://www.eia.gov/todayinenergy/prices.php' : 'https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm', 'consultado' => $eia['consultado'], 'sin_actualizar' => $eia['sin_actualizar']];
 
 $js = json_encode(['generado' => date('c'), 'items' => $items], JSON_UNESCAPED_UNICODE);
 file_put_contents($cache, $js);
