@@ -90,6 +90,36 @@ if (is_file($eia) && time() - filemtime($eia) < 14 * 86400) {
     $out['oil'][$k] = ['usd' => $vals[$n - 1], 'prev' => $n > 1 ? $vals[$n - 2] : 0, 'fecha' => $f[min($n, count($f)) - 1] ?? '', 'unidad' => $k === 'diesel_golfo' ? 'galón' : 'barril']; }
 }
 if ($out['oil']) $out['fuentes'][] = 'oil:eia';
+// Cierre diario más reciente · EIA "Today in Energy · Prices" (se actualiza cada día hábil)
+$tie = "$dir/eia-hoy.json";
+if (!is_file($tie) || time() - filemtime($tie) > 3 * 3600) {
+  $h = g('https://www.eia.gov/todayinenergy/prices.php', true);
+  if ($h) {
+    $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</td>', '</th>', '</tr>'], ' | ', $h))));
+    $r = [];
+    if (preg_match('#Spot Petroleum Prices,\s*(\d{1,2}/\d{1,2}/\d{2})\s*Close#i', $t, $m)) {
+      $fe = vsprintf('%02d/%02d/%s', explode('/', $m[1])); $num = '\|?\s*([\d]+\.[\d]+)\s*\|?\s*([-+]?[\d]+\.?[\d]*)';
+      $ci = stripos($t, 'Crude Oil', stripos($t, $m[0]));
+      if ($ci !== false) { $seg = substr($t, $ci, 600);
+        if (preg_match('#WTI\s*' . $num . '#', $seg, $q)) $r['wti'] = [(float)$q[1], (float)$q[2]];
+        if (preg_match('#Brent\s*' . $num . '#', $seg, $q)) $r['brent'] = [(float)$q[1], (float)$q[2]]; }
+      $di = stripos($t, 'Low-Sulfur Diesel', stripos($t, $m[0]));
+      if ($di !== false && preg_match('#Gulf Coast\s*' . $num . '#', substr($t, $di, 400), $q)) $r['diesel_golfo'] = [(float)$q[1], (float)$q[2]];
+      if ($r) file_put_contents($tie, json_encode(['fecha' => $fe, 'v' => $r]));
+    }
+  }
+}
+if (is_file($tie) && time() - filemtime($tie) < 7 * 86400) {
+  $e = json_decode(file_get_contents($tie), true); $fe = $e['fecha'] ?? '';
+  $iso = function ($f) { $p = explode('/', $f); return count($p) === 3 ? '20' . $p[2] . $p[0] . $p[1] : ''; };
+  foreach (($e['v'] ?? []) as $k => $v) {
+    $ant = $out['oil'][$k] ?? null;
+    if ($ant && $iso($ant['fecha'] ?? '') >= $iso($fe)) continue; // el dato semanal ya es igual o más nuevo
+    $out['oil'][$k] = ['usd' => $v[0], 'prev' => $v[1] != -100 ? round($v[0] / (1 + $v[1] / 100), 2) : 0, 'fecha' => $fe, 'unidad' => $k === 'diesel_golfo' ? 'galón' : 'barril'];
+  }
+  if ($e['v'] ?? null) $out['fuentes'][] = 'oil:eia-hoy';
+}
+
 
 // foto diaria (para variación propia de Paraguay)
 $hf = "$dir/hist.json"; $h = is_file($hf) ? (json_decode(file_get_contents($hf), true) ?: []) : [];
