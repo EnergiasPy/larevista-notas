@@ -1,11 +1,11 @@
 <?php
-// datos-pais.php · ventas oficiales de combustibles normalizadas por país (Chile, Perú, Uruguay)
+// datos-pais.php · ventas oficiales de combustibles normalizadas por país (Chile, Perú, Uruguay, Bolivia)
 // Salida: {pais, upd, ent, unidad_origen, prods:{}, rows:[[anio, mes, entidad, producto, litros]]}
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: public, max-age=3600');
 require __DIR__ . '/xlsx-lib.php';
 $c = $_GET['c'] ?? '';
-if (!in_array($c, ['cl', 'pe', 'uy'], true)) { http_response_code(400); echo '{"error":"pais"}'; exit; }
+if (!in_array($c, ['cl', 'pe', 'uy', 'bo'], true)) { http_response_code(400); echo '{"error":"pais"}'; exit; }
 $dir = __DIR__ . '/datos/fuentes'; if (!is_dir($dir)) @mkdir($dir, 0755, true);
 $cache = "$dir/$c.json";
 if (is_file($cache) && empty($_GET['fresh']) && time() - filemtime($cache) < 12 * 3600) { readfile($cache); exit; }
@@ -109,6 +109,44 @@ if ($c === 'uy') {
     fclose($fh);
   }
   $out = ['pais' => 'uy', 'ent' => 'Departamento', 'unidad_origen' => 'm³'];
+}
+
+if ($c === 'bo') {
+  // Bolivia · INE (con datos de la Aduana Nacional y el Ministerio de Hidrocarburos y Energías):
+  // volumen comercializado al mercado interno por producto, en barriles. No hay apertura por departamento ni por empresa.
+  $f = "$dir/bo-mi.xlsx";
+  if (!is_file($f) || filemtime($f) < time() - 86400 * 3) {
+    $page = texto('https://www.ine.gob.bo/index.php/estadisticas-economicas/hidrocarburos-mineria/cuadros-estadisticos-h/');
+    $url = 'https://nube.ine.gob.bo/index.php/s/2bhO9xUJLamnPB2/download';
+    if (preg_match('#<a[^>]+href="(https://nube\.ine\.gob\.bo/[^"]+)"[^>]*>[^<]*comercializaci[oó]n al mercado interno por producto#iu', $page, $mm)) $url = $mm[1];
+    bajar($url, $f);
+  }
+  if (is_file($f)) {
+    [$z, $ss, $sheets] = xlsx_sheets($f);
+    $rows = xlsx_rows($z, $ss, reset($sheets)); $hdr = null; $an = 0;
+    $MES2 = $MESES; $MES2['SEPTIEMBRE'] = 9;
+    foreach ($rows as $r) {
+      $a = trim((string)($r[1] ?? ''));
+      if ($hdr === null) { if (mb_strtoupper($a) === 'PERÍODO' || mb_strtoupper($a) === 'PERIODO') { $hdr = $r; } continue; }
+      if (preg_match('/^(\d{4})/', $a, $y)) { $an = (int)$y[1]; continue; }
+      $mes = $MES2[mb_strtoupper($a)] ?? 0; if (!$mes || !$an || $an < (int)date('Y') - 2) continue;
+      for ($k = 2; $k < count($hdr); $k++) {
+        $h = mb_strtoupper(trim(preg_replace('/\s+/', ' ', (string)$hdr[$k]))); if ($h === '') continue;
+        $priv = strpos($h, 'IMPORTACIONES PRIVADAS') !== false;
+        if (strpos($h, 'DIÉSEL') !== false || strpos($h, 'DIESEL') !== false) { $ent = $priv ? 'Diésel (importación privada)' : 'Diésel'; $prod = 'Diesel oil'; }
+        elseif (strpos($h, 'AVIACIÓN') !== false || strpos($h, 'AVIACION') !== false) { $ent = 'Gasolina de aviación'; $prod = 'Otros'; }
+        elseif (strpos($h, 'GASOLINA') !== false) { $ent = $priv ? 'Gasolina (importación privada)' : 'Gasolina'; $prod = 'Gasolina automotor'; }
+        elseif (strpos($h, 'LICUADO') !== false) { $ent = 'GLP'; $prod = 'Otros'; }
+        elseif (strpos($h, 'JET') !== false) { $ent = 'Jet fuel'; $prod = 'Otros'; }
+        elseif (strpos($h, 'KEROSENO') !== false) { $ent = 'Kerosene'; $prod = 'Otros'; }
+        else continue;
+        $v = (float)($r[$k] ?? 0) * 158.987; // barriles -> litros
+        if ($v <= 0) continue;
+        $kk = "$an|$mes|$ent|$prod"; $agg[$kk] = ($agg[$kk] ?? 0) + $v;
+      }
+    }
+  }
+  $out = ['pais' => 'bo', 'ent' => 'Producto', 'unidad_origen' => 'barriles'];
 }
 
 if (!$agg) { if (is_file($cache)) { readfile($cache); exit; } http_response_code(502); echo '{"error":"fuente"}'; exit; }
