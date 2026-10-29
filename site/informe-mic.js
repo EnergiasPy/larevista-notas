@@ -15,7 +15,7 @@
   function snap(cv) { return cv.toDataURL('image/jpeg', 0.9); }
   function txt(id) { var e = $(id); return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
   // limpia caracteres que la fuente estándar del PDF no tiene
-  function lat(s) { return String(s || '').replace(/[–—]/g, '-').replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, '...').replace(/[^\x00-\xFF]/g, ''); }
+  function lat(s) { return String(s || '').replace(/▲/g, '+').replace(/▼/g, '-').replace(/[–—]/g, '-').replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, '...').replace(/[^\x00-\xFF]/g, ''); }
   async function listo() {
     for (var i = 0; i < 80; i++) { var k = txt('kTot'); if (k && k !== '…' && $('prChips') && $('prChips').children.length && txt('qcNota')) return true; await esperar(250); }
     return false;
@@ -44,8 +44,9 @@
     var nomQ = { mes: 'Mismo mes del año anterior', ytd: 'Acumulado del año' };
     for (var q of ['mes', 'ytd']) { await clic($('qcModo').querySelector('button[data-v="' + q + '"]'), 700); var cq = $('qcPlaca'); pags.push({ t: '¿Quién creció? · ' + nomQ[q], im: snap(cq), w: cq.width, h: cq.height, nota: lat(txt('qcNota')) }); }
     // precios: cada producto
-    var chips = [].slice.call($('prChips').querySelectorAll('.chip'));
-    for (var c of chips) { await clic(c, 600); var cp = $('prPlaca'); pags.push({ t: 'Precios por emblema · ' + c.textContent.trim(), im: snap(cp), w: cp.width, h: cp.height, nota: lat(txt('prNota')) }); }
+    // los botones se vuelven a dibujar en cada clic: se buscan de nuevo por su valor
+    var prods = [].map.call($('prChips').querySelectorAll('.chip'), function (b) { return [b.dataset.v, b.textContent.trim()]; });
+    for (var pv of prods) { await clic($('prChips').querySelector('.chip[data-v="' + pv[0] + '"]'), 700); var cp = $('prPlaca'); pags.push({ t: 'Precios por emblema · ' + pv[1], im: snap(cp), w: cp.width, h: cp.height, nota: lat(txt('prNota')) }); }
     // estaciones y GLP como se ven en la página
     if (window.html2canvas) {
       for (var sid of [['estaciones', 'Red de estaciones de servicio'], ['glp', 'GLP: ventas, precios e importaciones']]) {
