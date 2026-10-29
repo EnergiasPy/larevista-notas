@@ -88,7 +88,7 @@
         var ol = box.querySelector('.nx-ol'), k = 0;
         function mostrar() {
           ol.innerHTML = '';
-          for (var j = 0; j < Math.min(3, items.length); j++) { var c = items[(k + j) % items.length].cloneNode(true); c.classList.remove('on'); c.removeAttribute('style'); ol.appendChild(c); }
+          for (var j = 0; j < Math.min(3, items.length); j++) { var c = items[(k + j) % items.length].cloneNode(true); c.classList.remove('on'); ol.appendChild(c); }
         }
         mostrar();
         if (items.length > 3) setInterval(function () { if (document.hidden) return; k = (k + 3) % items.length; mostrar(); }, 8000);
