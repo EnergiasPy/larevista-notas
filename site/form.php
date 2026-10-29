@@ -48,6 +48,19 @@ function brevo_alta($email, $campos) {
   return ($c >= 200 && $c < 300) ? true : ('brevo ' . $c . ' ' . substr($r, 0, 200));
 }
 
+// ¿El mail ya está en la lista del newsletter? (si Brevo no responde, se sigue como alta normal)
+function brevo_ya_suscripto($email) {
+  $kf = __DIR__ . '/datos/brevo.key';
+  $key = is_file($kf) ? trim(file_get_contents($kf)) : '';
+  if ($key === '') return false;
+  $ctx = stream_context_create(['http' => ['timeout' => 6, 'ignore_errors' => true, 'header' => "api-key: $key\r\nAccept: application/json\r\n"]]);
+  $r = @file_get_contents('https://api.brevo.com/v3/contacts/' . rawurlencode($email), false, $ctx);
+  $code = 0; if (isset($http_response_header[0]) && preg_match('/\s(\d{3})\s?/', $http_response_header[0], $m)) $code = (int)$m[1];
+  if ($code !== 200) return false;
+  $j = json_decode((string)$r, true);
+  return is_array($j) && empty($j['emailBlacklisted']) && in_array(BREVO_LISTA, $j['listIds'] ?? [], false);
+}
+
 $FROM = 'info@energiaslatam.com';
 $TIPOS = ['newsletter' => 'Suscripción al newsletter', 'proveedor' => 'Alta en la guía de proveedores', 'preregistro' => 'Pre-registro Foro & Expo 2027'];
 
@@ -88,6 +101,8 @@ if (!$campos) { http_response_code(400); echo '{"ok":false,"error":"vacio"}'; ex
 $mail = '';
 foreach ($campos as $v) { if (filter_var($v, FILTER_VALIDATE_EMAIL)) { $mail = $v; break; } }
 if ($tipo === 'newsletter' && !$mail) { http_response_code(400); echo '{"ok":false,"error":"mail"}'; exit; }
+// Si ya está suscripto, no se repite el alta ni el aviso por mail
+if ($tipo === 'newsletter' && brevo_ya_suscripto($mail)) { echo '{"ok":true,"ya":true}'; exit; }
 
 $fecha = date('d/m/Y H:i');
 $cuerpo = $TIPOS[$tipo] . " · energiaslatam.com\n" . str_repeat('-', 40) . "\n";

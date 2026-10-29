@@ -54,6 +54,10 @@
       fd.append('Origen', origen || 'ventana');
       fetch('/form.php', { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
         if (!j.ok) throw 0;
+        if (j.ya) {
+          ov.querySelector('.sp-in').innerHTML = '<div class="sp-ok"><div class="sp-ck">✓</div><h2>¡Ya estabas registrado!</h2><p>El mail <b>' + m.replace(/[&<>"]/g, '') + '</b> ya está suscripto a La Estación del Futuro. Todos los lunes te llega el newsletter.</p><p style="font-size:13.5px">Si no lo encontrás, revisá la carpeta de Promociones o Spam y agregá <b>info@energiaslatam.com</b> a tus contactos.</p><button type="button" class="sp-go sp-cerrar">Seguir leyendo</button></div>';
+          return;
+        }
         try { if (typeof gtag === 'function') gtag('event', 'sign_up', { method: 'ventana_' + (origen || 'web') }); } catch (x) {}
         ov.querySelector('.sp-in').innerHTML = '<div class="sp-ok"><div class="sp-ck">✓</div><h2>¡Ya estás suscripto!</h2><p>Gracias por sumarte. Todos los lunes te llega La Estación del Futuro.</p><p style="font-size:13.5px">Para no perderte ninguna edición, agregá <b>info@energiaslatam.com</b> a tus contactos.</p><button type="button" class="sp-go sp-cerrar">Seguir leyendo</button></div>';
       }).catch(function () {
