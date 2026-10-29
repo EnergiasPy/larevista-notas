@@ -27,9 +27,10 @@
     if (w.querySelector('.ib')) return true;
     var b = document.createElement('div'); b.className = 'ib'; b.setAttribute('role', 'group'); b.setAttribute('aria-label', 'Informe mensual del mercado de combustibles');
     b.innerHTML = '<span class="ib-t"><b class="ib-e">Informe MIC</b>Combustibles en PDF</span>' +
-      '<form novalidate><input type="email" name="Correo electrónico" placeholder="Tu email para recibir el informe" autocomplete="email" inputmode="email" aria-label="Tu email para recibir el informe del MIC"><div class="ib-hp" aria-hidden="true"><input name="hp_x" tabindex="-1" autocomplete="off"></div><button type="submit">Recibir PDF</button></form>' +
+      '<form novalidate><input type="email" name="Correo electrónico" placeholder="Tu email" autocomplete="email" inputmode="email" aria-label="Tu email para recibir el informe del MIC"><div class="ib-hp" aria-hidden="true"><input name="hp_x" tabindex="-1" autocomplete="off"></div><button type="submit">Recibir PDF</button></form>' +
       '<div class="ib-m" hidden></div><button type="button" class="ib-i" aria-label="' + TIP + '" data-tip="' + TIP + '">i</button>';
     w.appendChild(b);
+    try { if (matchMedia('(max-width:560px)').matches) b.querySelector('input[type=email]').placeholder = 'Informe MIC: tu email'; } catch (x) {}
     var T0 = Date.now(), Y = new Date().getFullYear();
     fetch('/mic.php?y=' + Y).then(function (r) { return r.json(); }).then(function (j) {
       var m = 0; (j.vp || []).forEach(function (r) { if (r[0] > m) m = r[0]; }); if (!m) return;
