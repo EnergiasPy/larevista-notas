@@ -7,7 +7,7 @@
   var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre'];
   var css = document.createElement('style');
   css.textContent = [
-    '.ib{flex:0 1 520px;min-width:0;box-sizing:border-box;display:flex;align-items:center;gap:10px;background:#0F213D;border-radius:10px;border-left:4px solid #3A963E;padding:6px 6px 6px 12px;font-family:Barlow,Arial,sans-serif;height:46px}',
+    '.pv-mast p{min-width:200px!important}.ib{flex:0 1 460px;min-width:330px;box-sizing:border-box;display:flex;align-items:center;gap:10px;background:#0F213D;border-radius:10px;border-left:4px solid #3A963E;padding:6px 6px 6px 12px;font-family:Barlow,Arial,sans-serif;height:46px}',
     '.ib-t{flex:0 0 auto;color:#fff;font:700 13px/1.15 Barlow,Arial,sans-serif;white-space:nowrap}.ib-t b{display:block;color:#76C46E;font:700 10.5px Barlow,Arial,sans-serif;letter-spacing:1.4px;text-transform:uppercase}',
     '.ib form{flex:1 1 auto;display:flex;gap:6px;margin:0;min-width:0}',
     '.ib input[type=email]{flex:1 1 auto;min-width:0;font:500 14px Barlow,Arial,sans-serif;padding:0 10px;height:34px;border:0;border-radius:6px;color:#0F213D;box-sizing:border-box}',
