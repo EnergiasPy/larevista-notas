@@ -94,19 +94,16 @@ if ($out['oil']) $out['fuentes'][] = 'oil:eia';
 $tie = "$dir/eia-hoy.json";
 if (!is_file($tie) || time() - filemtime($tie) > 3 * 3600) {
   $h = g('https://www.eia.gov/todayinenergy/prices.php', true);
-  if ($h) {
-    $t = preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</td>', '</th>', '</tr>'], ' | ', $h))));
-    $r = [];
-    if (preg_match('#Spot Petroleum Prices,\s*(\d{1,2}/\d{1,2}/\d{2})\s*Close#i', $t, $m)) {
-      $fe = vsprintf('%02d/%02d/%s', explode('/', $m[1])); $num = '\|?\s*([\d]+\.[\d]+)\s*\|?\s*([-+]?[\d]+\.?[\d]*)';
-      $ci = stripos($t, 'Crude Oil', stripos($t, $m[0]));
-      if ($ci !== false) { $seg = substr($t, $ci, 600);
-        if (preg_match('#WTI\s*' . $num . '#', $seg, $q)) $r['wti'] = [(float)$q[1], (float)$q[2]];
-        if (preg_match('#Brent\s*' . $num . '#', $seg, $q)) $r['brent'] = [(float)$q[1], (float)$q[2]]; }
-      $di = stripos($t, 'Low-Sulfur Diesel', stripos($t, $m[0]));
-      if ($di !== false && preg_match('#Gulf Coast\s*' . $num . '#', substr($t, $di, 400), $q)) $r['diesel_golfo'] = [(float)$q[1], (float)$q[2]];
-      if ($r) file_put_contents($tie, json_encode(['fecha' => $fe, 'v' => $r]));
+  if ($h && preg_match('#(\d{1,2})/(\d{1,2})/(\d{2})\s*Close#', $h, $m)) {
+    $fe = sprintf('%02d/%02d/%s', $m[1], $m[2], $m[3]); $r = []; $prod = '';
+    $want = ['crude oil|wti' => 'wti', 'crude oil|brent' => 'brent', 'low-sulfur diesel|gulf coast' => 'diesel_golfo'];
+    foreach (preg_split('#<tr#i', substr($h, strpos($h, $m[0]))) as $tr) {
+      if (preg_match('#class="s1"[^>]*>(.*?)</td>#is', $tr, $q)) $prod = strtolower(trim(preg_replace('/\s+/', ' ', strip_tags(preg_replace('#<br\s*/?>#i', ' ', $q[1])))));
+      if (!preg_match('#class="s2"[^>]*>(.*?)</td>\s*<td[^>]*>\s*([\d.]+)\s*</td>\s*<td[^>]*>\s*([-+]?[\d.]+)\s*</td>#is', $tr, $q)) continue;
+      $area = strtolower(trim(strip_tags($q[1])));
+      foreach ($want as $key => $k) { list($pp, $aa) = explode('|', $key); if (!isset($r[$k]) && strpos($prod, $pp) === 0 && $area === $aa) $r[$k] = [(float)$q[2], (float)$q[3]]; }
     }
+    if ($r) file_put_contents($tie, json_encode(['fecha' => $fe, 'v' => $r]));
   }
 }
 if (is_file($tie) && time() - filemtime($tie) < 7 * 86400) {
