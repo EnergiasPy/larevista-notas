@@ -125,7 +125,8 @@ if (!$campos) { http_response_code(400); echo '{"ok":false,"error":"vacio"}'; ex
 $mail = '';
 foreach ($campos as $v) { if (filter_var($v, FILTER_VALIDATE_EMAIL)) { $mail = $v; break; } }
 if (($tipo === 'newsletter' || $tipo === 'informe') && !$mail) { http_response_code(400); echo '{"ok":false,"error":"mail"}'; exit; }
-// Si ya está suscripto, no se repite el alta ni el aviso por mail
+// Si ya está suscripto, no se repite el alta ni el aviso por mail (en el informe se le manda igual, sin volver a darlo de alta)
+$ya = ($tipo === 'informe' && $mail) ? brevo_ya_suscripto($mail) : false;
 if ($tipo === 'newsletter' && brevo_ya_suscripto($mail)) { echo '{"ok":true,"ya":true}'; exit; }
 
 $fecha = date('d/m/Y H:i');
@@ -133,7 +134,8 @@ $cuerpo = $TIPOS[$tipo] . " · energiaslatam.com\n" . str_repeat('-', 40) . "\n"
 foreach ($campos as $k => $v) $cuerpo .= $k . ': ' . $v . "\n";
 $cuerpo .= "\nFecha: " . $fecha . "\n";
 
-$asunto = '=?UTF-8?B?' . base64_encode('[La Estación del Futuro] ' . $TIPOS[$tipo]) . '?=';
+if ($ya) $cuerpo .= "\nYa estaba suscripto al newsletter: no se lo volvió a dar de alta.\n";
+$asunto = '=?UTF-8?B?' . base64_encode('[La Estación del Futuro] ' . $TIPOS[$tipo] . ($ya ? ' (ya suscripto)' : '')) . '?=';
 $h = "From: La Estacion del Futuro <$FROM>\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n";
 if ($mail) $h .= "Reply-To: $mail\r\n";
 if (function_exists('mail')) { $enviado = @mail(implode(', ', $DEST), $asunto, $cuerpo, $h, '-f' . $FROM); }
@@ -141,10 +143,9 @@ else { $enviado = smtp_local($DEST, $FROM, $asunto, $cuerpo, $mail); }
 if ($enviado !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . print_r($enviado, true) . "\n", FILE_APPEND);
 
 $brevo = null;
-$informe = null; $ya = false;
-if ($tipo === 'informe' && $mail) $ya = brevo_ya_suscripto($mail);
+$informe = null;
 if ($tipo === 'informe' && $mail) { $nm = ''; foreach ($campos as $k => $v) if (preg_match('/^nombre/iu', $k)) { $nm = $v; break; } $informe = brevo_informe($mail, $nm); if ($informe !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . $informe . "\n", FILE_APPEND); }
-if (($tipo === 'newsletter' || $tipo === 'informe') && $mail) { $brevo = brevo_alta($mail, $campos); if ($brevo !== true && $brevo !== 'sin-clave') @file_put_contents($dir . '/errores.log', date('c') . ' ' . $brevo . "\n", FILE_APPEND); }
+if (($tipo === 'newsletter' || $tipo === 'informe') && $mail && !$ya) { $brevo = brevo_alta($mail, $campos); if ($brevo !== true && $brevo !== 'sin-clave') @file_put_contents($dir . '/errores.log', date('c') . ' ' . $brevo . "\n", FILE_APPEND); }
 
 // Copia en planilla (CSV) por tipo
 $csv = $dir . '/' . $tipo . '.csv';
