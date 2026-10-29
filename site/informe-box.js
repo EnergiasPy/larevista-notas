@@ -17,7 +17,7 @@
     '.ib-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}',
     '.ib-i{position:relative;flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#C9D6E3;font:700 12px/20px Arial,sans-serif;text-align:center;cursor:help;padding:0}',
     '.ib-i:hover:after,.ib-i:focus:after{content:attr(data-tip);position:absolute;right:0;top:26px;width:260px;z-index:20;background:#0F213D;color:#fff;font:500 12px/1.35 Barlow,Arial,sans-serif;text-align:left;padding:9px 11px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.25)}',
-    '@media(max-width:560px){.ib{flex:1 1 100%;padding:5px 5px 5px 10px;height:44px}.ib-t{display:none}.ib input[type=email]{font-size:16px}}'
+    '@media(max-width:560px){.ib{flex:1 1 100%;min-width:0;padding:5px 5px 5px 10px;height:44px}.ib-t{display:none}.ib input[type=email]{font-size:16px}}'
   ].join('\n');
   document.head.appendChild(css);
 
