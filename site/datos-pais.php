@@ -1,11 +1,11 @@
 <?php
-// datos-pais.php · ventas oficiales de combustibles normalizadas por país (Chile, Perú)
+// datos-pais.php · ventas oficiales de combustibles normalizadas por país (Chile, Perú, Uruguay)
 // Salida: {pais, upd, ent, unidad_origen, prods:{}, rows:[[anio, mes, entidad, producto, litros]]}
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: public, max-age=3600');
 require __DIR__ . '/xlsx-lib.php';
 $c = $_GET['c'] ?? '';
-if (!in_array($c, ['cl', 'pe'], true)) { http_response_code(400); echo '{"error":"pais"}'; exit; }
+if (!in_array($c, ['cl', 'pe', 'uy'], true)) { http_response_code(400); echo '{"error":"pais"}'; exit; }
 $dir = __DIR__ . '/datos/fuentes'; if (!is_dir($dir)) @mkdir($dir, 0755, true);
 $cache = "$dir/$c.json";
 if (is_file($cache) && empty($_GET['fresh']) && time() - filemtime($cache) < 12 * 3600) { readfile($cache); exit; }
@@ -74,6 +74,41 @@ if ($c === 'pe') {
     }
   }
   $out = ['pais' => 'pe', 'ent' => 'Departamento', 'unidad_origen' => 'galones'];
+}
+
+if ($c === 'uy') {
+  // Uruguay · MIEM (datos de ANCAP): ventas en estaciones de servicio por departamento, gasoil y gasolinas (m³)
+  $base = 'https://www.gub.uy/ministerio-industria-energia-mineria/datos-y-estadisticas/datos/series-estadisticas-petroleo-derivados';
+  $page = texto($base);
+  foreach (['gas oil' => 'Gasoil', 'gasolinas' => 'Gasolinas'] as $clave => $prod) {
+    $f = "$dir/uy-" . ($prod === 'Gasoil' ? 'go' : 'ga') . '.zip';
+    if (!is_file($f) || filemtime($f) < time() - 86400 * 3) {
+      $url = '';
+      if (preg_match('#href="([^"]*ventas%20de%20' . str_replace(' ', '%20', $clave) . '%20por%20departamento\.zip)"#i', $page, $mm)) $url = $mm[1];
+      if ($url !== '' && strpos($url, 'http') !== 0) $url = 'https://www.gub.uy' . $url;
+      if ($url !== '') bajar($url, $f);
+    }
+    if (!is_file($f)) continue;
+    $z = new ZipArchive; if ($z->open($f) !== true) continue;
+    $csv = null;
+    for ($i = 0; $i < $z->numFiles; $i++) { $n = $z->getNameIndex($i); if (preg_match('/departamento\.csv$/i', $n)) { $csv = $z->getFromName($n); break; } }
+    $z->close(); if (!$csv) continue;
+    if (!mb_check_encoding($csv, 'UTF-8')) $csv = mb_convert_encoding($csv, 'UTF-8', 'ISO-8859-1');
+    $fh = fopen('php://temp', 'r+'); fwrite($fh, $csv); rewind($fh); $hdr = null;
+    while (($r = fgetcsv($fh, 0, ';')) !== false) {
+      if ($hdr === null) { if (isset($r[0], $r[1]) && mb_strtolower(trim($r[0])) === 'año' && mb_strtolower(trim($r[1])) === 'mes') $hdr = array_map(function ($x) { return trim(preg_replace('/\s+/', ' ', $x)); }, $r); continue; }
+      $an = (int)($r[0] ?? 0); $mes = (int)($r[1] ?? 0); if ($an < (int)date('Y') - 2 || $mes < 1 || $mes > 12) continue;
+      for ($k = 2; $k < count($hdr); $k++) {
+        $dep = $hdr[$k]; if ($dep === '' || strtoupper($dep) === 'TOTAL') continue;
+        if (stripos($dep, 'Canelones') === 0) $dep = 'Canelones'; // la fuente separa balneario y resto
+        $v = (float)str_replace(['.', ','], ['', '.'], trim($r[$k] ?? '')) * 1000; // m³ -> litros
+        if ($v <= 0) continue;
+        $kk = "$an|$mes|$dep|$prod"; $agg[$kk] = ($agg[$kk] ?? 0) + $v;
+      }
+    }
+    fclose($fh);
+  }
+  $out = ['pais' => 'uy', 'ent' => 'Departamento', 'unidad_origen' => 'm³'];
 }
 
 if (!$agg) { if (is_file($cache)) { readfile($cache); exit; } http_response_code(502); echo '{"error":"fuente"}'; exit; }
