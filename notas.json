@@ -169,5 +169,16 @@
     "autor": "NdR",
     "img": "img/2026-10-28-signar-energy-shell-argentina-logo.jpg",
     "pais": "ar"
+  },
+  {
+    "id": "2026-10-29-cargadores-electricos-estaciones",
+    "estado": "borrador",
+    "fecha": "2026-10-29",
+    "cat": "Combustibles y EESS",
+    "titulo": "Cargadores eléctricos: por qué el dueño de una estación todavía no se anima",
+    "bajada": "La inversión inicial es alta y la ley no le permite vender los kWh: solo puede cobrar el lugar de estacionamiento. Sin cambiar la Carta Orgánica de la ANDE, el negocio no cierra.",
+    "autor": "Fernando Berdichevsky",
+    "img": "img/2026-10-29-cargadores-electricos-estaciones-1.jpg",
+    "pais": "py"
   }
 ]
