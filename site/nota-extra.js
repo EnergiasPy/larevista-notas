@@ -43,6 +43,7 @@
 
   function armar(notas) {
     var art = document.getElementById('gh-art'); if (!art || art.getAttribute('data-nx')) return false;
+    var nb0 = art.querySelector('.nota-body'); if (!nb0 || nb0.querySelectorAll(':scope > p').length < 3 || !art.querySelector('.tail5')) return false;
     var id = window.NOTA_ID || (location.pathname.match(/^\/n\/([a-z0-9-]+)/) || [])[1]; if (!id) return false;
     var pub = (notas || []).filter(function (n) { return n.estado === 'publicada'; }).sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
     var cur = pub.filter(function (n) { return n.id === id; })[0]; if (!cur) return false;
@@ -97,6 +98,12 @@
     return true;
   }
   var datos = fetch(RAW + 'notas.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).catch(function () { return []; });
-  function go() { datos.then(function (n) { var t = 0, iv = setInterval(function () { if (armar(n) || ++t > 40) clearInterval(iv); }, 250); }); }
+  function go() { datos.then(function (n) {
+    var t = 0, iv = setInterval(function () {
+      var art = document.getElementById('gh-art');
+      // si el lector volvió a dibujar la nota, se arma de nuevo
+      if (art && art.getAttribute('data-nx') && !art.querySelector('.nx-rel')) { art.removeAttribute('data-nx'); var o = document.querySelector('.nx-side'); if (o) o.remove(); }
+      armar(n); if (++t > 60) clearInterval(iv);
+    }, 500); }); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 })();
