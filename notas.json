@@ -191,5 +191,16 @@
     "autor": "Fernando Berdichevsky",
     "img": "img/2026-10-29-diesel-acumulado-2026-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-10-30-estacion-google-maps",
+    "estado": "borrador",
+    "fecha": "2026-10-30",
+    "cat": "Combustibles y EESS",
+    "titulo": "¿Tu estación aparece en Google Maps? Cómo ganar visibilidad sin invertir dinero",
+    "bajada": "Instagram ayuda a mostrar la estación, pero Google Maps la conecta con el conductor que busca dónde parar en ese momento. Seis pasos para tener el perfil completo y bien ubicado, gratis.",
+    "autor": "NdR",
+    "img": "img/2026-10-30-estacion-google-maps-1.jpg",
+    "pais": "py"
   }
 ]
