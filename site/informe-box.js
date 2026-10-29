@@ -28,6 +28,8 @@
   ].join('\n');
   document.head.appendChild(css);
 
+  var PAISES = { py: ['Paraguay', 'MIC', 'ranking por emblema, quién creció, precios, estaciones y GLP'], uy: ['Uruguay', 'MIEM', 'ranking de consumo por departamento, gasoil y gasolinas, y la tabla mes a mes'], cl: ['Chile', 'SEC', 'ranking de consumo por región y producto, y la tabla mes a mes'], pe: ['Perú', 'Osinergmin', 'ranking de consumo por departamento y producto, y la tabla mes a mes'] };
+  function tipDe(c) { var P = PAISES[c]; return 'Informe de ' + P[0] + ' en PDF con datos oficiales de ' + P[1] + ': ' + P[2] + '. Al pedirlo,'; }
   var TIP = 'Informe en PDF con datos oficiales del MIC: ranking por emblema, quién creció, precios, estaciones y GLP. Al pedirlo, tu mail queda registrado para recibir el newsletter y noticias de Energías LATAM; te podés dar de baja cuando quieras.';
   // ventana emergente: aviso de registro antes de enviar, y agradecimiento si ya estaba registrado
   var cssV = document.createElement('style');
@@ -58,17 +60,21 @@
     ventana('<div class="ibv-k">✓</div><h3>¡Gracias por confiar en Energías LATAM!</h3><p>Tu mail <b>' + limpio(m) + '</b> ya estaba registrado. Igual te mandamos el informe por mail y lo estamos preparando para que lo descargues ahora.</p>',
       [['Seguir', 'ibv-ok', null]]);
   }
-  function crear(poner, origen) {
+  function crear(poner, origen, pais) {
+    pais = pais || 'py'; var P = PAISES[pais], TP = tipDe(pais) + TIP.slice(TIP.indexOf('Al pedirlo,') + 11);
     var b = document.createElement('div'); b.className = 'ib'; b.setAttribute('role', 'group'); b.setAttribute('aria-label', 'Informe mensual del mercado de combustibles');
-    b.innerHTML = '<span class="ib-t"><b class="ib-e">Informe MIC</b>Combustibles en PDF</span>' +
-      '<form novalidate><input type="email" name="Correo electrónico" placeholder="Tu email" autocomplete="email" inputmode="email" aria-label="Tu email para recibir el informe del MIC"><div class="ib-hp" aria-hidden="true"><input name="hp_x" tabindex="-1" autocomplete="off"></div><button type="submit">Recibir PDF</button></form>' +
-      '<div class="ib-m" hidden></div><button type="button" class="ib-i" aria-label="' + TIP + '" data-tip="' + TIP + '">i</button>';
+    b.innerHTML = '<span class="ib-t"><b class="ib-e">Informe ' + P[1] + '</b>' + (pais === 'py' ? 'Combustibles en PDF' : P[0] + ' en PDF') + '</span>' +
+      '<form novalidate><input type="email" name="Correo electrónico" placeholder="Tu email" autocomplete="email" inputmode="email" aria-label="Tu email para recibir el informe de ' + P[0] + '"><div class="ib-hp" aria-hidden="true"><input name="hp_x" tabindex="-1" autocomplete="off"></div><button type="submit">Recibir PDF</button></form>' +
+      '<div class="ib-m" hidden></div><button type="button" class="ib-i" aria-label="' + TP + '" data-tip="' + TP + '">i</button>';
     poner(b);
-    try { if (matchMedia('(max-width:560px)').matches) b.querySelector('input[type=email]').placeholder = 'Informe MIC: tu email'; } catch (x) {}
+    try { if (matchMedia('(max-width:560px)').matches) b.querySelector('input[type=email]').placeholder = 'Informe ' + P[1] + ': tu email'; } catch (x) {}
     var T0 = Date.now(), Y = new Date().getFullYear(), YA = false;
-    fetch('/mic.php?y=' + Y).then(function (r) { return r.json(); }).then(function (j) {
-      var m = 0; (j.vp || []).forEach(function (r) { if (r[0] > m) m = r[0]; }); if (!m) return;
-      var M = MESES[m - 1]; b.querySelector('.ib-e').textContent = 'Informe MIC · ' + M.charAt(0).toUpperCase() + M.slice(1) + ' ' + Y;
+    function etq(m, y) { var M = MESES[m - 1]; b.querySelector('.ib-e').textContent = 'Informe ' + P[1] + ' · ' + M.charAt(0).toUpperCase() + M.slice(1) + ' ' + y; }
+    if (pais === 'py') fetch('/mic.php?y=' + Y).then(function (r) { return r.json(); }).then(function (j) {
+      var m = 0; (j.vp || []).forEach(function (r) { if (r[0] > m) m = r[0]; }); if (m) etq(m, Y);
+    }).catch(function () {});
+    else fetch('/datos-pais.php?c=' + pais).then(function (r) { return r.json(); }).then(function (j) {
+      var k = 0; (j.rows || []).forEach(function (r) { var kk = r[0] * 12 + r[1]; if (kk > k) k = kk; }); if (k) etq((k - 1) % 12 + 1, Math.floor((k - 1) / 12));
     }).catch(function () {});
     var f = b.querySelector('form'), msg = b.querySelector('.ib-m'), bt = f.querySelector('button'), inp = f.querySelector('input[type=email]');
     function aviso(t, cl) { msg.className = 'ib-m' + (cl ? ' ' + cl : ''); msg.innerHTML = t; msg.hidden = false; }
@@ -81,10 +87,10 @@
     function enviar(m) {
       bt.disabled = true; bt.textContent = 'Enviando…';
       var fd = new FormData(); fd.append('tipo', 'informe'); fd.append('el', Date.now() - T0); fd.append('hp_x', f.elements['hp_x'].value);
-      fd.append('Correo electrónico', m); fd.append('Origen', 'informe_mic_' + origen);
+      fd.append('Correo electrónico', m); fd.append('Origen', 'informe_' + pais + '_' + origen); fd.append('Pais', pais);
       fetch('/form.php', { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
         if (!j.ok) throw 0;
-        try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { form: 'informe_mic' }); } catch (x) {}
+        try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { form: 'informe_' + pais }); } catch (x) {}
         f.style.display = 'none'; YA = !!j.ya; aviso('✓ Enviado a tu mail. Armando el PDF…');
         if (YA) gracias(m);
         pdf();
@@ -95,13 +101,13 @@
       if (window.informeMIC) { window.informeMIC().then(function (r) { fin(true, r); }).catch(function () { fin(false); }); return; }
       fr = document.createElement('iframe'); fr.setAttribute('aria-hidden', 'true'); fr.tabIndex = -1;
       fr.style.cssText = 'position:absolute;left:-10000px;top:0;width:1200px;height:900px;border:0;opacity:0;pointer-events:none';
-      fr.src = '/combustible/py?embed=1';
+      fr.src = '/combustible/' + pais + '?embed=1';
       marco();
     }
     var fr = null;
     function fin(ok, r) {
         var pre = '<span>✓ Enviado a tu mail</span>';
-        if (!ok) { aviso(pre + '<a class="ib-dl" href="/combustible/py?informe=1">⬇ PDF</a>'); return; }
+        if (!ok) { aviso(pre + '<a class="ib-dl" href="/combustible/' + pais + '?informe=1">⬇ PDF</a>'); return; }
         var u = URL.createObjectURL(r.blob);
         aviso(pre + '<a class="ib-dl" href="' + u + '" download="' + r.nombre + '">⬇ Descargar PDF</a>');
         try { var a = document.createElement('a'); a.href = u; a.download = r.nombre; document.body.appendChild(a); a.click(); a.remove(); } catch (x) {}
@@ -123,8 +129,9 @@
     if (w && !w.querySelector('.ib')) crear(function (b) { w.appendChild(b); }, 'inicio');
     var mh = document.querySelector('#v-noticias .masthead');
     if (mh && !mh.parentNode.classList.contains('ib-row')) crear(function (b) { var row = document.createElement('div'); row.className = 'ib-row'; mh.parentNode.insertBefore(row, mh); row.appendChild(mh); row.appendChild(b); }, 'noticias');
-    var it = /^\/combustible\/py\/?$/.test(location.pathname) && document.querySelector('main > .intro');
-    if (it && !it.querySelector('.ib')) crear(function (b) { it.appendChild(b); }, 'datos_py');
+    var pc = (location.pathname.match(/^\/combustible\/(py|uy|cl|pe)\/?$/) || [])[1];
+    var it = pc && document.querySelector('main > .intro');
+    if (it && !it.querySelector('.ib')) crear(function (b) { it.appendChild(b); }, 'datos', pc);
   }
   if (/[?&]embed=1/.test(location.search)) return;
   var n = 0, iv = setInterval(function () { armar(); if (++n > 40) clearInterval(iv); }, 300);

@@ -16,8 +16,21 @@
   function txt(id) { var e = $(id); return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
   // limpia caracteres que la fuente estándar del PDF no tiene
   function lat(s) { return String(s || '').replace(/▲/g, '+').replace(/▼/g, '-').replace(/[–—]/g, '-').replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, '...').replace(/[^\x00-\xFF]/g, ''); }
+  // país de la página: /combustible/py (página propia) o /combustible/xx (pais.html)
+  var PAIS = (location.pathname.match(/combustible\/([a-z]{2})/) || [])[1] || (new URLSearchParams(location.search).get('c')) || 'py';
+  var CFG = {
+    py: { n: 'Paraguay', src: 'el Ministerio de Industria y Comercio (MIC)', srcC: 'MIC', pie: 'Datos oficiales del Ministerio de Industria y Comercio (MIC).', intro: 'Ventas de combustibles por emblema, quién creció, precios por emblema y producto, red de estaciones y GLP, con los datos oficiales que las distribuidoras declaran ante el Ministerio de Industria y Comercio.', ent: 'emblema' },
+    cl: { n: 'Chile', src: 'la Superintendencia de Electricidad y Combustibles (SEC)', srcC: 'SEC', pie: 'Datos oficiales de la Superintendencia de Electricidad y Combustibles (SEC).', intro: 'Ventas mensuales de combustibles líquidos por región y producto, con los datos oficiales de la SEC. La fuente no publica el dato por compañía.', ent: 'región' },
+    pe: { n: 'Perú', src: 'Osinergmin', srcC: 'Osinergmin', pie: 'Datos oficiales de Osinergmin.', intro: 'Ventas mensuales de combustibles por departamento y producto, con los datos oficiales de Osinergmin. La fuente no publica el dato por empresa.', ent: 'departamento' },
+    uy: { n: 'Uruguay', src: 'el Ministerio de Industria, Energía y Minería (MIEM), con datos de ANCAP', srcC: 'MIEM · ANCAP', pie: 'Datos oficiales del MIEM, con información de ANCAP.', intro: 'Ventas mensuales de gasoil y gasolinas en estaciones de servicio por departamento, con los datos oficiales del MIEM y ANCAP. La fuente no publica el dato por distribuidora.', ent: 'departamento' }
+  };
+  var C = CFG[PAIS] || CFG.py, PY = PAIS === 'py';
   async function listo() {
-    for (var i = 0; i < 80; i++) { var k = txt('kTot'); if (k && k !== '…' && $('prChips') && $('prChips').children.length && txt('qcNota')) return true; await esperar(250); }
+    for (var i = 0; i < 80; i++) {
+      var k = txt('kTot');
+      if (k && k !== '…' && (PY ? ($('prChips') && $('prChips').children.length && txt('qcNota')) : ($('rMes') && $('rMes').options.length))) return true;
+      await esperar(250);
+    }
     return false;
   }
   async function clic(el, ms) { if (el) { el.click(); await esperar(ms || 700); } }
@@ -32,14 +45,20 @@
     var lg = await img('/logo-latam-v2-512.png'), LG = lg ? aDataURL(lg, 240, 240, true) : null;
 
     // estado inicial para dejar la página como estaba
-    var prOn = ($('prChips').querySelector('.chip.on') || {}).dataset;
+    var prOn = PY ? ($('prChips').querySelector('.chip.on') || {}).dataset : null;
     var rOn = ($('rProd').querySelector('button.on') || {}).dataset;
-    var qOn = ($('qcModo').querySelector('button.on') || {}).dataset;
+    var qOn = PY ? ($('qcModo').querySelector('button.on') || {}).dataset : null;
 
     var pags = [];
-    // ranking: todos, gasoil, naftas
-    var nomR = { all: 'Todos los combustibles', G: 'Gasoil', N: 'Naftas' };
-    for (var v of ['all', 'G', 'N']) { await clic($('rProd').querySelector('button[data-v="' + v + '"]'), 900); pags.push({ t: 'Ranking de ventas por emblema · ' + nomR[v], im: snap($('placa')), w: 1080, h: 1350 }); }
+    // ranking: todos, gasoil/diésel, naftas/gasolinas (los nombres salen de los botones de la página)
+    var tR = PY ? 'Ranking de ventas por emblema' : 'Ranking de consumo por ' + C.ent;
+    for (var v of ['all', 'G', 'N']) { var bv = $('rProd').querySelector('button[data-v="' + v + '"]'); if (!bv) continue; await clic(bv, 900); pags.push({ t: tR + ' · ' + (v === 'all' ? 'Todos los combustibles' : bv.textContent.trim()), im: snap($('placa')), w: 1080, h: 1350 }); }
+    if (!PY) {
+      // tabla dinámica del año, como se ve en la página
+      var tt = $('tt'), secT = tt && (tt.closest('section') || tt.parentElement);
+      if (secT && window.html2canvas) { try { var ct = await html2canvas(secT, { scale: 1.4, backgroundColor: '#ffffff', useCORS: true, logging: false, ignoreElements: function (e) { return e.tagName === 'BUTTON' && /CSV|Descargar/.test(e.textContent); } }); pags.push({ t: 'Litros por mes y por ' + C.ent, im: ct.toDataURL('image/jpeg', 0.88), w: ct.width, h: ct.height }); } catch (e) {} }
+    }
+    if (PY) {
     // quién creció: mes y acumulado
     var nomQ = { mes: 'Mismo mes del año anterior', ytd: 'Acumulado del año' };
     for (var q of ['mes', 'ytd']) { await clic($('qcModo').querySelector('button[data-v="' + q + '"]'), 700); var cq = $('qcPlaca'); pags.push({ t: '¿Quién creció? · ' + nomQ[q], im: snap(cq), w: cq.width, h: cq.height, nota: lat(txt('qcNota')) }); }
@@ -54,6 +73,7 @@
         try { var cs = await html2canvas(sec, { scale: 1.5, backgroundColor: '#ffffff', useCORS: true, logging: false, ignoreElements: function (e) { return e.tagName === 'BUTTON' && /Descargar/.test(e.textContent); } }); pags.push({ t: sid[1], im: cs.toDataURL('image/jpeg', 0.88), w: cs.width, h: cs.height }); } catch (e) {}
       }
     }
+    }
     // vuelve la página a como estaba
     if (rOn) await clic($('rProd').querySelector('button[data-v="' + rOn.v + '"]'), 50);
     if (qOn) await clic($('qcModo').querySelector('button[data-v="' + qOn.v + '"]'), 50);
@@ -62,7 +82,7 @@
     // ---------- PDF ----------
     var pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', compress: true });
     var W = 210, H = 297, NAVY = [15, 33, 61], VERDE = [58, 150, 62], VCLARO = [118, 196, 110], GRIS = [122, 138, 155];
-    pdf.setProperties({ title: 'Informe del mercado de combustibles · Paraguay · ' + mesTxt, author: 'Energías LATAM', subject: 'Datos oficiales del MIC procesados por Energías LATAM', creator: 'energiaslatam.com' });
+    pdf.setProperties({ title: lat('Informe del mercado de combustibles · ' + C.n + ' · ') + mesTxt, author: 'Energías LATAM', subject: lat('Datos oficiales de ' + C.srcC + ' procesados por Energías LATAM'), creator: 'energiaslatam.com' });
     var total = pags.length + 2;
     function marco(n) {
       pdf.setFillColor.apply(pdf, NAVY); pdf.rect(0, 0, W, 20, 'F');
@@ -74,8 +94,8 @@
       // pie
       pdf.setDrawColor(227, 233, 240); pdf.setLineWidth(.3); pdf.line(10, H - 14, W - 10, H - 14);
       pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7.5); pdf.setTextColor.apply(pdf, GRIS);
-      pdf.text('Datos oficiales del Ministerio de Industria y Comercio (MIC). Procesamiento y gráficos: Energías LATAM.', 10, H - 9);
-      pdf.setFont('helvetica', 'bold'); pdf.setTextColor.apply(pdf, VERDE); pdf.textWithLink('energiaslatam.com', 10, H - 5, { url: 'https://energiaslatam.com/combustible/py?utm_source=informe_mic&utm_medium=pdf' });
+      pdf.text(lat(C.pie + ' Procesamiento y gráficos: Energías LATAM.'), 10, H - 9);
+      pdf.setFont('helvetica', 'bold'); pdf.setTextColor.apply(pdf, VERDE); pdf.textWithLink('energiaslatam.com', 10, H - 5, { url: 'https://energiaslatam.com/combustible/' + PAIS + '?utm_source=informe_mic&utm_medium=pdf' });
       pdf.setFont('helvetica', 'normal'); pdf.setTextColor.apply(pdf, GRIS); pdf.text('Página ' + n + ' de ' + total, W - 10, H - 5, { align: 'right' });
     }
     // tapa
@@ -85,15 +105,15 @@
     pdf.setFont('helvetica', 'bold'); pdf.setFontSize(18); pdf.setTextColor(255, 255, 255); pdf.text('ENERGÍAS', 56, 40); pdf.setTextColor.apply(pdf, VCLARO); pdf.text('LATAM', 56 + pdf.getTextWidth('ENERGÍAS '), 40);
     pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(159, 179, 200); pdf.text('LA ESTACIÓN DEL FUTURO · DE LOS CREADORES DE ENERGÍAS PARAGUAY', 56, 47);
     pdf.setFont('helvetica', 'bold'); pdf.setFontSize(12); pdf.setTextColor.apply(pdf, VCLARO); pdf.text('INFORME MENSUAL · DATOS DEL SECTOR', 20, 92);
-    pdf.setFontSize(34); pdf.setTextColor(255, 255, 255); pdf.text('El mercado de', 20, 110); pdf.text('combustibles', 20, 124); pdf.setTextColor.apply(pdf, VCLARO); pdf.text('en Paraguay', 20, 138);
+    pdf.setFontSize(34); pdf.setTextColor(255, 255, 255); pdf.text('El mercado de', 20, 110); pdf.text('combustibles', 20, 124); pdf.setTextColor.apply(pdf, VCLARO); pdf.text(lat('en ' + C.n), 20, 138);
     pdf.setFontSize(16); pdf.setTextColor(201, 214, 227); pdf.text(mesTxt.toUpperCase(), 20, 152);
     // números clave
-    var kp = [[kTot, kTotL], [kVar, kVarL], [kTop, 'lidera el ranking del mes']];
+    var kp = [[kTot, kTotL], [kVar, kVarL], [kTop, PY ? 'lidera el ranking del mes' : lat(txt('kTopL')) || 'lidera el consumo del mes']];
     kp.forEach(function (k, i) { var x = 20 + i * 60; pdf.setFillColor(23, 46, 82); pdf.roundedRect(x, 168, 54, 34, 3, 3, 'F'); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(17); pdf.setTextColor.apply(pdf, VCLARO); pdf.text(lat(k[0]).slice(0, 18), x + 5, 182); pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8.5); pdf.setTextColor(201, 214, 227); pdf.text(pdf.splitTextToSize(lat(k[1]), 46), x + 5, 189); });
     pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10.5); pdf.setTextColor(201, 214, 227);
-    pdf.text(pdf.splitTextToSize('Ventas de combustibles por emblema, quién creció, precios por emblema y producto, red de estaciones y GLP, con los datos oficiales que las distribuidoras declaran ante el Ministerio de Industria y Comercio.', 170), 20, 220);
+    pdf.text(pdf.splitTextToSize(lat(C.intro), 170), 20, 220);
     pdf.setFillColor.apply(pdf, VERDE); pdf.roundedRect(20, 246, 90, 13, 2, 2, 'F'); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(12); pdf.setTextColor(255, 255, 255); pdf.textWithLink('energiaslatam.com', 26, 254.5, { url: 'https://energiaslatam.com/?utm_source=informe_mic&utm_medium=pdf' });
-    pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8); pdf.setTextColor.apply(pdf, GRIS); pdf.text('Datos oficiales del MIC. Procesamiento y gráficos: Energías LATAM.  ·  Página 1 de ' + total, 20, H - 10);
+    pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8); pdf.setTextColor.apply(pdf, GRIS); pdf.text(lat('Datos oficiales de ' + C.srcC + '. Procesamiento y gráficos: Energías LATAM.  ·  Página 1 de ') + total, 20, H - 10);
     // páginas con placas
     pags.forEach(function (p, i) {
       pdf.addPage(); marco(i + 2);
@@ -106,15 +126,15 @@
     pdf.addPage(); marco(total);
     pdf.setFont('helvetica', 'bold'); pdf.setFontSize(22); pdf.setTextColor.apply(pdf, NAVY); pdf.text('Seguí los datos todos los meses', 20, 60);
     pdf.setFont('helvetica', 'normal'); pdf.setFontSize(11.5); pdf.setTextColor(36, 56, 79);
-    pdf.text(pdf.splitTextToSize('En energiaslatam.com actualizamos el ranking, los precios y la red de estaciones cada vez que el MIC publica datos nuevos. Podés elegir el mes, filtrar por empresa y descargar cada placa para compartir.', 170), 20, 74);
-    var ls = [['Datos del sector', 'energiaslatam.com/combustible/py', 'https://energiaslatam.com/combustible/py?utm_source=informe_mic&utm_medium=pdf'], ['Noticias de las estaciones de servicio', 'energiaslatam.com', 'https://energiaslatam.com/?utm_source=informe_mic&utm_medium=pdf'], ['Newsletter semanal gratis', 'energiaslatam.com/newsletter', 'https://energiaslatam.com/newsletter?utm_source=informe_mic&utm_medium=pdf'], ['Publicidad y notas de marca', 'energiaslatam.com/media-kit', 'https://energiaslatam.com/media-kit?utm_source=informe_mic&utm_medium=pdf']];
+    pdf.text(pdf.splitTextToSize(lat(PY ? 'En energiaslatam.com actualizamos el ranking, los precios y la red de estaciones cada vez que el MIC publica datos nuevos. Podés elegir el mes, filtrar por empresa y descargar cada placa para compartir.' : 'En energiaslatam.com actualizamos el ranking cada vez que ' + C.srcC + ' publica datos nuevos. Podés elegir el mes, filtrar por ' + C.ent + ' y producto, y descargar cada placa para compartir.'), 170), 20, 74);
+    var ls = [['Datos del sector · ' + C.n, 'energiaslatam.com/combustible/' + PAIS, 'https://energiaslatam.com/combustible/' + PAIS + '?utm_source=informe_mic&utm_medium=pdf'], ['Noticias de las estaciones de servicio', 'energiaslatam.com', 'https://energiaslatam.com/?utm_source=informe_mic&utm_medium=pdf'], ['Newsletter semanal gratis', 'energiaslatam.com/newsletter', 'https://energiaslatam.com/newsletter?utm_source=informe_mic&utm_medium=pdf'], ['Publicidad y notas de marca', 'energiaslatam.com/media-kit', 'https://energiaslatam.com/media-kit?utm_source=informe_mic&utm_medium=pdf']];
     ls.forEach(function (l, i) { var y = 104 + i * 22; pdf.setFillColor(242, 248, 242); pdf.roundedRect(20, y, 170, 17, 2, 2, 'F'); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(11.5); pdf.setTextColor.apply(pdf, NAVY); pdf.text(l[0], 26, y + 7); pdf.setFont('helvetica', 'normal'); pdf.setTextColor.apply(pdf, VERDE); pdf.textWithLink(l[1], 26, y + 13, { url: l[2] }); });
     pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(36, 56, 79);
     pdf.text('Contacto: info@energiaslatam.com · WhatsApp +595 984 040 224', 20, 206);
     pdf.setFontSize(8.5); pdf.setTextColor.apply(pdf, GRIS);
-    pdf.text(pdf.splitTextToSize('Los datos son los declarados por las distribuidoras ante el Ministerio de Industria y Comercio; los precios son promedios informados y pueden variar entre estaciones del mismo emblema. Energías LATAM procesa y grafica la información; no modifica los valores oficiales.', 170), 20, 222);
+    pdf.text(pdf.splitTextToSize(lat(PY ? 'Los datos son los declarados por las distribuidoras ante el Ministerio de Industria y Comercio; los precios son promedios informados y pueden variar entre estaciones del mismo emblema. Energías LATAM procesa y grafica la información; no modifica los valores oficiales.' : 'Los datos son los publicados por ' + C.src + '. Energías LATAM procesa y grafica la información; no modifica los valores oficiales.'), 170), 20, 222);
     var mesArch = mesTxt.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[̀-ͯ]/g, '');
-    return { blob: pdf.output('blob'), nombre: 'informe-combustibles-paraguay-' + mesArch + '-energiaslatam.pdf', mes: mesTxt, paginas: total };
+    return { blob: pdf.output('blob'), nombre: 'informe-combustibles-' + C.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') + '-' + mesArch + '-energiaslatam.pdf', mes: mesTxt, paginas: total };
   };
   window.informeMICdescargar = async function () {
     var r = await window.informeMIC(); var u = URL.createObjectURL(r.blob), a = document.createElement('a'); a.href = u; a.download = r.nombre; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(u); a.remove(); }, 4000);

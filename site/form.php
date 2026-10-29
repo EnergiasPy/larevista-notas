@@ -62,22 +62,24 @@ function brevo_ya_suscripto($email) {
 }
 
 // Manda el informe al mail de la persona (Brevo, mail transaccional)
-function brevo_informe($email, $nombre) {
+function brevo_informe($email, $nombre, $pais = 'py') {
+  $PN = ['py' => ['Paraguay', 'del MIC: ranking de ventas por emblema, quién creció, precios por emblema y producto, red de estaciones y GLP'], 'uy' => ['Uruguay', 'del MIEM y ANCAP: ranking de consumo por departamento, gasoil y gasolinas, y la tabla mes a mes'], 'cl' => ['Chile', 'de la SEC: ranking de consumo por región y producto, y la tabla mes a mes'], 'pe' => ['Perú', 'de Osinergmin: ranking de consumo por departamento y producto, y la tabla mes a mes']];
+  if (!isset($PN[$pais])) $pais = 'py';
   $kf = __DIR__ . '/datos/brevo.key';
   $key = is_file($kf) ? trim(file_get_contents($kf)) : '';
   if ($key === '') return 'sin-clave';
-  $u = 'https://energiaslatam.com/combustible/py?informe=1&utm_source=mail_informe&utm_medium=email';
+  $u = 'https://energiaslatam.com/combustible/' . $pais . '?informe=1&utm_source=mail_informe&utm_medium=email';
   $hola = $nombre !== '' ? 'Hola ' . htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8') . ',' : 'Hola,';
   $html = '<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#0F213D">'
     . '<div style="background:#0F213D;padding:18px 22px;border-bottom:4px solid #3A963E"><img src="https://energiaslatam.com/logo-latam-v2-512.png" width="44" height="44" alt="" style="vertical-align:middle;border-radius:50%;background:#fff"> '
     . '<span style="color:#fff;font-weight:bold;font-size:18px;vertical-align:middle;margin-left:8px">ENERGÍAS <span style="color:#76C46E">LATAM</span></span></div>'
     . '<div style="padding:24px 22px"><p style="font-size:16px">' . $hola . '</p>'
-    . '<p style="font-size:16px;line-height:1.5">Acá tenés el <b>informe del mercado de combustibles de Paraguay</b> con los últimos datos oficiales del MIC: ranking de ventas por emblema, quién creció, precios por emblema y producto, red de estaciones y GLP.</p>'
+    . '<p style="font-size:16px;line-height:1.5">Acá tenés el <b>informe del mercado de combustibles de ' . $PN[$pais][0] . '</b> con los últimos datos oficiales ' . $PN[$pais][1] . '.</p>'
     . '<p style="text-align:center;margin:28px 0"><a href="' . $u . '" style="background:#3A963E;color:#fff;text-decoration:none;font-weight:bold;font-size:16px;padding:14px 26px;border-radius:8px;display:inline-block">Descargar el informe (PDF)</a></p>'
     . '<p style="font-size:14px;color:#24384F;line-height:1.5">Al abrir el enlace se arma y se descarga el PDF con el último mes publicado. Tu mail quedó registrado para recibir el newsletter y las noticias de Energías LATAM; te podés dar de baja cuando quieras.</p>'
     . '<p style="font-size:14px"><a href="https://energiaslatam.com/?utm_source=mail_informe&utm_medium=email" style="color:#2E7D32;font-weight:bold">energiaslatam.com</a> · info@energiaslatam.com</p></div></div>';
   $data = ['sender' => ['name' => 'Energías LATAM', 'email' => 'info@energiaslatam.com'], 'to' => [['email' => $email]], 'replyTo' => ['email' => 'info@energiaslatam.com'],
-    'subject' => 'Tu informe del mercado de combustibles · Paraguay', 'htmlContent' => $html, 'tags' => ['informe-mic']];
+    'subject' => 'Tu informe del mercado de combustibles · ' . $PN[$pais][0], 'htmlContent' => $html, 'tags' => ['informe-mic']];
   $ctx = stream_context_create(['http' => ['method' => 'POST', 'timeout' => 8, 'ignore_errors' => true,
     'header' => "api-key: $key\r\nContent-Type: application/json\r\nAccept: application/json\r\n", 'content' => json_encode($data, JSON_UNESCAPED_UNICODE)]]);
   $r = @file_get_contents('https://api.brevo.com/v3/smtp/email', false, $ctx);
@@ -144,7 +146,7 @@ if ($enviado !== true) @file_put_contents($dir . '/errores.log', date('c') . ' '
 
 $brevo = null;
 $informe = null;
-if ($tipo === 'informe' && $mail) { $nm = ''; foreach ($campos as $k => $v) if (preg_match('/^nombre/iu', $k)) { $nm = $v; break; } $informe = brevo_informe($mail, $nm); if ($informe !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . $informe . "\n", FILE_APPEND); }
+if ($tipo === 'informe' && $mail) { $nm = ''; foreach ($campos as $k => $v) if (preg_match('/^nombre/iu', $k)) { $nm = $v; break; } $pp = isset($_POST['Pais']) && in_array($_POST['Pais'], ['py', 'uy', 'cl', 'pe'], true) ? $_POST['Pais'] : 'py'; $informe = brevo_informe($mail, $nm, $pp); if ($informe !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . $informe . "\n", FILE_APPEND); }
 if (($tipo === 'newsletter' || $tipo === 'informe') && $mail && !$ya) { $brevo = brevo_alta($mail, $campos); if ($brevo !== true && $brevo !== 'sin-clave') @file_put_contents($dir . '/errores.log', date('c') . ' ' . $brevo . "\n", FILE_APPEND); }
 
 // Copia en planilla (CSV) por tipo
