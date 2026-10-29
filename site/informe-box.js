@@ -80,7 +80,7 @@
       fetch('/form.php', { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
         if (!j.ok) throw 0;
         try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { form: 'informe_mic' }); } catch (x) {}
-        f.style.display = 'none'; YA = !!j.ya; aviso((YA ? '✓ ¡Gracias por confiar en Energías LATAM! ' : '✓ ') + 'Te lo mandamos por mail. Armando el PDF…');
+        f.style.display = 'none'; YA = !!j.ya; aviso('✓ Enviado a tu mail. Armando el PDF…');
         if (YA) gracias(m);
         pdf();
       }).catch(function () { bt.disabled = false; bt.textContent = 'Recibir PDF'; f.style.display = 'none'; aviso('No se pudo enviar. <a href="#" class="ib-re" style="color:#fff">Probá de nuevo</a>', 'er'); msg.querySelector('.ib-re').onclick = function (ev) { ev.preventDefault(); msg.hidden = true; f.style.display = ''; }; });
@@ -90,7 +90,7 @@
       fr.style.cssText = 'position:absolute;left:-10000px;top:0;width:1200px;height:900px;border:0;opacity:0;pointer-events:none';
       fr.src = '/combustible/py?embed=1';
       var fin = function (ok, r) {
-        var pre = YA ? '✓ ¡Gracias por confiar en Energías LATAM! Te lo mandamos por mail.' : '✓ Te lo mandamos por mail.';
+        var pre = '✓ Enviado a tu mail';
         if (!ok) { aviso(pre + '<a class="ib-dl" href="/combustible/py?informe=1">⬇ PDF</a>'); return; }
         var u = URL.createObjectURL(r.blob);
         aviso(pre + '<a class="ib-dl" href="' + u + '" download="' + r.nombre + '">⬇ Descargar PDF</a>');
