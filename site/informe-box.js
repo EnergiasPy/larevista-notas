@@ -20,6 +20,7 @@
     'html .ib form button:hover{background:#2E7D32!important}html .ib form button:disabled{opacity:.7}',
     'html .ib-m{flex:1 1 auto;min-width:0;margin:0;color:#2E7D32;font:700 13.5px/1.2 Barlow,Arial,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:8px;white-space:nowrap;overflow:hidden}html .ib-m.er{color:#B3261E}',
     'html .ib-dl{flex:0 0 auto;display:inline-block;margin:0;background:#3A963E;color:#fff!important;text-decoration:none;font:700 13.5px/38px Barlow,Arial,sans-serif;height:38px;padding:0 14px;border-radius:8px;white-space:nowrap}',
+    'html .ib-m[hidden],html .ib [hidden]{display:none!important}',
     '.ib-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}',
     'html .ib-i{position:relative;flex:0 0 auto;width:22px!important;height:22px!important;min-height:0!important;min-width:0!important;margin:0!important;padding:0!important;border:1.5px solid #9FB3C8!important;border-radius:50%!important;background:transparent!important;box-shadow:none!important;color:#7A8A9B!important;font:700 12px/19px Georgia,serif!important;text-align:center;cursor:help}',
     'html .ib-i:hover:after,html .ib-i:focus:after{content:attr(data-tip);position:absolute;right:-6px;top:30px;width:270px;z-index:30;background:#0F213D;color:#fff;font:500 12.5px/1.4 Barlow,Arial,sans-serif;text-align:left;padding:10px 12px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.25);white-space:normal}',
