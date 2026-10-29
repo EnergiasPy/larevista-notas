@@ -123,8 +123,8 @@
     if (w && !w.querySelector('.ib')) crear(function (b) { w.appendChild(b); }, 'inicio');
     var mh = document.querySelector('#v-noticias .masthead');
     if (mh && !mh.parentNode.classList.contains('ib-row')) crear(function (b) { var row = document.createElement('div'); row.className = 'ib-row'; mh.parentNode.insertBefore(row, mh); row.appendChild(mh); row.appendChild(b); }, 'noticias');
-    var it = /^\/combustible(\/py)?\/?$/.test(location.pathname) && document.querySelector('main > .intro');
-    if (it && !it.querySelector('.ib')) crear(function (b) { it.appendChild(b); }, location.pathname.indexOf('/py') > 0 ? 'datos_py' : 'datos');
+    var it = /^\/combustible\/py\/?$/.test(location.pathname) && document.querySelector('main > .intro');
+    if (it && !it.querySelector('.ib')) crear(function (b) { it.appendChild(b); }, 'datos_py');
   }
   if (/[?&]embed=1/.test(location.search)) return;
   var n = 0, iv = setInterval(function () { armar(); if (++n > 40) clearInterval(iv); }, 300);
