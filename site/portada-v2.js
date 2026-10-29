@@ -71,7 +71,7 @@
     '.pb5 .r5.bronce img{max-height:34px!important;height:auto!important;width:auto!important;max-width:110px!important}',
     '.r5 .lvl,.r5i .tag5{font-size:9px!important;top:3px!important}',
     '@media(max-width:860px){.pv-news{grid-template-columns:1fr}.pv-lead h2{font-size:25px}.pv-sec a{display:grid;grid-template-columns:120px 1fr;gap:12px}.pv-sec img{aspect-ratio:1/1}.pv-sec .pv-cat{margin:0 0 4px}.pv-sec strong{font-size:16px}.pv-more{grid-template-columns:1fr 1fr;gap:14px}.pv-more strong{font-size:14px}}',
-    '@media(max-width:560px){.oroh5 .r5,.oroh5 .r5i{height:auto!important}.pb5 .r5.bronce{height:72px!important}.pb5 .r5.bronce .r5i{height:68px!important}.pb5 .r5.bronce img{max-height:42px!important}}'
+    '@media(max-width:560px){.oroh5 .r5{height:96px!important}.oroh5 .r5i{height:92px!important;padding:8px 12px!important;gap:12px!important}.oroh5 .r5i .lgw,.oroh5 .r5i img{max-height:56px!important;max-width:130px!important}.oroh5 .r5i small{display:none!important}.oroh5 .r5i b{font-size:16px!important}.pb5 .r5.bronce{height:72px!important}.pb5 .r5.bronce .r5i{height:68px!important}.pb5 .r5.bronce img{max-height:42px!important}}'
   ].join('\n');
   document.head.appendChild(css);
 
