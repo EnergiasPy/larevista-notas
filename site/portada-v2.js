@@ -149,9 +149,6 @@
   function noticias(notas) {
     var news = window.__pvNews; if (!news) return;
     var pub = (notas || []).filter(function (n) { return n.estado === 'publicada'; }).sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
-    var hoyF = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
-    var fij = pub.filter(function (n) { return n.destacada && (!n.destacada_hasta || hoyF <= n.destacada_hasta); })[0];
-    if (fij) pub = [fij].concat(pub.filter(function (n) { return n !== fij; }));
     var n0 = pub[0], sec = pub.slice(1, 3), mas = pub.slice(3, 7); if (!n0) return;
     news.appendChild(el('<article class="pv-lead"><a href="/n/' + esc(n0.id) + '"><img src="' + esc(img(n0)) + '" alt="" loading="eager"><span class="pv-cat">' + esc(n0.cat) + '</span><h2>' + esc(n0.titulo) + '</h2><p>' + esc(n0.bajada) + '</p><span class="pv-by">Por ' + esc(n0.autor) + ' · ' + fecha(n0.fecha) + '</span></a></article>'));
     var s = el('<div class="pv-sec"></div>');
