@@ -5,6 +5,7 @@
    No guarda IP ni datos personales: fecha, destino, origen y tipo de dispositivo. */
 $DEST = [
   'gulf' => 'https://anjor.com.ar/invitacion_gulf/',
+  'gulf-nota' => 'https://energiaslatam.com/n/2026-10-30-gulf-lanzamiento-paraguay',
 ];
 $dir = __DIR__ . '/datos';
 if (!is_dir($dir)) { @mkdir($dir, 0750); @file_put_contents($dir . '/.htaccess', "Require all denied\nDeny from all\n"); }
