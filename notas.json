@@ -213,5 +213,18 @@
     "autor": "NdR",
     "img": "img/2026-10-30-petropar-aviacion-una-oferta-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-10-30-gulf-lanzamiento-paraguay",
+    "estado": "borrador",
+    "fecha": "2026-10-30",
+    "cat": "Notas del sector",
+    "titulo": "Gulf llega a Paraguay: el lanzamiento para estaciones de servicio será el 24 de noviembre",
+    "bajada": "La marca presenta su desembarco en el país el martes 24 a las 18:00 en el Sheraton Asunción. Operadores y actores del sector pueden registrarse para asistir con un acompañante.",
+    "autor": "NdR",
+    "img": "img/2026-10-30-gulf-lanzamiento-paraguay-1.jpg",
+    "pais": "py",
+    "destacada": true,
+    "destacada_hasta": "2026-11-24"
   }
 ]
