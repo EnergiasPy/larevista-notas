@@ -4,7 +4,7 @@
    /ir.php?ver=<clave>             → resumen de clics (la clave está en datos/ir.key)
    No guarda IP ni datos personales: fecha, destino, origen y tipo de dispositivo. */
 $DEST = [
-  'gulf' => 'https://anjor.com.ar/invitacion_gulf/',
+  'gulf' => 'https://energiaslatam.com/n/2026-10-30-gulf-lanzamiento-paraguay', // registro cerrado el 31/10: lleva a la nota
   'gulf-nota' => 'https://energiaslatam.com/n/2026-10-30-gulf-lanzamiento-paraguay',
 ];
 $dir = __DIR__ . '/datos';
