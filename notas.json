@@ -225,5 +225,16 @@
     "autor": "NdR",
     "img": "img/2026-10-30-petropar-aviacion-una-oferta-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-10-31-petroleo-cierra-octubre",
+    "estado": "borrador",
+    "fecha": "2026-10-31",
+    "cat": "Mercado y precios",
+    "titulo": "El petróleo cerró octubre con más de 13 % de suba: qué puede pasar con el diésel en noviembre",
+    "bajada": "El Brent terminó el mes en US$ 117,64, su cierre más alto desde mayo, tras cuatro meses seguidos en alza. En Paraguay, el diésel común ya ronda los G. 9.490 en los privados.",
+    "autor": "Ana Paula Scacciaferro",
+    "img": "img/2026-10-31-petroleo-cierra-octubre-1.jpg",
+    "pais": "py"
   }
 ]
