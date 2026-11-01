@@ -4,7 +4,7 @@
      t   = visto | click | pv | link | lee
      an  = anunciante o destino · ni = nivel · ub = ubicación/texto · po = posición
      pg  = página (ruta) · nid = id de nota · vid = visitante anónimo · src = de dónde viene
-   GET  /med.php?ver=<clave>[&desde=AAAA-MM-DD&hasta=AAAA-MM-DD&an=...]  → tablero privado (clave en datos/ir.key)
+   GET  /med.php[?desde=AAAA-MM-DD&hasta=AAAA-MM-DD&an=...]  → tablero privado con contraseña (panel-auth.php; recuperación por mail a info@energiaslatam.com)
    No guarda IP, nombres ni mails. El visitante es un número al azar del navegador. Robots y vistas previas no se registran. */
 date_default_timezone_set('America/Asuncion');
 $dir = __DIR__ . '/datos';
@@ -13,7 +13,7 @@ if (!is_dir($dir)) { @mkdir($dir, 0750); @file_put_contents($dir . '/.htaccess',
 function limpio($s, $n = 80) { $s = preg_replace('/[\x00-\x1F",;]+/u', ' ', (string)$s); return mb_substr(trim($s), 0, $n); }
 
 // ---------- registro ----------
-if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && !isset($_POST['acc'])) {
   header('Cache-Control: no-store');
   $ua = (string)($_SERVER['HTTP_USER_AGENT'] ?? '');
   if ($ua === '' || preg_match('/bot|crawl|spider|slurp|preview|facebookexternalhit|facebot|whatsapp|telegram|skype|slack|discord|linkedin|twitter|curl|wget|python|headless|monitor|lighthouse/i', $ua)) { http_response_code(204); exit; }
@@ -30,9 +30,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // ---------- tablero ----------
-if (!isset($_GET['ver'])) { http_response_code(404); exit('No encontrado'); }
-$key = trim((string)@file_get_contents($dir . '/ir.key'));
-if ($key === '' || !hash_equals($key, (string)$_GET['ver'])) { http_response_code(404); exit('No encontrado'); }
+require __DIR__ . '/panel-auth.php';
+panel_requiere('Medidor del sitio');
 header('Content-Type: text/html; charset=utf-8'); header('Cache-Control: no-store'); header('X-Robots-Tag: noindex');
 
 // títulos de las notas (copia local de notas.json, se renueva cada hora)
@@ -123,9 +122,8 @@ function grafico($D, $serie, $color, $titulo, $VISD = null) {
   return $o . '</svg>';
 }
 
-$k = $h($_GET['ver']);
-$qs = function ($extra = []) use ($desde, $hasta) { return '?' . http_build_query(array_merge(['ver' => $_GET['ver'], 'desde' => $desde, 'hasta' => $hasta], $extra)); };
-$rq = function ($d1, $d2) { return '?' . http_build_query(['ver' => $_GET['ver'], 'desde' => $d1, 'hasta' => $d2]); };
+$qs = function ($extra = []) use ($desde, $hasta) { return '?' . http_build_query(array_merge(['desde' => $desde, 'hasta' => $hasta], $extra)); };
+$rq = function ($d1, $d2) { return '?' . http_build_query(['desde' => $d1, 'hasta' => $d2]); };
 echo '<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medidor del sitio</title><style>
 body{font:15px Arial,sans-serif;max-width:920px;margin:20px auto;padding:0 14px;color:#0F213D;background:#fff}
 h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:28px 0 8px;border-bottom:2px solid #3A963E;padding-bottom:4px}
@@ -137,8 +135,8 @@ button{font:bold 14px Arial;padding:8px 14px;border:0;border-radius:6px;backgrou
 table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:6px 8px;border-bottom:1px solid #E3E9F0;text-align:right}th:first-child,td:first-child{text-align:left}th{background:#F4F6F9;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
 .wrap{overflow-x:auto}.g{border:1px solid #E3E9F0;border-radius:8px;padding:8px;margin:8px 0}.leg{font-size:12px;color:#4A5B6C;margin:0 0 4px}
 @media(max-width:640px){.k{grid-template-columns:1fr 1fr}}a{color:#0F213D}
-</style><h1>Medidor del sitio</h1><p class="sub">Visitantes, notas leídas, páginas, publicidad y clics. Solo uso interno. Sin robots ni vistas previas. No guarda datos personales: cada visitante es un número al azar de su navegador.</p>';
-echo '<form method="get"><input type="hidden" name="ver" value="' . $k . '"><label>Desde<input type="date" name="desde" value="' . $h($desde) . '"></label><label>Hasta<input type="date" name="hasta" value="' . $h($hasta) . '"></label><label>Anunciante<select name="an"><option value="">Todo el sitio</option>';
+</style><div style="float:right;margin:4px 0;font-size:13px;display:flex;gap:10px;align-items:center"><form method="post" style="all:unset"><input type="hidden" name="acc" value="olvide"><button style="all:unset;cursor:pointer;text-decoration:underline">Cambiar contraseña</button></form><a href="?salir=1">Salir</a></div><h1>Medidor del sitio</h1><p class="sub">Visitantes, notas leídas, páginas, publicidad y clics. Solo uso interno. Sin robots ni vistas previas. No guarda datos personales: cada visitante es un número al azar de su navegador.</p>';
+echo '<form method="get"><label>Desde<input type="date" name="desde" value="' . $h($desde) . '"></label><label>Hasta<input type="date" name="hasta" value="' . $h($hasta) . '"></label><label>Anunciante<select name="an"><option value="">Todo el sitio</option>';
 foreach (array_keys($A) as $an) echo '<option' . ($an === $filtroAn ? ' selected' : '') . '>' . $h($an) . '</option>';
 if ($filtroAn !== '' && !isset($A[$filtroAn])) echo '<option selected>' . $h($filtroAn) . '</option>';
 echo '</select></label><button>Ver</button></form>';
@@ -188,6 +186,17 @@ if ($filtroAn === '') {
   echo '</table></div><h2>Clics en el sitio · detalle</h2><div class="wrap"><table><tr><th>Destino</th><th>Clics</th></tr>';
   foreach (array_slice($L, 0, 50, true) as $g => $v) { $lab = strpos($g, 'Nota: ') === 0 && isset($tit[substr($g, 6)]) ? 'Nota: ' . $tit[substr($g, 6)] : $g; echo '<tr><td>' . $h($lab) . '</td><td>' . $n($v) . '</td></tr>'; }
   echo '</table></div>';
+}
+
+if ($filtroAn === '') {
+  $IR = []; $IRR = 0;
+  foreach ((is_file($dir . '/clics.csv') ? file($dir . '/clics.csv', FILE_IGNORE_NEW_LINES) : []) as $l) { $c = explode(',', $l); if (count($c) < 4) continue; $dia = substr($c[0], 0, 10); if ($dia < $desde || $dia > $hasta) continue; $kk = $c[1] . ' · ' . $c[2]; $IR[$kk] = ($IR[$kk] ?? 0) + 1; }
+  foreach ((is_file($dir . '/robots.csv') ? file($dir . '/robots.csv', FILE_IGNORE_NEW_LINES) : []) as $l) { $dia = substr($l, 0, 10); if ($dia >= $desde && $dia <= $hasta) $IRR++; }
+  arsort($IR);
+  echo '<h2>Enlaces medidos (ir.php)</h2><div class="wrap"><table><tr><th>Destino · origen</th><th>Clics de personas</th></tr>';
+  foreach ($IR as $kk => $v) echo '<tr><td>' . $h($kk) . '</td><td>' . $n($v) . '</td></tr>';
+  if (!$IR) echo '<tr><td colspan="2">Sin clics en este período.</td></tr>';
+  echo '</table></div><p class="sub">Robots y vistas previas de enlaces en el período (no suman): ' . $n($IRR) . '</p>';
 }
 
 echo '<h2>Por día</h2><div class="wrap"><table><tr><th>Día</th>' . ($filtroAn === '' ? '<th>Visitantes</th><th>Páginas vistas</th><th>Notas leídas</th>' : '') . '<th>Vistas de avisos</th><th>Clics en avisos</th>' . ($filtroAn === '' ? '<th>Clics en el sitio</th>' : '') . '</tr>';
