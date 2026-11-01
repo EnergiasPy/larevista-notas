@@ -85,6 +85,13 @@ foreach (glob($dir . '/med-*.csv') as $f) {
 }
 for ($d = $desde; $d <= $hasta; $d = date('Y-m-d', strtotime($d . ' +1 day'))) { if (!isset($D[$d])) $D[$d] = []; if (count($D) > 400) break; }
 ksort($D);
+// días anteriores al medidor de visitantes: datos diarios de Google Analytics (datos/historico.json)
+$HV = []; $HIST = json_decode((string)@file_get_contents($dir . '/historico.json'), true) ?: [];
+if ($filtroAn === '') foreach (($HIST['dias'] ?? []) as $dia => $r) {
+  if ($dia < $desde || $dia > $hasta) continue;
+  $tot['pv'] += (int)($r['pv'] ?? 0) - (int)($D[$dia]['pv'] ?? 0); $D[$dia]['pv'] = (int)($r['pv'] ?? 0);
+  $HV[$dia] = (int)($r['vis'] ?? 0); unset($VISD[$dia]);
+}
 
 $h = function ($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); };
 $pct = function ($c, $v) { return $v ? number_format(100 * $c / $v, 1, ',', '.') . ' %' : '–'; };
@@ -96,16 +103,19 @@ arsort($P); arsort($L); arsort($LG); arsort($NV);
 $SRCc = array_map('count', $SRC); arsort($SRCc);
 $DVc = array_map('count', $DV); arsort($DVc);
 $nVis = count($VIS);
+$VM = []; foreach ($VISD as $vv) $VM += $vv; $nVisK = $HV ? count($VM) + array_sum($HV) : $nVis; // con días de Analytics se suman los visitantes de cada día
+$vHoy = isset($HV[$hoy]) ? $HV[$hoy] : count($VHOY);
 
 function grafico($D, $serie, $color, $titulo, $VISD = null) {
-  $vals = []; foreach ($D as $dia => $r) $vals[$dia] = $serie === 'vis' ? count($VISD[$dia] ?? []) : ($r[$serie] ?? 0);
+  global $HV;
+  $vals = []; foreach ($D as $dia => $r) $vals[$dia] = $serie === 'vis' ? (isset($HV[$dia]) ? $HV[$dia] : count($VISD[$dia] ?? [])) : ($r[$serie] ?? 0);
   $max = max(1, max($vals ?: [1])); $n = count($vals); $W = 860; $H = 240; $pl = 44; $pb = 38; $bw = $n ? ($W - $pl - 10) / $n : 10;
   $o = '<svg viewBox="0 0 ' . $W . ' ' . $H . '" width="100%" role="img" aria-label="' . htmlspecialchars($titulo) . '" style="display:block;background:#fff">';
   for ($g = 0; $g <= 4; $g++) { $y = 28 + ($H - $pb - 28) * $g / 4; $v = round($max * (4 - $g) / 4); $o .= '<line x1="' . $pl . '" x2="' . ($W - 6) . '" y1="' . $y . '" y2="' . $y . '" stroke="#E3E9F0"/><text x="' . ($pl - 6) . '" y="' . ($y + 6) . '" font-size="17" text-anchor="end" fill="#8A99A8">' . $v . '</text>'; }
   $i = 0;
   foreach ($vals as $dia => $v) {
     $bh = ($H - $pb - 28) * $v / $max; $x = $pl + $i * $bw + 2; $y = $H - $pb - $bh;
-    $o .= '<rect x="' . round($x, 1) . '" y="' . round($y, 1) . '" width="' . max(1, round($bw - 4, 1)) . '" height="' . round($bh, 1) . '" fill="' . $color . '" rx="2"><title>' . $dia . ': ' . $v . '</title></rect>';
+    $o .= '<rect x="' . round($x, 1) . '" y="' . round($y, 1) . '" width="' . max(1, round($bw - 4, 1)) . '" height="' . round($bh, 1) . '" fill="' . $color . '"' . (isset($HV[$dia]) && in_array($serie, ['vis', 'pv'], true) ? ' fill-opacity=".55"' : '') . ' rx="2"><title>' . $dia . ': ' . $v . '</title></rect>';
     if ($v > 0 && $bw > 30) $o .= '<text x="' . round($x + ($bw - 4) / 2, 1) . '" y="' . round($y - 4, 1) . '" font-size="17" text-anchor="middle" fill="#0F213D">' . $v . '</text>';
     if ($n <= 10 || $i % ceil($n / 8) === 0) $o .= '<text x="' . round($x + ($bw - 4) / 2, 1) . '" y="' . ($H - 12) . '" font-size="17" text-anchor="middle" fill="#4A5B6C">' . substr($dia, 8, 2) . '/' . substr($dia, 5, 2) . '</text>';
     $i++;
@@ -135,8 +145,9 @@ echo '</select></label><button>Ver</button></form>';
 echo '<div class="rap"><a href="' . $h($rq($hoy, $hoy)) . '">Hoy</a><a href="' . $h($rq(date('Y-m-d', strtotime('-6 days')), $hoy)) . '">Últimos 7 días</a><a href="' . $h($rq(date('Y-m-d', strtotime('-29 days')), $hoy)) . '">Últimos 30 días</a><a href="' . $h($rq(date('Y-m-01'), $hoy)) . '">Este mes</a></div>';
 
 if ($filtroAn === '') {
-  echo '<h2>Visitantes y lectura</h2><div class="k"><div><b>' . $n($nVis) . '</b><span>visitantes únicos en el período</span></div><div><b>' . $n(count($VHOY)) . '</b><span>visitantes hoy</span></div><div><b>' . $n($tot['pv']) . '</b><span>páginas vistas</span></div><div><b>' . $n($tot['lee']) . '</b><span>notas leídas (30 s o 60 % del texto)</span></div></div>';
+  echo '<h2>Visitantes y lectura</h2><div class="k"><div><b>' . $n($nVisK) . '</b><span>' . ($HV ? 'visitantes (suma de cada día)' : 'visitantes únicos en el período') . '</span></div><div><b>' . $n($vHoy) . '</b><span>visitantes hoy</span></div><div><b>' . $n($tot['pv']) . '</b><span>páginas vistas</span></div><div><b>' . $n($tot['lee']) . '</b><span>notas leídas (30 s o 60 % del texto)</span></div></div>';
   echo '<div class="g"><p class="leg">Visitantes únicos por día</p>' . grafico($D, 'vis', '#3A963E', 'Visitantes por día', $VISD) . '</div>';
+  if ($HV) echo '<p class="sub">Barras más claras: días anteriores al medidor de visitantes, con datos diarios de Google Analytics (visitantes y páginas vistas). Notas leídas, origen y publicidad se miden desde el 1/11/2026 a la noche.</p>';
   echo '<div class="g"><p class="leg">Páginas vistas por día</p>' . grafico($D, 'pv', '#0F213D', 'Páginas vistas por día') . '</div>';
   echo '<div class="g"><p class="leg">Notas leídas por día</p>' . grafico($D, 'lee', '#C0252D', 'Notas leídas por día') . '</div>';
 
@@ -180,5 +191,5 @@ if ($filtroAn === '') {
 }
 
 echo '<h2>Por día</h2><div class="wrap"><table><tr><th>Día</th>' . ($filtroAn === '' ? '<th>Visitantes</th><th>Páginas vistas</th><th>Notas leídas</th>' : '') . '<th>Vistas de avisos</th><th>Clics en avisos</th>' . ($filtroAn === '' ? '<th>Clics en el sitio</th>' : '') . '</tr>';
-foreach (array_reverse($D, true) as $dia => $r) echo '<tr><td>' . $h($dia) . '</td>' . ($filtroAn === '' ? '<td>' . $n(count($VISD[$dia] ?? [])) . '</td><td>' . $n($r['pv'] ?? 0) . '</td><td>' . $n($r['lee'] ?? 0) . '</td>' : '') . '<td>' . $n($r['visto'] ?? 0) . '</td><td>' . $n($r['click'] ?? 0) . '</td>' . ($filtroAn === '' ? '<td>' . $n($r['link'] ?? 0) . '</td>' : '') . '</tr>';
+foreach (array_reverse($D, true) as $dia => $r) echo '<tr><td>' . $h($dia) . '</td>' . ($filtroAn === '' ? '<td>' . $n(isset($HV[$dia]) ? $HV[$dia] : count($VISD[$dia] ?? [])) . '</td><td>' . $n($r['pv'] ?? 0) . '</td><td>' . $n($r['lee'] ?? 0) . '</td>' : '') . '<td>' . $n($r['visto'] ?? 0) . '</td><td>' . $n($r['click'] ?? 0) . '</td>' . ($filtroAn === '' ? '<td>' . $n($r['link'] ?? 0) . '</td>' : '') . '</tr>';
 echo '</table></div><p class="sub" style="margin-top:20px">Energías LATAM · medidor propio, complementario a Google Analytics. Visitantes y origen se miden desde el 1/11/2026 a la noche.</p>';
