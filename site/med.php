@@ -149,6 +149,29 @@ if ($filtroAn === '') {
   echo '<div class="g"><p class="leg">Páginas vistas por día</p>' . grafico($D, 'pv', '#0F213D', 'Páginas vistas por día') . '</div>';
   echo '<div class="g"><p class="leg">Notas leídas por día</p>' . grafico($D, 'lee', '#C0252D', 'Notas leídas por día') . '</div>';
 
+  // ---- Newsletter semanal (lista #4 de Brevo), copia local que se renueva cada 10 minutos ----
+  $NLF = $dir . '/newsletter-cache.json'; $NLD = json_decode((string)@file_get_contents($NLF), true) ?: [];
+  if (empty($NLD['ts']) || $NLD['ts'] < time() - 600) {
+    $bk = trim((string)@file_get_contents($dir . '/brevo.key'));
+    if ($bk !== '') {
+      $bg = function ($u) use ($bk) { $c = stream_context_create(['http' => ['timeout' => 8, 'ignore_errors' => true, 'header' => "api-key: $bk\r\nAccept: application/json\r\n"]]); return json_decode((string)@file_get_contents('https://api.brevo.com/v3' . $u, false, $c), true); };
+      $li = $bg('/contacts/lists/4');
+      if (isset($li['totalSubscribers'])) {
+        $altas = []; $off = 0;
+        do { $cs = $bg('/contacts/lists/4/contacts?limit=500&offset=' . $off); $lote = $cs['contacts'] ?? []; foreach ($lote as $ct) if (empty($ct['emailBlacklisted'])) { $f = substr(date('Y-m-d', strtotime($ct['createdAt'] ?? 'now')), 0, 10); $altas[$f] = ($altas[$f] ?? 0) + 1; } $off += 500; } while (count($lote) === 500 && $off < 20000);
+        $NLD = ['ts' => time(), 'total' => (int)$li['totalSubscribers'], 'bajas' => (int)($li['totalBlacklisted'] ?? 0), 'altas' => $altas];
+        @file_put_contents($NLF, json_encode($NLD), LOCK_EX);
+      }
+    }
+  }
+  if (!empty($NLD['ts'])) {
+    $act = max(0, $NLD['total'] - $NLD['bajas']); $nuevosP = 0; $nuevosH = $NLD['altas'][$hoy] ?? 0; $DN = [];
+    foreach ($D as $dia => $r) { $v = $NLD['altas'][$dia] ?? 0; $DN[$dia] = ['nl' => $v]; $nuevosP += $v; }
+    echo '<h2>Newsletter semanal</h2><div class="k"><div><b>' . $n($act) . '</b><span>inscriptos activos</span></div><div><b>' . $n($nuevosP) . '</b><span>nuevos en el período</span></div><div><b>' . $n($nuevosH) . '</b><span>nuevos hoy</span></div><div><b>' . $n($NLD['bajas']) . '</b><span>dados de baja</span></div></div>';
+    echo '<div class="g"><p class="leg">Inscriptos nuevos por día</p>' . grafico($DN, 'nl', '#1F6FB2', 'Inscriptos nuevos por día') . '</div>';
+    echo '<p class="sub">Lista "Newsletter" de Brevo, actualizada ' . date('d/m H:i', $NLD['ts']) . '. "Nuevos" cuenta la fecha en que cada contacto entró a Brevo.</p>';
+  }
+
   echo '<h2>Notas más leídas</h2><div class="wrap"><table><tr><th>Nota</th><th>Vistas</th><th>Leídas</th><th>% que la leyó</th></tr>';
   $ids = array_unique(array_merge(array_keys($NV), array_keys($NL)));
   usort($ids, function ($a, $b) use ($NL, $NV) { return [($NL[$b] ?? 0), ($NV[$b] ?? 0)] <=> [($NL[$a] ?? 0), ($NV[$a] ?? 0)]; });
