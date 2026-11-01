@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /datos/
+Disallow: /med.php
+Disallow: /ir.php
 Sitemap: https://energiaslatam.com/sitemap.xml
