@@ -31,10 +31,27 @@ function panel_limite($tipo, $max, $seg, $sumar) {
 }
 function panel_url() { return 'https://' . ($_SERVER['HTTP_HOST'] ?? 'energiaslatam.com') . strtok($_SERVER['REQUEST_URI'] ?? '/', '?'); }
 
+function panel_smtp_local($to, $asunto, $html) {
+  $fp = @fsockopen('127.0.0.1', 25, $en, $es, 8); if (!$fp) return 'noconn';
+  $rd = function () use ($fp) { $d = ''; while (($l = fgets($fp, 515)) !== false) { $d .= $l; if (isset($l[3]) && $l[3] === ' ') break; } return $d; };
+  $cmd = function ($c) use ($fp, $rd) { fwrite($fp, $c . "\r\n"); return $rd(); };
+  $rd(); $cmd('EHLO energiaslatam.com');
+  if (substr($cmd('MAIL FROM:<' . PANEL_MAIL . '>'), 0, 3) !== '250') { fclose($fp); return 'from'; }
+  if (substr($cmd('RCPT TO:<' . $to . '>'), 0, 2) !== '25') { fclose($fp); return 'rcpt'; }
+  if (substr($cmd('DATA'), 0, 3) !== '354') { fclose($fp); return 'data'; }
+  $msg = "From: =?UTF-8?B?" . base64_encode('Energías LATAM') . "?= <" . PANEL_MAIL . ">\r\nTo: <$to>\r\nSubject: =?UTF-8?B?" . base64_encode($asunto) . "?=\r\nDate: " . date('r') . "\r\nMessage-ID: <" . bin2hex(random_bytes(8)) . "@energiaslatam.com>\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($html));
+  $r = $cmd($msg . "\r\n."); $cmd('QUIT'); fclose($fp);
+  return substr($r, 0, 3) === '250' ? true : 'end';
+}
+
 function panel_mail_enlace($tok, $nuevo) {
   $link = panel_url() . '?clave=' . $tok;
   $tit = $nuevo ? 'Crear la contraseña del tablero' : 'Cambiar la contraseña del tablero';
   $html = '<div style="font:16px Arial,sans-serif;color:#0F213D;max-width:520px"><h2 style="font-size:20px">' . $tit . '</h2><p>Alguien pidió ' . ($nuevo ? 'crear' : 'cambiar') . ' la contraseña del tablero interno de energiaslatam.com (' . htmlspecialchars(panel_url()) . ').</p><p><a href="' . htmlspecialchars($link) . '" style="display:inline-block;background:#3A963E;color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none;font-weight:bold">Elegir contraseña</a></p><p style="font-size:13px;color:#4A5B6C">El enlace sirve una sola vez y vence en 30 minutos. Si no fueron ustedes, ignoren este mail: la contraseña actual no cambia.</p></div>';
+  // 1) servidor de correo propio (el mismo que recibe info@): no pasa por listas de bloqueo externas
+  $rl = panel_smtp_local(PANEL_MAIL, $tit, $html); @file_put_contents(panel_dir() . '/panel-mail.log', date('c') . ' local ' . ($rl === true ? 'ok' : $rl) . "\n", FILE_APPEND);
+  if ($rl === true) return true;
+  // 2) respaldo: Brevo
   $kf = panel_dir() . '/brevo.key'; $key = trim((string)@file_get_contents($kf));
   if ($key !== '') {
     $data = ['sender' => ['name' => 'Energías LATAM', 'email' => PANEL_MAIL], 'to' => [['email' => PANEL_MAIL]], 'subject' => $tit, 'htmlContent' => $html];
