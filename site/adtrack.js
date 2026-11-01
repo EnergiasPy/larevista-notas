@@ -8,7 +8,24 @@
   var SEL = '.spof-i, .r5i, .brl5 a';
 
   // medidor propio (med.php): misma información, guardada en nuestro servidor
+  // visitante anónimo (número al azar guardado en este navegador; no identifica a la persona)
+  var VID = '';
+  try { VID = localStorage.getItem('el_vid') || ''; if (!VID) { VID = Math.random().toString(36).slice(2, 12) + Date.now().toString(36).slice(-4); localStorage.setItem('el_vid', VID); } } catch (e) {}
+  function fuente() {
+    var q = location.search, r = document.referrer || '';
+    var u = (q.match(/[?&]utm_source=([^&]+)/) || [])[1];
+    if (u) return 'utm:' + decodeURIComponent(u).toLowerCase().slice(0, 30);
+    if (/fbclid|igshid/.test(q)) return 'instagram/facebook';
+    if (!r || /energiaslatam\.com/i.test(r)) return 'directo';
+    if (/instagram/i.test(r)) return 'instagram'; if (/facebook|fb\./i.test(r)) return 'facebook';
+    if (/google\./i.test(r)) return 'google'; if (/bing\.|yahoo|duckduckgo/i.test(r)) return 'otros buscadores';
+    if (/whatsapp|wa\.me/i.test(r)) return 'whatsapp'; if (/mail|brevo|sendibt/i.test(r)) return 'email';
+    if (/linkedin/i.test(r)) return 'linkedin';
+    return 'otro: ' + r.replace(/^https?:\/\/(www\.)?/i, '').split(/[\/?#]/)[0].slice(0, 40);
+  }
+  var FUENTE = fuente();
   function med(o) {
+    o.vid = VID; o.src = FUENTE;
     try {
       var b = JSON.stringify(o);
       if (navigator.sendBeacon) navigator.sendBeacon('/med.php', new Blob([b], { type: 'application/json' }));
@@ -107,6 +124,17 @@
   var pvPrev = '';
   function pv() { var k = location.pathname + location.hash; if (k === pvPrev) return; pvPrev = k; med({ t: 'pv', pg: location.pathname.replace(/\.html$/, '') || '/', nid: notaId() }); }
   pv(); window.addEventListener('hashchange', function () { setTimeout(pv, 200); });
+
+  // nota leída: 30 segundos con la nota abierta y visible, o bajar hasta el 60 % del texto
+  var leidas = {}, seg = 0;
+  setInterval(function () {
+    var id = notaId(); if (!id || document.hidden) return;
+    seg++;
+    var art = document.querySelector('.nota-body') || document.querySelector('article') || document.body;
+    var r = art.getBoundingClientRect(), vista = r.height > 0 ? (innerHeight - r.top) / r.height : 0;
+    if (!leidas[id] && (seg >= 30 || vista >= 0.6)) { leidas[id] = 1; med({ t: 'lee', nid: id, pg: location.pathname, ub: seg >= 30 ? '30s' : 'scroll' }); }
+  }, 1000);
+  window.addEventListener('hashchange', function () { seg = 0; });
   document.addEventListener('auxclick', onClick, true);
 
   // Impresiones: aviso visible ≥50 % durante ≥1 s, una vez por aviso y lugar por página vista
