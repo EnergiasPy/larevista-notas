@@ -22,10 +22,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
   if ($ref !== '' && !preg_match('#^https?://(www\.)?energiaslatam\.com#i', $ref)) { http_response_code(204); exit; }
   $raw = file_get_contents('php://input', false, null, 0, 4000);
   $p = json_decode($raw, true); if (!is_array($p)) $p = $_POST;
-  $t = in_array($p['t'] ?? '', ['visto', 'click', 'pv'], true) ? $p['t'] : '';
+  $t = in_array($p['t'] ?? '', ['visto', 'click', 'pv', 'link'], true) ? $p['t'] : '';
   if ($t === '') { http_response_code(204); exit; }
   $dv = preg_match('/iphone|android.+mobile|mobile/i', $ua) ? 'celular' : (preg_match('/ipad|tablet|android/i', $ua) ? 'tablet' : 'compu');
-  $fila = [date('Y-m-d H:i:s'), $t, limpio($p['an'] ?? ''), limpio($p['ni'] ?? '', 20), limpio($p['ub'] ?? '', 40), limpio($p['po'] ?? '', 40), limpio($p['pg'] ?? '', 120), limpio($p['nid'] ?? '', 80), $dv];
+  $fila = [date('Y-m-d H:i:s'), $t, limpio($p['an'] ?? '', 120), limpio($p['ni'] ?? '', 20), limpio($p['ub'] ?? '', 40), limpio($p['po'] ?? '', 40), limpio($p['pg'] ?? '', 120), limpio($p['nid'] ?? '', 80), $dv];
   @file_put_contents($dir . '/med-' . date('Y-m') . '.csv', implode(',', $fila) . "\n", FILE_APPEND | LOCK_EX);
   http_response_code(204); exit;
 }
@@ -39,7 +39,7 @@ if (isset($_GET['ver'])) {
   $desde = preg_match($re, $_GET['desde'] ?? '') ? $_GET['desde'] : date('Y-m-01');
   $hasta = preg_match($re, $_GET['hasta'] ?? '') ? $_GET['hasta'] : date('Y-m-d');
   $filtroAn = limpio($_GET['an'] ?? '');
-  $A = []; $AU = []; $P = []; $D = []; $DV = []; $tot = ['visto' => 0, 'click' => 0, 'pv' => 0];
+  $A = []; $AU = []; $P = []; $D = []; $DV = []; $L = []; $LG = []; $tot = ['visto' => 0, 'click' => 0, 'pv' => 0, 'link' => 0];
   foreach (glob($dir . '/med-*.csv') as $f) {
     $m = substr(basename($f), 4, 7); if ($m < substr($desde, 0, 7) || $m > substr($hasta, 0, 7)) continue;
     foreach (file($f, FILE_IGNORE_NEW_LINES) as $l) {
@@ -50,6 +50,12 @@ if (isset($_GET['ver'])) {
         if ($filtroAn !== '') continue;
         $tot['pv']++; $k = $nid !== '' ? '/n/' . $nid : ($pg ?: '/');
         $P[$k] = ($P[$k] ?? 0) + 1; $D[$dia]['pv'] = ($D[$dia]['pv'] ?? 0) + 1; $DV[$dv] = ($DV[$dv] ?? 0) + 1; continue;
+      }
+      if ($t === 'link') {
+        if ($filtroAn !== '') continue;
+        $tot['link'] = ($tot['link'] ?? 0) + 1; $L[$an] = ($L[$an] ?? 0) + 1;
+        $grp = strpos($an, ':') !== false ? trim(substr($an, 0, strpos($an, ':'))) : $an; $LG[$grp] = ($LG[$grp] ?? 0) + 1;
+        $D[$dia]['link'] = ($D[$dia]['link'] ?? 0) + 1; continue;
       }
       if ($filtroAn !== '' && $an !== $filtroAn) continue;
       $tot[$t]++;
@@ -63,9 +69,9 @@ if (isset($_GET['ver'])) {
   $h = function ($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); };
   $pct = function ($c, $v) { return $v ? number_format(100 * $c / $v, 1, ',', '.') . ' %' : '–'; };
   $n = function ($x) { return number_format((int)$x, 0, ',', '.'); };
-  uasort($A, function ($a, $b) { return ($b['visto'] ?? 0) <=> ($a['visto'] ?? 0); });
+  $RK = ['sponsor' => 0, 'oro' => 1, 'plata' => 2, 'bronce' => 3]; uasort($A, function ($a, $b) use ($RK) { return [($RK[$a['ni'] ?? ''] ?? 9), -($a['visto'] ?? 0)] <=> [($RK[$b['ni'] ?? ''] ?? 9), -($b['visto'] ?? 0)]; });
   uasort($AU, function ($a, $b) { return ($b['visto'] ?? 0) <=> ($a['visto'] ?? 0); });
-  arsort($P); ksort($D);
+  arsort($P); arsort($L); arsort($LG); ksort($D);
   $k = $h($_GET['ver']);
   echo '<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Medidor de publicidad</title><style>
 body{font:15px Arial,sans-serif;max-width:900px;margin:20px auto;padding:0 14px;color:#0F213D;background:#fff}
@@ -76,12 +82,12 @@ button{font:bold 14px Arial;padding:8px 14px;border:0;border-radius:6px;backgrou
 .k{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.k div{background:#F4F6F9;border-left:4px solid #3A963E;padding:10px;border-radius:6px}.k b{display:block;font-size:24px}.k span{font-size:12px;color:#4A5B6C}
 table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:6px 8px;border-bottom:1px solid #E3E9F0;text-align:right}th:first-child,td:first-child{text-align:left}th{background:#F4F6F9;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
 .wrap{overflow-x:auto}@media(max-width:600px){.k{grid-template-columns:1fr 1fr}}a{color:#0F213D}
-</style><h1>Medidor de publicidad y páginas</h1><p class="sub">Solo uso interno. Sin robots ni vistas previas. "Vistas" = el aviso estuvo al menos 50 % en pantalla durante 1 segundo.</p>';
+</style><h1>Medidor del sitio: publicidad, páginas y clics</h1><p class="sub">Solo uso interno. Sin robots ni vistas previas. "Vistas" = el aviso estuvo al menos 50 % en pantalla durante 1 segundo.</p>';
   echo '<form method="get"><input type="hidden" name="ver" value="' . $k . '"><label>Desde<input type="date" name="desde" value="' . $h($desde) . '"></label><label>Hasta<input type="date" name="hasta" value="' . $h($hasta) . '"></label><label>Anunciante<select name="an"><option value="">Todos</option>';
   foreach (array_keys($A) as $an) echo '<option' . ($an === $filtroAn ? ' selected' : '') . '>' . $h($an) . '</option>';
   if ($filtroAn !== '' && !isset($A[$filtroAn])) echo '<option selected>' . $h($filtroAn) . '</option>';
   echo '</select></label><button>Ver</button></form>';
-  echo '<div class="k"><div><b>' . $n($tot['visto']) . '</b><span>vistas de avisos</span></div><div><b>' . $n($tot['click']) . '</b><span>clics en avisos</span></div><div><b>' . $pct($tot['click'], $tot['visto']) . '</b><span>porcentaje de clics</span></div><div><b>' . ($filtroAn === '' ? $n($tot['pv']) : '–') . '</b><span>páginas vistas</span></div></div>';
+  echo '<div class="k"><div><b>' . $n($tot['visto']) . '</b><span>vistas de avisos</span></div><div><b>' . $n($tot['click']) . '</b><span>clics en avisos</span></div><div><b>' . $pct($tot['click'], $tot['visto']) . '</b><span>porcentaje de clics</span></div><div><b>' . ($filtroAn === '' ? $n($tot['pv']) : '–') . '</b><span>páginas vistas</span></div></div>' . ($filtroAn === '' ? '<div class="k" style="grid-template-columns:1fr"><div><b>' . $n($tot['link']) . '</b><span>clics en el resto del sitio (menú, notas, botones, suscripción, WhatsApp, redes y links externos)</span></div></div>' : '');
   echo '<h2>Por anunciante</h2><div class="wrap"><table><tr><th>Anunciante</th><th>Nivel</th><th>Vistas</th><th>Clics</th><th>% clics</th></tr>';
   foreach ($A as $an => $r) echo '<tr><td><a href="?ver=' . $k . '&desde=' . $h($desde) . '&hasta=' . $h($hasta) . '&an=' . urlencode($an) . '">' . $h($an) . '</a></td><td>' . $h($r['ni'] ?? '') . '</td><td>' . $n($r['visto'] ?? 0) . '</td><td>' . $n($r['click'] ?? 0) . '</td><td>' . $pct($r['click'] ?? 0, $r['visto'] ?? 0) . '</td></tr>';
   if (!$A) echo '<tr><td colspan="5">Todavía no hay datos en este período.</td></tr>';
@@ -91,12 +97,17 @@ table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:6px 8px;b
   if ($filtroAn === '') {
     echo '<h2>Páginas más vistas</h2><div class="wrap"><table><tr><th>Página</th><th>Vistas</th></tr>';
     foreach (array_slice($P, 0, 40, true) as $pg => $v) echo '<tr><td>' . $h($pg) . '</td><td>' . $n($v) . '</td></tr>';
+    echo '</table></div><h2>Clics en el sitio · por tipo</h2><div class="wrap"><table><tr><th>Tipo</th><th>Clics</th></tr>';
+    foreach ($LG as $g => $v) echo '<tr><td>' . $h($g) . '</td><td>' . $n($v) . '</td></tr>';
+    if (!$LG) echo '<tr><td colspan="2">Todavía no hay datos en este período.</td></tr>';
+    echo '</table></div><h2>Clics en el sitio · detalle</h2><div class="wrap"><table><tr><th>Destino</th><th>Clics</th></tr>';
+    foreach (array_slice($L, 0, 60, true) as $g => $v) echo '<tr><td>' . $h($g) . '</td><td>' . $n($v) . '</td></tr>';
     echo '</table></div><h2>Por dispositivo</h2><div class="wrap"><table><tr><th>Dispositivo</th><th>Páginas vistas</th></tr>';
     foreach ($DV as $dv => $v) echo '<tr><td>' . $h($dv) . '</td><td>' . $n($v) . '</td></tr>';
     echo '</table></div>';
   }
-  echo '<h2>Por día</h2><div class="wrap"><table><tr><th>Día</th><th>Vistas de avisos</th><th>Clics</th>' . ($filtroAn === '' ? '<th>Páginas vistas</th>' : '') . '</tr>';
-  foreach ($D as $dia => $r) echo '<tr><td>' . $h($dia) . '</td><td>' . $n($r['visto'] ?? 0) . '</td><td>' . $n($r['click'] ?? 0) . '</td>' . ($filtroAn === '' ? '<td>' . $n($r['pv'] ?? 0) . '</td>' : '') . '</tr>';
+  echo '<h2>Por día</h2><div class="wrap"><table><tr><th>Día</th><th>Vistas de avisos</th><th>Clics en avisos</th>' . ($filtroAn === '' ? '<th>Páginas vistas</th><th>Clics en el sitio</th>' : '') . '</tr>';
+  foreach ($D as $dia => $r) echo '<tr><td>' . $h($dia) . '</td><td>' . $n($r['visto'] ?? 0) . '</td><td>' . $n($r['click'] ?? 0) . '</td>' . ($filtroAn === '' ? '<td>' . $n($r['pv'] ?? 0) . '</td><td>' . $n($r['link'] ?? 0) . '</td>' : '') . '</tr>';
   echo '</table></div><p class="sub" style="margin-top:20px">Energías LATAM · medidor propio, complementario a Google Analytics.</p>';
   exit;
 }

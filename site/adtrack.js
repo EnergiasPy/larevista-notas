@@ -88,6 +88,21 @@
   }
   document.addEventListener('click', onClick, true);
 
+  // todos los demás clics del sitio (menú, notas, botones, suscripción, WhatsApp, redes, links externos)
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a,button'); if (!a || a.closest(SEL)) return;
+    var h = a.getAttribute('href') || '', txt = (a.getAttribute('aria-label') || a.textContent || a.title || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+    var dest;
+    if (/wa\.me|whatsapp/i.test(h)) dest = 'WhatsApp';
+    else if (/instagram|facebook|linkedin|youtube|tiktok|x\.com|twitter/i.test(h)) dest = 'Redes: ' + (h.match(/instagram|facebook|linkedin|youtube|tiktok|x\.com|twitter/i) || [''])[0].toLowerCase();
+    else if (/^https?:\/\//i.test(h) && !/energiaslatam\.com/i.test(h)) dest = 'Externo: ' + h.replace(/^https?:\/\/(www\.)?/i, '').split(/[\/?#]/)[0];
+    else if (/newsletter|suscrib/i.test(h + ' ' + txt)) dest = 'Suscribirse';
+    else if (/^\/n\/|#n\//.test(h)) dest = 'Nota: ' + h.replace(/^.*(\/n\/|#n\/)/, '').split(/[?#]/)[0];
+    else if (h) dest = 'Interno: ' + (h.replace(/^https?:\/\/(www\.)?energiaslatam\.com/i, '').split('?')[0] || '/');
+    else dest = 'Botón: ' + (txt || 'sin texto');
+    med({ t: 'link', an: dest, ub: txt, pg: location.pathname, nid: notaId() });
+  }, true);
+
   // páginas vistas (también en la navegación interna por #)
   var pvPrev = '';
   function pv() { var k = location.pathname + location.hash; if (k === pvPrev) return; pvPrev = k; med({ t: 'pv', pg: location.pathname.replace(/\.html$/, '') || '/', nid: notaId() }); }
