@@ -7,9 +7,18 @@
   if (window.__adtrack) return; window.__adtrack = { log: [] };
   var SEL = '.spof-i, .r5i, .brl5 a';
 
+  // medidor propio (med.php): misma información, guardada en nuestro servidor
+  function med(o) {
+    try {
+      var b = JSON.stringify(o);
+      if (navigator.sendBeacon) navigator.sendBeacon('/med.php', new Blob([b], { type: 'application/json' }));
+      else fetch('/med.php', { method: 'POST', body: b, keepalive: true, headers: { 'Content-Type': 'application/json' } });
+    } catch (e) {}
+  }
   function send(ev, p) {
     window.__adtrack.log.push([ev, p]);
     try { if (typeof gtag === 'function') gtag('event', ev, p); } catch (e) {}
+    if (ev === 'aviso_click' || ev === 'aviso_visto') med({ t: ev === 'aviso_click' ? 'click' : 'visto', an: p.anunciante, ni: p.nivel, ub: p.ubicacion, po: p.posicion, pg: location.pathname, nid: p.nota_id });
   }
   function txt(n) { return n ? (n.textContent || '').replace(/\s+/g, ' ').trim() : ''; }
   function nombre(a) {
@@ -78,6 +87,11 @@
     send('aviso_click', d);
   }
   document.addEventListener('click', onClick, true);
+
+  // páginas vistas (también en la navegación interna por #)
+  var pvPrev = '';
+  function pv() { var k = location.pathname + location.hash; if (k === pvPrev) return; pvPrev = k; med({ t: 'pv', pg: location.pathname.replace(/\.html$/, '') || '/', nid: notaId() }); }
+  pv(); window.addEventListener('hashchange', function () { setTimeout(pv, 200); });
   document.addEventListener('auxclick', onClick, true);
 
   // Impresiones: aviso visible ≥50 % durante ≥1 s, una vez por aviso y lugar por página vista
