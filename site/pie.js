@@ -57,18 +57,44 @@
   var n = 0, t = setInterval(function () { poner(); if (++n > 12) clearInterval(t); }, 500);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poner); else poner();
 })();
-/* Guía de proveedores: suma las fichas aprobadas desde el panel (guia.php) */
+/* Guía de proveedores: la lista sale del panel de administración (guia.php) */
 (function () {
-  if (window.__guiaExtra) return; window.__guiaExtra = 1;
+  if (window.__guiaExtra) return; window.__guiaExtra = 2;
   var n = 0, t = setInterval(function () {
     n++;
-    if (!document.getElementById('p-list') || typeof PROV === 'undefined' || typeof drawProv !== 'function' || (PROV.length <= 5 && n < 12)) { if (n > 40) clearInterval(t); return; }
+    var pl = document.getElementById('p-list');
+    if (!pl || typeof PROV === 'undefined' || (PROV.length <= 5 && n < 12)) { if (n > 40) clearInterval(t); return; }
     clearInterval(t);
-    fetch('/guia.php?json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (L) {
-      if (!Array.isArray(L) || !L.length) return;
-      var ya = {}; PROV.forEach(function (p) { ya[(p.n || '').toLowerCase()] = 1; });
-      L.forEach(function (p) { if (p && p.n && !ya[p.n.toLowerCase()]) { PROV.push({ n: p.n, t: p.t, o: p.o, z: p.z || 'Paraguay', tel: p.tel || '', mail: p.mail || '', web: p.web || '', f: !!p.f }); ya[p.n.toLowerCase()] = 1; } });
-      try { drawProv(); } catch (e) {}
+    fetch('/guia.php?json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (J) {
+      if (!J || !J.completo || !J.items || J.items.length < 5) return;
+      var L = J.items;
+      var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+      var shown = function (u) { return String(u).replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, ''); };
+      var tl = function (x) { var d = x.replace(/\D/g, ''); if (/^0/.test(d)) d = '595' + d.slice(1); return d.indexOf('0800') === 0 ? d : '+' + d; };
+      var qi = document.getElementById('p-q'), sel = document.getElementById('p-type'), ct = document.getElementById('p-count');
+      if (qi) { var q2 = qi.cloneNode(true); qi.replaceWith(q2); qi = q2; }
+      if (sel) { var s2 = sel.cloneNode(false); s2.innerHTML = '<option value="">Todos los tipos</option>'; sel.replaceWith(s2); sel = s2; }
+      var ts = []; L.forEach(function (p) { (p.ts || []).forEach(function (x) { if (ts.indexOf(x) < 0) ts.push(x); }); }); ts.sort();
+      ts.forEach(function (x) { var o = document.createElement('option'); o.textContent = x; sel && sel.appendChild(o); });
+      function card(p) {
+        var c = [];
+        if (p.tel) c.push('<div><span><a href="tel:' + E(tl(p.tel)) + '">Tel.: ' + E(p.tel) + '</a>' + (p.wa ? ' · <a class="wa5" href="https://wa.me/' + E(p.wa) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') + '</span><button class="copy" type="button" data-copy="' + E(p.tel) + '">Copiar</button></div>');
+        else if (p.wa) c.push('<div><span><a class="wa5" href="https://wa.me/' + E(p.wa) + '" target="_blank" rel="noopener">WhatsApp</a></span></div>');
+        if (p.mail) c.push('<div><span><a href="mailto:' + E(p.mail) + '">' + E(p.mail) + '</a></span><button class="copy" type="button" data-copy="' + E(p.mail) + '">Copiar</button></div>');
+        if (p.web) c.push('<div><span><a href="' + E(p.web) + '" target="_blank" rel="noopener">' + E(shown(p.web)) + ' ↗</a></span></div>');
+        var cont = c.length ? (p.f ? '<div class="contact">' + c.join('') + '</div>' : '<div class="contact"><button class="vc5" type="button" aria-expanded="false">Ver contacto</button><div class="ct5" hidden>' + c.join('') + '</div></div>') : '';
+        return '<article class="prov' + (p.f ? ' feat' : '') + '" data-lk="1"><header><span class="cat">' + E((p.ts || []).join(' · ')) + '</span>' + (p.f ? '<span class="badge">DESTACADO</span>' : '') + '</header>' +
+          (p.f && p.l ? '<img class="plogo" src="' + E(p.l) + '" alt="">' : '') + '<h3>' + E(p.n) + '</h3><p>' + E(p.o) + '</p><p style="font-size:14px">Zona: ' + E(p.z || 'Paraguay') + '</p>' + cont + '</article>';
+      }
+      function draw() {
+        var q = (qi ? qi.value : '').trim().toLowerCase(), ty = sel ? sel.value : '';
+        var R = L.filter(function (p) { return (!ty || (p.ts || []).indexOf(ty) >= 0) && (!q || (p.n + ' ' + (p.ts || []).join(' ') + ' ' + p.o).toLowerCase().indexOf(q) >= 0); })
+          .sort(function (a, b) { return (b.f ? 1 : 0) - (a.f ? 1 : 0); });
+        if (ct) ct.textContent = R.length + (R.length === 1 ? ' empresa' : ' empresas');
+        pl.innerHTML = R.length ? R.map(card).join('') : '<p style="padding:20px 52px">No hay empresas para esa búsqueda. Probá con otro tipo o palabra.</p>';
+      }
+      if (qi) qi.addEventListener('input', draw); if (sel) sel.addEventListener('change', draw);
+      draw();
     }).catch(function () {});
   }, 250);
 })();
