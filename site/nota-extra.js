@@ -121,7 +121,7 @@
   document.head.appendChild(css);
   var IC = { play: '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>', pause: '<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>' };
   function elegir() {
-    var V = S.getVoices().filter(function (v) { return /^es/i.test(v.lang); }); if (!V.length) return null;
+    var V = S.getVoices().filter(function (v) { return /^es/i.test(v.lang) && !/eddy|flo\b|grandma|grandpa|reed|rocko|sandy|shelley|news|bells|boing|bubbles|jester|organ|whisper|zarvox|trinoids|wobble|albert|cellos|superstar|junior|ralph|fred|kathy/i.test(v.name); }); if (!V.length) return null;
     var pref = ['es-PY', 'es-AR', 'es-UY', 'es-419', 'es-US', 'es-MX', 'es-CL', 'es-CO', 'es-ES'];
     var nota = function (v) { var n = (v.name || '').toLowerCase(), p = pref.indexOf(v.lang.replace('_', '-')); return (p < 0 ? 20 : p) - (/natural|neural|online|google|premium|enhanced|mejorad/.test(n) ? 10 : 0); };
     return V.sort(function (a, b) { return nota(a) - nota(b); })[0];
