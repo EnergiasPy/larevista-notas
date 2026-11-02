@@ -258,5 +258,16 @@
     "autor": "Fernando Berdichevsky",
     "img": "img/2026-11-01-urupabol-combustibles-1.jpg",
     "pais": "latam"
+  },
+  {
+    "id": "2026-11-02-camioneros-flete-ventas-diesel",
+    "estado": "borrador",
+    "fecha": "2026-11-02",
+    "cat": "Mercado y precios",
+    "titulo": "Diésel caro: los camioneros paran por el flete y los privados venden menos frente a Petropar",
+    "bajada": "La sexta suba del año ya se siente en las dos puntas: los transportistas hacen brazos caídos para pedir un reajuste del flete y los emblemas privados reconocen que perdieron clientes con una brecha de apenas G. 205.",
+    "autor": "NdR",
+    "img": "img/2026-11-02-camioneros-flete-ventas-diesel-1.jpg",
+    "pais": "py"
   }
 ]
