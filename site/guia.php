@@ -20,7 +20,7 @@ if (isset($_GET['json'])) {
 require __DIR__ . '/panel-auth.php';
 panel_requiere('Guía de proveedores');
 
-$TYPES = ['Obras civiles', 'Instalaciones eléctricas', 'Tanques y cañerías', 'Surtidores y equipos', 'Imagen y señalética', 'Mantenimiento', 'Sistemas y medios de pago', 'Seguridad y ambiente', 'Tienda de conveniencia', 'Otro'];
+$TYPES = ['Alimentos y bebidas', 'Automotriz', 'Café', 'Cajas de seguridad', 'Catering', 'Cañerías y productos electromecánicos', 'Cisternas y semirremolques', 'Emblemas', 'Filtros para tanques', 'Iluminación', 'Imagen y señalética', 'Medios de pago', 'Metalmecánica', 'Obras civiles', 'Seguridad vial', 'Surtidores y equipos', 'Tanques', 'Tiendas de conveniencia', 'Venta de materiales', 'Mantenimiento', 'Otro'];
 $h = function ($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); };
 $cl = function ($s, $n = 300) { return mb_substr(trim(preg_replace('/\s+/u', ' ', (string)$s)), 0, $n); };
 $guardar = function () use ($fA, $fD, &$A, &$Dc) { file_put_contents($fA, json_encode(array_values($A), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX); file_put_contents($fD, json_encode($Dc, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX); };
@@ -76,7 +76,7 @@ foreach ($pend as $p) { ?>
 <form method="post" class="card"><input type="hidden" name="k" value="<?= $h($p['k']) ?>">
 <div class="meta">Recibida el <?= $h($p['fecha']) ?></div>
 <div class="g"><div><label>Empresa</label><input name="n" value="<?= $h($p['n']) ?>" required></div>
-<div><label>Rubro</label><select name="t"><?php foreach ($TYPES as $t) echo '<option' . ($t === $p['t'] ? ' selected' : '') . '>' . $h($t) . '</option>'; ?></select></div>
+<div><label>Rubro</label><select name="t"><?php $sel = in_array($p['t'], $TYPES, true) ? $p['t'] : 'Otro'; foreach ($TYPES as $t) echo '<option' . ($t === $sel ? ' selected' : '') . '>' . $h($t) . '</option>'; ?></select></div>
 <div><label>Teléfono</label><input name="tel" value="<?= $h($p['tel']) ?>"></div><div><label>Mail</label><input name="mail" value="<?= $h($p['mail']) ?>"></div>
 <div><label>Sitio web (opcional)</label><input name="web" placeholder="empresa.com.py"></div><div><label>Zona</label><input name="z" value="Paraguay"></div></div>
 <label>Qué ofrece</label><textarea name="o"><?= $h($p['o']) ?></textarea>
