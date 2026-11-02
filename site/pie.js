@@ -60,10 +60,9 @@
 /* Guía de proveedores: suma las fichas aprobadas desde el panel (guia.php) */
 (function () {
   if (window.__guiaExtra) return; window.__guiaExtra = 1;
-  if (!document.getElementById('p-list')) return;
   var n = 0, t = setInterval(function () {
     n++;
-    if (typeof PROV === 'undefined' || typeof drawProv !== 'function' || (PROV.length <= 5 && n < 12)) { if (n > 40) clearInterval(t); return; }
+    if (!document.getElementById('p-list') || typeof PROV === 'undefined' || typeof drawProv !== 'function' || (PROV.length <= 5 && n < 12)) { if (n > 40) clearInterval(t); return; }
     clearInterval(t);
     fetch('/guia.php?json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (L) {
       if (!Array.isArray(L) || !L.length) return;
