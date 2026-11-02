@@ -82,9 +82,13 @@
         else if (p.wa) c.push('<div><span><a class="wa5" href="https://wa.me/' + E(p.wa) + '" target="_blank" rel="noopener">WhatsApp</a></span></div>');
         if (p.mail) c.push('<div><span><a href="mailto:' + E(p.mail) + '">' + E(p.mail) + '</a></span><button class="copy" type="button" data-copy="' + E(p.mail) + '">Copiar</button></div>');
         if (p.web) c.push('<div><span><a href="' + E(p.web) + '" target="_blank" rel="noopener">' + E(shown(p.web)) + ' ↗</a></span></div>');
-        var cont = c.length ? (p.f ? '<div class="contact">' + c.join('') + '</div>' : '<div class="contact"><button class="vc5" type="button" aria-expanded="false">Ver contacto</button><div class="ct5" hidden>' + c.join('') + '</div></div>') : '';
-        return '<article class="prov' + (p.f ? ' feat' : '') + '" data-lk="1"><header><span class="cat">' + E((p.ts || []).join(' · ')) + '</span>' + (p.f ? '<span class="badge">DESTACADO</span>' : '') + '</header>' +
-          (p.f && p.l ? '<img class="plogo" src="' + E(p.l) + '" alt="">' : '') + '<h3>' + E(p.n) + '</h3><p>' + E(p.o) + '</p><p style="font-size:14px">Zona: ' + E(p.z || 'Paraguay') + '</p>' + cont + '</article>';
+        if (!p.f) {
+          var cs = []; if (p.tel) cs.push('<a href="tel:' + E(tl(p.tel)) + '">Tel.: ' + E(p.tel) + '</a>'); if (p.wa) cs.push('<a class="wa5" href="https://wa.me/' + E(p.wa) + '" target="_blank" rel="noopener">WhatsApp</a>'); if (p.mail) cs.push('<a href="mailto:' + E(p.mail) + '">' + E(p.mail) + '</a>');
+          return '<article class="prov basic5" data-lk="1"><h3>' + E(p.n) + '</h3><span class="c5">' + E((p.ts || []).join(' · ')) + '</span>' + (p.web ? '<a class="w5" href="' + E(p.web) + '" target="_blank" rel="noopener">' + E(shown(p.web)) + ' ↗</a>' : '') +
+            (cs.length ? '<button type="button" class="vc5" aria-expanded="false">Ver contacto</button><div class="ct5" hidden>' + cs.join(' · ') + '</div>' : '') + '</article>';
+        }
+        return '<article class="prov feat" data-lk="1"><header><span class="cat">' + E((p.ts || []).join(' · ')) + '</span><span class="badge">DESTACADO</span></header>' +
+          (p.l ? '<img class="plogo" src="' + E(p.l) + '" alt="">' : '') + '<h3>' + E(p.n) + '</h3><p>' + E(p.o) + '</p><p style="font-size:14px">Zona: ' + E(p.z || 'Paraguay') + '</p>' + (c.length ? '<div class="contact">' + c.join('') + '</div>' : '') + '</article>';
       }
       function draw() {
         var q = (qi ? qi.value : '').trim().toLowerCase(), ty = sel ? sel.value : '';
