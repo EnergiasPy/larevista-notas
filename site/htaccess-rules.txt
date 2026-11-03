@@ -9,3 +9,7 @@ RewriteRule ^combustible/py/?$ combustible-py.html [L]
 RewriteRule ^combustible/(ar|cl|pe|uy|bo)/?$ pais.html?c=$1 [L,QSA]
 RewriteRule ^(newsletter|suscribite|suscripcion|suscribirse)/?$ newsletter.html [L,QSA]
 RewriteRule ^suscripto/?$ suscripto.html [L,QSA]
+# Páginas viejas del WordPress del dueño anterior del dominio: 410 (eliminadas) para que Google las saque
+RewriteRule ^(tag|category|author|feed|comments|page|wp-content|wp-admin|wp-includes|wp-json)(/.*)?$ - [G,L]
+RewriteRule ^(19|20)[0-9]{2}/ - [G,L]
+RewriteRule ^(wp-login|xmlrpc|wp-cron|wp-signup)\.php$ - [G,L]
