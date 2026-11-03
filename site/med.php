@@ -73,6 +73,7 @@ foreach (glob($dir . '/med-*.csv') as $f) {
       $grp = strpos($an, ':') !== false ? trim(substr($an, 0, strpos($an, ':'))) : $an; $LG[$grp] = ($LG[$grp] ?? 0) + 1;
       $D[$dia]['link'] = ($D[$dia]['link'] ?? 0) + 1; continue;
     }
+    if (preg_match('/[\x{3000}-\x{9fff}\x{ac00}-\x{d7af}]/u', $an)) continue; // nombres traducidos por el navegador (chino, etc.)
     if ($filtroAn !== '' && $an !== $filtroAn) continue;
     $tot[$t]++;
     $ka = $an ?: '(sin nombre)';

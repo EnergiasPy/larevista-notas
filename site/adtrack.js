@@ -35,15 +35,21 @@
   function send(ev, p) {
     window.__adtrack.log.push([ev, p]);
     try { if (typeof gtag === 'function') gtag('event', ev, p); } catch (e) {}
-    if (ev === 'aviso_click' || ev === 'aviso_visto') med({ t: ev === 'aviso_click' ? 'click' : 'visto', an: p.anunciante, ni: p.nivel, ub: p.ubicacion, po: p.posicion, pg: location.pathname, nid: p.nota_id });
+    if ((ev === 'aviso_click' || ev === 'aviso_visto') && p.anunciante) med({ t: ev === 'aviso_click' ? 'click' : 'visto', an: p.anunciante, ni: p.nivel, ub: p.ubicacion, po: p.posicion, pg: location.pathname, nid: p.nota_id });
   }
   function txt(n) { return n ? (n.textContent || '').replace(/\s+/g, ' ').trim() : ''; }
   function nombre(a) {
+    // el nombre se fija la primera vez (antes de que el traductor del navegador lo cambie) y el aviso no se traduce
+    if (a.dataset && a.dataset.an5) return a.dataset.an5;
+    try { a.setAttribute('translate', 'no'); } catch (e) {}
     var b = a.querySelector('.spof-i b, h4, b');
     var im = a.querySelector('img');
     var n = (a.classList.contains('spof-i') && txt(a.querySelector('b'))) ||
             (im && im.getAttribute('alt')) || txt(a.querySelector('h4')) || txt(b) || a.getAttribute('title') || txt(a);
-    return n.replace(/ · Sponsor oficial$/, '').slice(0, 80);
+    n = n.replace(/ · Sponsor oficial$/, '').slice(0, 80);
+    if (/[\u3000-\u9fff\uac00-\ud7af]/.test(n)) return ''; // nombre ya traducido (chino, japonés, coreano): no se registra
+    if (a.dataset) a.dataset.an5 = n;
+    return n;
   }
   function nivel(a) {
     if (a.closest('.spof, .sp5')) return 'sponsor';
