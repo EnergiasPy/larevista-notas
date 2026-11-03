@@ -177,3 +177,5 @@
   escanear();
   var tm; new MutationObserver(function () { clearTimeout(tm); tm = setTimeout(escanear, 300); }).observe(document.body || document.documentElement, { childList: true, subtree: true });
 })();
+/* fija el nombre de cada aviso apenas carga, antes de que el traductor del navegador lo cambie */
+(function () { var S = '.spof-i, .r5i, .brl5 a'; function fijar() { try { document.querySelectorAll(S).forEach(function (a) { if (a.dataset.an5) return; a.setAttribute('translate', 'no'); var im = a.querySelector('img'), b = a.querySelector('.spof-i b, h4, b'); var n = ((a.classList.contains('spof-i') && b && b.textContent) || (im && im.getAttribute('alt')) || (b && b.textContent) || a.getAttribute('title') || a.textContent || '').replace(/\s+/g, ' ').trim().replace(/ · Sponsor oficial$/, '').slice(0, 80); if (n && !/[　-鿿가-힯]/.test(n)) a.dataset.an5 = n; }); } catch (e) {} } [300, 1200, 3000, 6000].forEach(function (t) { setTimeout(fijar, t); }); })();
