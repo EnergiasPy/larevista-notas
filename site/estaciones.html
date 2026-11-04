@@ -102,7 +102,7 @@ input[type=search]{min-width:220px}
   function col(n) { if (PAL[n]) return PAL[n]; var k = 0; for (var i = 0; i < n.length; i++) k = (k * 31 + n.charCodeAt(i)) >>> 0; return PAL[n] = EXTRA[k % EXTRA.length]; }
   function logo(n) { return LOGO[n] ? IMG + '/img/emb/' + LOGO[n] + '.png?v=3' : ''; }
 
-  var map = L.map('mapa', { preferCanvas: true, zoomControl: true, minZoom: 5, maxBounds: [[-30.5, -66], [-17, -50]], maxBoundsViscosity: 0.8 }).setView([-23.4, -58.2], 6);
+  var map = window.ESTMAP = L.map('mapa', { preferCanvas: true, zoomControl: true, minZoom: 5, maxBounds: [[-30.5, -66], [-17, -50]], maxBoundsViscosity: 0.8 }).setView([-23.4, -58.2], 6);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
   var grupo = L.markerClusterGroup({ chunkedLoading: true, showCoverageOnHover: false, maxClusterRadius: 50, spiderfyOnMaxZoom: true,
     iconCreateFunction: function (c) { var n = c.getChildCount(), s = n < 10 ? 32 : n < 100 ? 38 : n < 500 ? 46 : 54; return L.divIcon({ html: '<div class="cl" style="width:' + s + 'px;height:' + s + 'px">' + n + '</div>', className: '', iconSize: [s, s] }); } });
@@ -133,7 +133,7 @@ input[type=search]{min-width:220px}
     if (!F.cp && e.cp) return false;
     if (F.emb && e.n !== F.emb) return false;
     if (F.dep && e.dep !== F.dep) return false;
-    if (F.q && e.s.indexOf(F.q) < 0) return false;
+    if (F.q && (F.qd ? e.sd.indexOf(F.q) < 0 : e.s.indexOf(F.q) < 0)) return false;
     return true;
   }
   function dibujar(ajustar) {
@@ -144,7 +144,7 @@ input[type=search]{min-width:220px}
     });
     grupo.addLayers(ms);
     // conteo por emblema con los filtros de lugar (sin el de emblema)
-    var por = {}; E.forEach(function (e) { if ((!F.cp && e.cp) || (F.dep && e.dep !== F.dep) || (F.q && e.s.indexOf(F.q) < 0)) return; por[e.n] = (por[e.n] || 0) + 1; });
+    var por = {}; E.forEach(function (e) { if ((!F.cp && e.cp) || (F.dep && e.dep !== F.dep) || (F.q && (F.qd ? e.sd.indexOf(F.q) < 0 : e.s.indexOf(F.q) < 0))) return; por[e.n] = (por[e.n] || 0) + 1; });
     var ks = Object.keys(por).sort(function (a, b) { return por[b] - por[a]; });
     $('lista').innerHTML = ks.map(function (n) { var lg = logo(n); return '<li data-n="' + esc(n) + '" class="' + (F.emb === n ? 'on' : '') + '">' + (lg ? '<span class="lgo"><img src="' + lg + '" alt=""></span>' : '<span class="lgo"><i class="dot" style="background:' + col(n) + '"></i></span>') + esc(n) + '<span class="n">' + n0(por[n]) + '</span></li>'; }).join('') || '<li>No hay estaciones con esos filtros.</li>';
     var lugar = F.dep ? ' en ' + dn(F.dep) : ' en todo el país';
@@ -164,7 +164,8 @@ input[type=search]{min-width:220px}
   $('fEmb').onchange = function () { F.emb = this.value; dibujar(true); };
   $('fDep').onchange = function () { F.dep = this.value; dibujar(true); };
   $('fCp').onchange = function () { F.cp = this.checked; dibujar(false); };
-  $('fQ').oninput = function () { var v = this.value; clearTimeout(tq); tq = setTimeout(function () { F.q = sinAc(v.trim()); dibujar(!!F.q); }, 250); };
+  function buscar() { var v = $('fQ').value; clearTimeout(tq); tq = setTimeout(function () { F.q = sinAc(v.trim()); F.qd = !!F.q && E.some(function (e) { return e.sd.indexOf(F.q) >= 0; }); dibujar(!!F.q); }, 250); }
+  $('fQ').oninput = buscar; $('fQ').addEventListener('search', buscar);
   $('lista').onclick = function (ev) { var li = ev.target.closest('li[data-n]'); if (!li) return; var n = li.getAttribute('data-n'); F.emb = F.emb === n ? '' : n; $('fEmb').value = F.emb; dibujar(true); };
   $('bCerca').onclick = function () {
     if (!navigator.geolocation) { $('res').innerHTML += ' Tu navegador no permite ubicarte.'; return; }
@@ -177,7 +178,7 @@ input[type=search]{min-width:220px}
   };
   fetch(PRECIOS_URL).then(function (r) { return r.json(); }).then(function (j) { PR = j && j.precios; }).catch(function () {});
   fetch(DATA_URL).then(function (r) { return r.json(); }).then(function (j) {
-    E = (j.data || []).map(function (r) { var n = nomEmb(r[2], r[7]); return { lat: r[0], lng: r[1], code: r[2], n: n, dep: r[3], dist: r[4], dir: r[5], cp: !!r[6], s: sinAc(n + ' ' + r[3] + ' ' + r[4] + ' ' + r[5]) }; });
+    E = (j.data || []).map(function (r) { var n = nomEmb(r[2], r[7]); return { lat: r[0], lng: r[1], code: r[2], n: n, dep: r[3], dist: r[4], dir: r[5], cp: !!r[6], sd: sinAc(r[4]), s: sinAc(n + ' ' + r[3] + ' ' + r[4] + ' ' + r[5]) }; });
     if (j.upd) { var d = new Date(j.upd); $('upd').textContent = 'última consulta: ' + d.toLocaleDateString('es-PY', { day: 'numeric', month: 'long', year: 'numeric' }); }
     $('ld').remove(); opciones(); dibujar(false);
     if (typeof gtag === 'function') gtag('event', 'mapa_estaciones_carga', { n: E.length });
