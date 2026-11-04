@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mapa de estaciones de servicio de Paraguay · Energías LATAM</title>
+<meta name="description" content="Todas las estaciones de servicio de Paraguay en un mapa: buscá por emblema, departamento o ciudad, mirá la dirección y llegá con un toque. Datos oficiales del MIC.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Energías LATAM">
+<meta property="og:title" content="Mapa de estaciones de servicio de Paraguay">
+<meta property="og:description" content="Las cerca de 2.900 estaciones del país, por emblema, departamento y ciudad. Datos oficiales del MIC.">
+<meta property="og:url" content="https://energiaslatam.com/estaciones">
+<meta property="og:image" content="https://energiaslatam.com/img/og-energiaslatam.jpg">
+<link rel="canonical" href="https://energiaslatam.com/estaciones">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VHN1X44JV1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VHN1X44JV1');</script>
+<style>
+:root{--nv:#0F213D;--gr:#3A963E;--gl:#76C46E;--mu:#4A5B6C;--bg:#EEF2F6;--ln:#D5DEE8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Barlow,Arial,sans-serif;color:var(--nv)}
+.top{height:6px;background:var(--nv)}.top2{height:4px;background:var(--gr)}
+header{background:var(--nv);color:#fff;padding:18px 16px}
+.hw{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px}.hw img{width:50px;height:50px;border-radius:50%;background:#fff}
+.hw a{color:inherit;text-decoration:none}.hw b{font:400 28px/1 'Bebas Neue',sans-serif;letter-spacing:1px}.hw b span{color:var(--gl)}.hw small{display:block;color:#B0C2D4;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.hw .bk{margin-left:auto;color:#C9D6E3;font-weight:600;font-size:15px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.intro{padding:22px 0 4px}.e{margin:0;color:#2E7D32;font-weight:700;letter-spacing:3px;font-size:13px;text-transform:uppercase}
+h1{margin:6px 0 8px;font:400 clamp(38px,6vw,62px)/1 'Bebas Neue',sans-serif}
+.intro p{font-size:17px;line-height:1.5;color:var(--mu);margin:0 0 6px;max-width:780px}
+.box{background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(15,33,61,.08);padding:16px;margin:14px 0}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.ctl label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
+select,input[type=search]{font:600 15px Barlow,Arial,sans-serif;color:var(--nv);background:#fff;border:1.5px solid var(--ln);border-radius:8px;padding:9px 10px;min-height:42px}
+input[type=search]{min-width:220px}
+.chk{flex-direction:row!important;align-items:center;gap:8px!important;text-transform:none!important;letter-spacing:0!important;font-size:14px!important;font-weight:600!important;min-height:42px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font:700 15px Barlow,Arial,sans-serif;cursor:pointer;border:0;min-height:42px;background:var(--gr);color:#fff}
+.btn.b2{background:#fff;color:var(--nv);border:2px solid var(--nv)}
+.res{margin:12px 0 0;font-size:15px;color:var(--mu)}.res b{color:var(--nv)}
+.lay{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:start}
+#mapa{height:72vh;min-height:460px;border-radius:12px;box-shadow:0 4px 18px rgba(15,33,61,.12);z-index:0}
+.side{background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(15,33,61,.08);padding:14px 14px 8px;max-height:72vh;overflow:auto}
+.side h3{margin:0 0 8px;font:400 24px/1 'Bebas Neue',sans-serif}
+.el{list-style:none;margin:0;padding:0}.el li{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px solid #EDF1F5;cursor:pointer;font-size:14px;font-weight:600}
+.el li:hover{background:#F4F7FA}.el li.on{background:#E8F3EA}.el li .n{margin-left:auto;color:var(--mu);font-variant-numeric:tabular-nums}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.lgo{width:30px;height:22px;flex:none;display:inline-flex;align-items:center;justify-content:center}.lgo img{max-width:30px;max-height:22px}
+.pp{font:400 14px/1.45 Barlow,Arial,sans-serif;color:var(--nv);min-width:220px}
+.pp .hd{display:flex;align-items:center;gap:8px;margin-bottom:4px}.pp .hd img{max-width:44px;max-height:28px}.pp .hd b{font:400 22px/1 'Bebas Neue',sans-serif}
+.pp .t{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#2E7D32;margin-bottom:4px}
+.pp .ad{margin:2px 0 6px}.pp .lc{color:var(--mu);font-size:13px}
+.pp table{border-collapse:collapse;margin:6px 0;font-size:13px;width:100%}.pp td{padding:2px 0}.pp td+td{text-align:right;font-weight:700}
+.pp .nt{font-size:11px;color:var(--mu)}
+.pp a.go{display:inline-block;margin-top:6px;background:var(--gr);color:#fff;text-decoration:none;font-weight:700;padding:7px 12px;border-radius:7px}
+.cl{background:var(--nv);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 13px Barlow,Arial,sans-serif;border:3px solid rgba(255,255,255,.85);box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.ld{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(238,242,246,.8);font-weight:700;z-index:500;border-radius:12px}
+.ft{max-width:1180px;margin:10px auto 36px;padding:0 16px;color:var(--mu);font-size:14px;line-height:1.5}.ft a{color:var(--nv)}
+@media(max-width:860px){.lay{grid-template-columns:1fr}.side{max-height:none}#mapa{height:62vh}input[type=search]{min-width:0;flex:1}.ctl label{flex:1 1 140px}}
+</style></head>
+<body><div class="top"></div><div class="top2"></div>
+<header><div class="hw"><a href="/"><img src="/logo-latam-v2-512.png" alt="Energías LATAM"></a><a href="/"><b>ENERGÍAS <span>LATAM</span></b><small>La Estación del Futuro</small></a><a class="bk" href="/combustible/py">Datos del sector →</a></div></header>
+<div class="wrap">
+<div class="intro"><p class="e">Red de estaciones · Paraguay</p>
+<h1>Mapa de estaciones de servicio</h1>
+<p>Todas las estaciones de servicio habilitadas en el país, según el registro oficial del Ministerio de Industria y Comercio. Filtrá por emblema, departamento o ciudad y tocá cada punto para ver la dirección y cómo llegar.</p></div>
+<div class="box">
+<div class="ctl">
+<label>Emblema<select id="fEmb"><option value="">Todos los emblemas</option></select></label>
+<label>Departamento<select id="fDep"><option value="">Todo el país</option></select></label>
+<label style="flex:1">Ciudad o dirección<input type="search" id="fQ" placeholder="Ej.: Luque, Ruta 2, Mcal. López"></label>
+<label class="chk"><input type="checkbox" id="fCp"> Incluir puestos de consumo propio</label>
+<button class="btn b2" id="bCerca" type="button">📍 Cerca mío</button>
+</div>
+<p class="res" id="res">Cargando estaciones…</p>
+</div>
+<div class="lay">
+<div style="position:relative"><div id="mapa" role="region" aria-label="Mapa de estaciones de servicio"></div><div class="ld" id="ld">Cargando el mapa…</div></div>
+<aside class="side"><h3>Estaciones por emblema</h3><ul class="el" id="lista"></ul></aside>
+</div>
+</div>
+<p class="ft">Fuente: registro de estaciones de servicio del <a href="https://gis.mic.gov.py/" target="_blank" rel="noopener">Ministerio de Industria y Comercio</a>, actualizado cada día (<span id="upd">…</span>). Los precios son promedios por emblema informados por las distribuidoras al MIC y pueden variar entre estaciones. Procesamiento y mapa: Energías LATAM.<br><a href="/">energiaslatam.com</a> · <a href="/combustible/py">El combustible en números</a> · <a href="/newsletter.html">Recibí el newsletter semanal</a> · <a href="/privacidad">Política de privacidad</a></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.min.js"></script>
+<script>
+(function () {
+  var DATA_URL = window.EST_DATA_URL || '/estaciones.php', PRECIOS_URL = window.EST_PRECIOS_URL || '/mic-extra.php', IMG = window.EST_IMG || '';
+  var EMB = { BR: 'Shell', PTBR: 'Petrobras', CPG: 'Copeg', TMG: '3MG', COR: 'Gas Corona', CPT: 'Copetrol', PCH: 'Petrochaco', PMX: 'Petromax', PSR: 'Petrosur', PUM: 'Puma', INT: 'Integral', AXN: 'Axion', CPA: 'Compasa', ECO: 'ECOP', FLP: 'Fuelpar', FRT: '3 Fronteras', HDN: 'HN Petróleos', PTN: 'Petron', PTP: 'Petropar', ENX: 'Enex', GSR: 'Enex', NIN: 'Energy' };
+  var PAL = { 'Petropar': '#2B47E6', 'Shell': '#E8B800', 'Petrobras': '#0A8F5F', 'Copetrol': '#2A27D6', 'Puma': '#D8061B', 'Energy': '#1A1A1A', 'ECOP': '#F18C17', 'Petrosur': '#4A52D0', 'Petrochaco': '#47659A', 'Petromax': '#D2010B', 'Compasa': '#EE141F', 'Enex': '#0B57B8', 'Fuelpar': '#C9BE00', 'HN Petróleos': '#F2B705', 'Integral': '#E3C800', '3MG': '#0A47A8', 'Copeg': '#EE332A', 'Gas Corona': '#22409A', '3 Fronteras': '#164896', 'Petron': '#D22D34' };
+  var LOGO = { 'Petropar': 'petropar', 'Shell': 'shell', 'Petrobras': 'petrobras', 'Copetrol': 'copetrol', 'Puma': 'puma', 'Energy': 'energy', 'ECOP': 'ecop', 'Petrosur': 'petrosur', 'Petrochaco': 'petrochaco', 'Petromax': 'petromax', 'Compasa': 'compasa', 'Enex': 'enex', 'Fuelpar': 'fuelpar', 'Integral': 'integral', 'HN Petróleos': 'hn-petroleos', '3 Fronteras': '3-fronteras', 'Copeg': 'copeg', '3MG': '3mg', 'Gas Corona': 'gas-corona', 'Petron': 'petron' };
+  var PROD = { GTIII: 'Diésel tipo III', GTI: 'Diésel tipo I', N90: 'Nafta 90', N95: 'Nafta 95', NA97: 'Nafta 97' };
+  var EXTRA = ['#26A6B8', '#8E3FA0', '#8D6E63', '#5E9A2E', '#E65A2E', '#4C5BB0', '#7A7F87'];
+  function $(i) { return document.getElementById(i); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function tc(s) { return String(s || '').toLowerCase().replace(/(^|[\s.(\/-])([a-záéíóúñü])/g, function (m, a, b) { return a + b.toUpperCase(); }); }
+  function n0(v) { return Math.round(v).toLocaleString('es-PY'); }
+  function sinAc(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function nomEmb(code, dist) { return EMB[code] || tc(dist || code || 'Otro'); }
+  function col(n) { if (PAL[n]) return PAL[n]; var k = 0; for (var i = 0; i < n.length; i++) k = (k * 31 + n.charCodeAt(i)) >>> 0; return PAL[n] = EXTRA[k % EXTRA.length]; }
+  function logo(n) { return LOGO[n] ? IMG + '/img/emb/' + LOGO[n] + '.png?v=3' : ''; }
+
+  var map = L.map('mapa', { preferCanvas: true, zoomControl: true }).setView([-23.4, -58.2], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · &copy; <a href="https://carto.com/attributions">CARTO</a>' }).addTo(map);
+  var grupo = L.markerClusterGroup({ chunkedLoading: true, showCoverageOnHover: false, maxClusterRadius: 50, spiderfyOnMaxZoom: true,
+    iconCreateFunction: function (c) { var n = c.getChildCount(), s = n < 10 ? 32 : n < 100 ? 38 : n < 500 ? 46 : 54; return L.divIcon({ html: '<div class="cl" style="width:' + s + 'px;height:' + s + 'px">' + n + '</div>', className: '', iconSize: [s, s] }); } });
+  map.addLayer(grupo);
+
+  var E = [], PR = null, F = { emb: '', dep: '', q: '', cp: false }, yo = null;
+  function precios(code) {
+    if (!PR || !PR.cols) return '';
+    var ci = PR.cols.indexOf(code); if (ci < 0) return '';
+    var h = '';
+    Object.keys(PROD).forEach(function (pc) {
+      var ri = PR.rows.indexOf(pc); if (ri < 0) return; var v = PR.data[ri][ci]; if (!(v > 0)) return;
+      var vals = PR.data[ri].filter(function (x) { return x > 0; }).sort(function (a, b) { return a - b; }), med = vals[Math.floor(vals.length / 2)];
+      if (med && Math.abs(v - med) / med > 0.12) return;
+      h += '<tr><td>' + PROD[pc] + '</td><td>G. ' + n0(v) + '</td></tr>';
+    });
+    return h ? '<table>' + h + '</table><div class="nt">Precio promedio del emblema informado al MIC</div>' : '';
+  }
+  function popup(e) {
+    var lg = logo(e.n), dir = 'https://www.google.com/maps/dir/?api=1&destination=' + e.lat + ',' + e.lng;
+    return '<div class="pp"><div class="hd">' + (lg ? '<img src="' + lg + '" alt="">' : '<i class="dot" style="background:' + col(e.n) + '"></i>') + '<b>' + esc(e.n) + '</b></div>' +
+      '<span class="t">' + (e.cp ? 'Puesto de consumo propio' : 'Estación de servicio') + '</span>' +
+      '<div class="ad">' + esc(tc(e.dir)) + '</div><div class="lc">' + esc(tc(e.dist)) + ' · ' + esc(tc(e.dep)) + '</div>' +
+      (e.cp ? '' : precios(e.code)) + '<a class="go" href="' + dir + '" target="_blank" rel="noopener">Cómo llegar →</a></div>';
+  }
+  function dist(a, b) { var R = 6371, dLa = (b[0] - a[0]) * Math.PI / 180, dLo = (b[1] - a[1]) * Math.PI / 180, x = Math.sin(dLa / 2) * Math.sin(dLa / 2) + Math.cos(a[0] * Math.PI / 180) * Math.cos(b[0] * Math.PI / 180) * Math.sin(dLo / 2) * Math.sin(dLo / 2); return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x)); }
+  function filtrar(e) {
+    if (!F.cp && e.cp) return false;
+    if (F.emb && e.n !== F.emb) return false;
+    if (F.dep && e.dep !== F.dep) return false;
+    if (F.q && e.s.indexOf(F.q) < 0) return false;
+    return true;
+  }
+  function dibujar(ajustar) {
+    grupo.clearLayers();
+    var vis = E.filter(filtrar), ms = vis.map(function (e) {
+      var m = L.circleMarker([e.lat, e.lng], { radius: 7, color: '#fff', weight: 2, fillColor: col(e.n), fillOpacity: .95 });
+      m.bindPopup(function () { return popup(e); }, { maxWidth: 280 }); return m;
+    });
+    grupo.addLayers(ms);
+    // conteo por emblema con los filtros de lugar (sin el de emblema)
+    var por = {}; E.forEach(function (e) { if ((!F.cp && e.cp) || (F.dep && e.dep !== F.dep) || (F.q && e.s.indexOf(F.q) < 0)) return; por[e.n] = (por[e.n] || 0) + 1; });
+    var ks = Object.keys(por).sort(function (a, b) { return por[b] - por[a]; });
+    $('lista').innerHTML = ks.map(function (n) { var lg = logo(n); return '<li data-n="' + esc(n) + '" class="' + (F.emb === n ? 'on' : '') + '">' + (lg ? '<span class="lgo"><img src="' + lg + '" alt=""></span>' : '<span class="lgo"><i class="dot" style="background:' + col(n) + '"></i></span>') + esc(n) + '<span class="n">' + n0(por[n]) + '</span></li>'; }).join('') || '<li>No hay estaciones con esos filtros.</li>';
+    var lugar = F.dep ? ' en ' + tc(F.dep) : ' en todo el país';
+    $('res').innerHTML = '<b>' + n0(vis.length) + '</b> ' + (vis.length === 1 ? 'estación' : 'estaciones') + (F.emb ? ' de <b>' + esc(F.emb) + '</b>' : '') + lugar + (F.q ? ' que coinciden con «' + esc($('fQ').value.trim()) + '»' : '') + '.';
+    if (yo && vis.length) {
+      var c = vis.map(function (e) { return { e: e, d: dist(yo, [e.lat, e.lng]) }; }).sort(function (a, b) { return a.d - b.d; }).slice(0, 3);
+      $('res').innerHTML += ' Más cercanas: ' + c.map(function (x) { return esc(x.e.n) + ' en ' + esc(tc(x.e.dist)) + ' (' + x.d.toFixed(1).replace('.', ',') + ' km)'; }).join(' · ') + '.';
+    }
+    if (ajustar && vis.length) { var b = L.latLngBounds(vis.map(function (e) { return [e.lat, e.lng]; })); map.fitBounds(b, { padding: [30, 30], maxZoom: 15 }); }
+  }
+  function opciones() {
+    var cnt = {}, deps = {}; E.forEach(function (e) { if (!e.cp) cnt[e.n] = (cnt[e.n] || 0) + 1; deps[e.dep] = 1; });
+    Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; }).forEach(function (n) { var o = document.createElement('option'); o.value = n; o.textContent = n + ' (' + n0(cnt[n]) + ')'; $('fEmb').appendChild(o); });
+    Object.keys(deps).filter(Boolean).sort().forEach(function (d) { var o = document.createElement('option'); o.value = d; o.textContent = tc(d); $('fDep').appendChild(o); });
+  }
+  var tq;
+  $('fEmb').onchange = function () { F.emb = this.value; dibujar(true); };
+  $('fDep').onchange = function () { F.dep = this.value; dibujar(true); };
+  $('fCp').onchange = function () { F.cp = this.checked; dibujar(false); };
+  $('fQ').oninput = function () { var v = this.value; clearTimeout(tq); tq = setTimeout(function () { F.q = sinAc(v.trim()); dibujar(!!F.q); }, 250); };
+  $('lista').onclick = function (ev) { var li = ev.target.closest('li[data-n]'); if (!li) return; var n = li.getAttribute('data-n'); F.emb = F.emb === n ? '' : n; $('fEmb').value = F.emb; dibujar(true); };
+  $('bCerca').onclick = function () {
+    if (!navigator.geolocation) { $('res').innerHTML += ' Tu navegador no permite ubicarte.'; return; }
+    var b = this; b.textContent = 'Buscando…';
+    navigator.geolocation.getCurrentPosition(function (p) {
+      yo = [p.coords.latitude, p.coords.longitude]; b.textContent = '📍 Cerca mío';
+      L.circleMarker(yo, { radius: 9, color: '#fff', weight: 3, fillColor: '#1E88E5', fillOpacity: 1 }).addTo(map).bindTooltip('Estás acá');
+      map.setView(yo, 14); dibujar(false);
+    }, function () { b.textContent = '📍 Cerca mío'; $('res').innerHTML += ' No pudimos acceder a tu ubicación.'; }, { enableHighAccuracy: true, timeout: 10000 });
+  };
+  fetch(PRECIOS_URL).then(function (r) { return r.json(); }).then(function (j) { PR = j && j.precios; }).catch(function () {});
+  fetch(DATA_URL).then(function (r) { return r.json(); }).then(function (j) {
+    E = (j.data || []).map(function (r) { var n = nomEmb(r[2], r[7]); return { lat: r[0], lng: r[1], code: r[2], n: n, dep: r[3], dist: r[4], dir: r[5], cp: !!r[6], s: sinAc(n + ' ' + r[3] + ' ' + r[4] + ' ' + r[5]) }; });
+    if (j.upd) { var d = new Date(j.upd); $('upd').textContent = 'última consulta: ' + d.toLocaleDateString('es-PY', { day: 'numeric', month: 'long', year: 'numeric' }); }
+    $('ld').remove(); opciones(); dibujar(false);
+    if (typeof gtag === 'function') gtag('event', 'mapa_estaciones_carga', { n: E.length });
+  }).catch(function () { $('ld').textContent = 'No pudimos cargar las estaciones. Probá de nuevo en unos minutos.'; $('res').textContent = ''; });
+})();
+</script>
+</body></html>
