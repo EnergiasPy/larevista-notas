@@ -108,7 +108,7 @@ input[type=search]{min-width:220px}
   function $(i) { return document.getElementById(i); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function tc(s) { return String(s || '').toLowerCase().replace(/(^|[\s.(\/-])([a-záéíóúñü])/g, function (m, a, b) { return a + b.toUpperCase(); }); }
-  var DEPN = { 'ALTO PARANA': 'Alto Paraná', 'CAAGUAZU': 'Caaguazú', 'CAAZAPA': 'Caazapá', 'GUAIRA': 'Guairá', 'ITAPUA': 'Itapúa', 'PARAGUARI': 'Paraguarí', 'NEEMBUCU': 'Ñeembucú', 'ÑEEMBUCU': 'Ñeembucú', 'CONCEPCION': 'Concepción', 'CANINDEYU': 'Canindeyú', 'BOQUERON': 'Boquerón', 'ASUNCION': 'Asunción', 'CAPITAL': 'Asunción' };
+  var DEPN = { 'ALTO PARANA': 'Alto Paraná', 'CAAGUAZU': 'Caaguazú', 'CAAZAPA': 'Caazapá', 'GUAIRA': 'Guairá', 'ITAPUA': 'Itapúa', 'PARAGUARI': 'Paraguarí', 'NEEMBUCU': 'Ñeembucú', 'ÑEEMBUCU': 'Ñeembucú', 'CONCEPCION': 'Concepción', 'CANINDEYU': 'Canindeyú', 'BOQUERON': 'Boquerón', 'ASUNCION': 'Asunción', 'CAPITAL': 'Asunción', 'SAN LORENZO': 'San Lorenzo', 'LAMBARE': 'Lambaré', 'ÑEMBY': 'Ñemby', 'NEMBY': 'Ñemby', 'MARIANO ROQUE ALONSO': 'Mariano Roque Alonso', 'SAN ANTONIO': 'San Antonio', 'ITAUGUA': 'Itauguá', 'CAPIATA': 'Capiatá', 'AREGUA': 'Areguá', 'ENCARNACION': 'Encarnación', 'CIUDAD DEL ESTE': 'Ciudad del Este', 'CORONEL OVIEDO': 'Coronel Oviedo', 'VILLARRICA': 'Villarrica', 'CAACUPE': 'Caacupé', 'YPACARAI': 'Ypacaraí', 'HERNANDARIAS': 'Hernandarias', 'MINGA GUAZU': 'Minga Guazú', 'SANTA RITA': 'Santa Rita', 'FILADELFIA': 'Filadelfia', 'LOMA PLATA': 'Loma Plata', 'PEDRO JUAN CABALLERO': 'Pedro Juan Caballero', 'SALTO DEL GUAIRA': 'Salto del Guairá', 'CURUGUATY': 'Curuguaty', 'SAN ESTANISLAO': 'San Estanislao', 'PILAR': 'Pilar', 'LIMPIO': 'Limpio', 'VILLA ELISA': 'Villa Elisa', 'FERNANDO DE LA MORA': 'Fernando de la Mora' };
   function dn(d) { return DEPN[d] || tc(d); }
   function n0(v) { return Math.round(v).toLocaleString('es-PY'); }
   function sinAc(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
@@ -151,7 +151,7 @@ input[type=search]{min-width:220px}
     var lg = logo(e.n), dir = 'https://www.google.com/maps/dir/?api=1&destination=' + e.lat + ',' + e.lng;
     return '<div class="pp"><div class="hd">' + (lg ? '<img src="' + lg + '" alt=""' + (e.n === 'Energy' ? ' style="background:#1A1A1A;padding:3px;border-radius:4px"' : '') + '>' : '<i class="dot" style="background:' + col(e.n) + '"></i>') + '<b>' + esc(e.n) + '</b></div>' +
       '<span class="t">' + (e.cp ? 'Puesto de consumo propio' : 'Estación de servicio') + '</span>' +
-      '<div class="ad">' + esc(tc(e.dir)) + '</div><div class="lc">' + esc(tc(e.dist)) + ' · ' + esc(dn(e.dep)) + '</div>' +
+      '<div class="ad">' + esc(tc(e.dir)) + '</div><div class="lc">' + esc(dn(e.dist)) + ' · ' + esc(dn(e.dep)) + '</div>' +
       '<a class="go" href="' + dir + '" target="_blank" rel="noopener">Cómo llegar →</a></div>';
   }
   function dist(a, b) { var R = 6371, dLa = (b[0] - a[0]) * Math.PI / 180, dLo = (b[1] - a[1]) * Math.PI / 180, x = Math.sin(dLa / 2) * Math.sin(dLa / 2) + Math.cos(a[0] * Math.PI / 180) * Math.cos(b[0] * Math.PI / 180) * Math.sin(dLo / 2) * Math.sin(dLo / 2); return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x)); }
@@ -177,7 +177,7 @@ input[type=search]{min-width:220px}
     $('res').innerHTML = '<b>' + n0(vis.length) + '</b> ' + (F.cp ? (vis.length === 1 ? 'sitio' : 'estaciones y puestos de consumo propio') : (vis.length === 1 ? 'estación' : 'estaciones')) + (F.emb ? ' de <b>' + esc(F.emb) + '</b>' : '') + lugar + (F.q ? ' que coinciden con «' + esc($('fQ').value.trim()) + '»' : '') + '.';
     if (yo && vis.length) {
       var c = vis.map(function (e) { return { e: e, d: dist(yo, [e.lat, e.lng]) }; }).sort(function (a, b) { return a.d - b.d; }).slice(0, 3);
-      $('res').innerHTML += ' Más cercanas: ' + c.map(function (x) { return esc(x.e.n) + ' en ' + esc(tc(x.e.dist)) + ' (' + x.d.toFixed(1).replace('.', ',') + ' km)'; }).join(' · ') + '.';
+      $('res').innerHTML += ' Más cercanas: ' + c.map(function (x) { return esc(x.e.n) + ' en ' + esc(dn(x.e.dist)) + ' (' + x.d.toFixed(1).replace('.', ',') + ' km)'; }).join(' · ') + '.';
     }
     if (ajustar && vis.length) { var b = L.latLngBounds(vis.map(function (e) { return [e.lat, e.lng]; })); map.fitBounds(b, { padding: [30, 30], maxZoom: 15 }); }
   }
