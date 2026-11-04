@@ -2,11 +2,11 @@
 <html lang="es"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mapa de estaciones de servicio de Paraguay · Energías LATAM</title>
+<title>Mapa interactivo de estaciones de servicio · Energías LATAM</title>
 <meta name="description" content="Todas las estaciones de servicio de Paraguay en un mapa: buscá por emblema, departamento o ciudad, mirá la dirección y llegá con un toque. Datos oficiales del MIC.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Energías LATAM">
-<meta property="og:title" content="Mapa de estaciones de servicio de Paraguay">
+<meta property="og:title" content="Mapa interactivo de estaciones de servicio de Paraguay">
 <meta property="og:description" content="Las cerca de 2.900 estaciones del país, por emblema, departamento y ciudad. Datos oficiales del MIC.">
 <meta property="og:url" content="https://energiaslatam.com/estaciones">
 <meta property="og:image" content="https://energiaslatam.com/img/og-energiaslatam.jpg">
@@ -64,6 +64,8 @@ input[type=search]{min-width:220px}
 .lgo.dk{background:#1A1A1A;border-radius:4px}
 .cl{background:var(--nv);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 13px Barlow,Arial,sans-serif;border:3px solid rgba(255,255,255,.85);box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .ld{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(238,242,246,.8);font-weight:700;z-index:500;border-radius:12px}
+.dest{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;background:var(--nv);color:#fff;text-decoration:none;border-radius:12px;padding:14px 18px;margin:0 0 14px;font-size:16px;line-height:1.4}
+.dest b{color:var(--gl)}.dest .go2{background:var(--gr);color:#fff;font-weight:700;padding:9px 16px;border-radius:8px;white-space:nowrap}.dest:hover .go2{background:#2E7D32}
 .ft{max-width:1180px;margin:10px auto 36px;padding:0 16px;color:var(--mu);font-size:14px;line-height:1.5}.ft a{color:var(--nv)}
 @media(max-width:860px){.lay{grid-template-columns:1fr}.side{max-height:none}#mapa{height:62vh}input[type=search]{min-width:0;flex:1}.ctl label{flex:1 1 140px}}
 </style></head>
@@ -71,7 +73,7 @@ input[type=search]{min-width:220px}
 <header><div class="hw"><a href="/"><img src="/logo-latam-v2-512.png" alt="Energías LATAM"></a><a href="/"><b>ENERGÍAS <span>LATAM</span></b><small>La Estación del Futuro</small></a><a class="bk" href="/combustible/py">Datos del sector →</a></div></header>
 <div class="wrap">
 <div class="intro"><p class="e">Red de estaciones · Paraguay</p>
-<h1>Mapa de estaciones de servicio</h1>
+<h1>Mapa interactivo de estaciones</h1>
 <p>Todas las estaciones de servicio habilitadas en el país, según el registro oficial del Ministerio de Industria y Comercio. Filtrá por emblema, departamento o ciudad y tocá cada punto para ver la dirección y cómo llegar.</p></div>
 <div class="box">
 <div class="ctl">
@@ -83,6 +85,7 @@ input[type=search]{min-width:220px}
 </div>
 <p class="res" id="res">Cargando estaciones…</p>
 </div>
+<a class="dest" href="/#anuncia"><span><b>¿Querés que tu estación aparezca destacada?</b> Sumá tu logo, fotos, horarios y servicios en el mapa.</span><span class="go2">Consultanos →</span></a>
 <div class="lay">
 <div style="position:relative"><div id="mapa" role="region" aria-label="Mapa de estaciones de servicio"></div><div class="ld" id="ld">Cargando el mapa…</div></div>
 <aside class="side"><h3>Estaciones por emblema</h3><ul class="el" id="lista"></ul></aside>
