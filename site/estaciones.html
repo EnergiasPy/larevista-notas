@@ -60,6 +60,8 @@ input[type=search]{min-width:220px}
 .pin .ini{font:700 13px Barlow,Arial,sans-serif}
 .pin i{position:absolute;left:14px;top:29px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:12px solid var(--c)}
 .pin.cp .pb{border-style:dashed}
+.pin.dk .pb{background:#1A1A1A;border-color:#FEDB03}.pin.dk i{border-top-color:#FEDB03}
+.lgo.dk{background:#1A1A1A;border-radius:4px}
 .cl{background:var(--nv);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 13px Barlow,Arial,sans-serif;border:3px solid rgba(255,255,255,.85);box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .ld{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(238,242,246,.8);font-weight:700;z-index:500;border-radius:12px}
 .ft{max-width:1180px;margin:10px auto 36px;padding:0 16px;color:var(--mu);font-size:14px;line-height:1.5}.ft a{color:var(--nv)}
@@ -133,11 +135,11 @@ input[type=search]{min-width:220px}
     var lg = logo(n), c = col(n), ini = esc(n.replace(/[^A-Za-z0-9ÁÉÍÓÚÑ]/g, '').slice(0, 2).toUpperCase());
     var in_ = lg ? '<img src="' + lg + '" alt="">' : '<span class="ini" style="color:' + c + '">' + ini + '</span>';
     return ICON[k] = L.divIcon({ className: '', iconSize: [40, 44], iconAnchor: [20, 44], popupAnchor: [0, -40],
-      html: '<div class="pin' + (cp ? ' cp' : '') + '" style="--c:' + c + '"><div class="pb">' + in_ + '</div><i></i></div>' });
+      html: '<div class="pin' + (cp ? ' cp' : '') + (n === 'Energy' ? ' dk' : '') + '" style="--c:' + c + '"><div class="pb">' + in_ + '</div><i></i></div>' });
   }
   function popup(e) {
     var lg = logo(e.n), dir = 'https://www.google.com/maps/dir/?api=1&destination=' + e.lat + ',' + e.lng;
-    return '<div class="pp"><div class="hd">' + (lg ? '<img src="' + lg + '" alt="">' : '<i class="dot" style="background:' + col(e.n) + '"></i>') + '<b>' + esc(e.n) + '</b></div>' +
+    return '<div class="pp"><div class="hd">' + (lg ? '<img src="' + lg + '" alt=""' + (e.n === 'Energy' ? ' style="background:#1A1A1A;padding:3px;border-radius:4px"' : '') + '>' : '<i class="dot" style="background:' + col(e.n) + '"></i>') + '<b>' + esc(e.n) + '</b></div>' +
       '<span class="t">' + (e.cp ? 'Puesto de consumo propio' : 'Estación de servicio') + '</span>' +
       '<div class="ad">' + esc(tc(e.dir)) + '</div><div class="lc">' + esc(tc(e.dist)) + ' · ' + esc(dn(e.dep)) + '</div>' +
       (e.cp ? '' : precios(e.code)) + '<a class="go" href="' + dir + '" target="_blank" rel="noopener">Cómo llegar →</a></div>';
@@ -160,7 +162,7 @@ input[type=search]{min-width:220px}
     // conteo por emblema con los filtros de lugar (sin el de emblema)
     var por = {}; E.forEach(function (e) { if ((!F.cp && e.cp) || (F.dep && e.dep !== F.dep) || (F.q && (F.qd ? e.sd.indexOf(F.q) < 0 : e.s.indexOf(F.q) < 0))) return; por[e.n] = (por[e.n] || 0) + 1; });
     var ks = Object.keys(por).sort(function (a, b) { return por[b] - por[a]; });
-    $('lista').innerHTML = ks.map(function (n) { var lg = logo(n); return '<li data-n="' + esc(n) + '" class="' + (F.emb === n ? 'on' : '') + '">' + (lg ? '<span class="lgo"><img src="' + lg + '" alt=""></span>' : '<span class="lgo"><i class="dot" style="background:' + col(n) + '"></i></span>') + esc(n) + '<span class="n">' + n0(por[n]) + '</span></li>'; }).join('') || '<li>No hay estaciones con esos filtros.</li>';
+    $('lista').innerHTML = ks.map(function (n) { var lg = logo(n); return '<li data-n="' + esc(n) + '" class="' + (F.emb === n ? 'on' : '') + '">' + (lg ? '<span class="lgo' + (n === 'Energy' ? ' dk' : '') + '"><img src="' + lg + '" alt=""></span>' : '<span class="lgo"><i class="dot" style="background:' + col(n) + '"></i></span>') + esc(n) + '<span class="n">' + n0(por[n]) + '</span></li>'; }).join('') || '<li>No hay estaciones con esos filtros.</li>';
     var lugar = F.dep ? ' en ' + dn(F.dep) : ' en todo el país';
     $('res').innerHTML = '<b>' + n0(vis.length) + '</b> ' + (F.cp ? (vis.length === 1 ? 'sitio' : 'estaciones y puestos de consumo propio') : (vis.length === 1 ? 'estación' : 'estaciones')) + (F.emb ? ' de <b>' + esc(F.emb) + '</b>' : '') + lugar + (F.q ? ' que coinciden con «' + esc($('fQ').value.trim()) + '»' : '') + '.';
     if (yo && vis.length) {
