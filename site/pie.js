@@ -1,7 +1,7 @@
 /* Pie del sitio: créditos + Política editorial en ventana de lectura */
 (function () {
   if (window.__pie) return; window.__pie = 1;
-  var CRED = '<span class="pie-lk"><a href="/privacidad" style="color:inherit">Política de privacidad</a> · <a href="#politica-editorial" class="pie-ed" style="color:inherit">Política editorial</a> · <a href="/med.php" rel="nofollow" class="pie-ad" style="color:inherit;opacity:.7">Admin</a></span>';
+  var CRED = '<span class="pie-lk"><a href="/privacidad" style="color:inherit">Política de privacidad</a> · <a href="/politica-editorial" style="color:inherit">Política editorial</a> · <a href="/med.php" rel="nofollow" class="pie-ad" style="color:inherit;opacity:.7">Admin</a></span>';
   var POL = '<h2>Política editorial</h2>' +
     '<p>Energías LATAM es un medio especializado abierto a todos los actores del sector energético y de las estaciones de servicio.</p>' +
     '<p>Elegimos los contenidos por su relevancia y utilidad para nuestros lectores. La contratación de publicidad no garantiza cobertura editorial ni trato preferencial.</p>' +
@@ -49,7 +49,7 @@
     if (!c) {
       // Páginas secundarias: pie simple (p.ft) con el link de privacidad → se agrega el de Política editorial al lado
       var pf = document.querySelector('p.ft'), pr = pf && pf.querySelector('a[href*="privacidad"]');
-      if (pr) { if (!pf.querySelector('a.pie-ed')) pr.insertAdjacentHTML('afterend', ' · <a href="#politica-editorial" class="pie-ed" style="color:inherit">Política editorial</a> · <a href="/med.php" rel="nofollow" class="pie-ad" style="color:inherit;opacity:.7">Admin</a>'); return true; }
+      if (pr) { if (!pf.querySelector('a[href="/politica-editorial"]')) pr.insertAdjacentHTML('afterend', ' · <a href="/politica-editorial" style="color:inherit">Política editorial</a> · <a href="/med.php" rel="nofollow" class="pie-ad" style="color:inherit;opacity:.7">Admin</a>'); return true; }
       var ft = document.querySelector('footer'); if (!ft) return false; c = document.createElement('p'); c.className = 'cred5'; ft.appendChild(c); }
     if (c.getAttribute('data-pie') !== '1') { c.innerHTML = CRED; c.setAttribute('data-pie', '1'); }
     return true;
