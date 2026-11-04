@@ -99,7 +99,7 @@ input[type=search]{min-width:220px}
 <script>
 (function () {
   var DATA_URL = window.EST_DATA_URL || '/estaciones.php', PRECIOS_URL = window.EST_PRECIOS_URL || '/mic-extra.php', IMG = window.EST_IMG || '';
-  var EMB = { BR: 'Shell', PTBR: 'Petrobras', CPG: 'Copeg', TMG: '3MG', COR: 'Gas Corona', CPT: 'Copetrol', PCH: 'Petrochaco', PMX: 'Petromax', PSR: 'Petrosur', PUM: 'Puma', INT: 'Integral', AXN: 'Axion', CPA: 'Compasa', ECO: 'ECOP', FLP: 'Fuelpar', FRT: '3 Fronteras', HDN: 'HN Petróleos', PTN: 'Petron', PTP: 'Petropar', ENX: 'Enex', GSR: 'Enex', NIN: 'Energy' };
+  var EMB = { BR: 'Shell', PTBR: 'Petrobras', CPG: 'Copeg', TMG: '3MG', COR: 'Gas Corona', CPT: 'Copetrol', PCH: 'Petrochaco', PMX: 'Petromax', PSR: 'Petrosur', PUM: 'Puma', INT: 'Integral', AXN: 'Axion', CPA: 'Compasa', ECO: 'ECOP', FLP: 'Fuelpar', FRT: '3 Fronteras', HDN: 'HN Petróleos', PTN: 'Petron', PTP: 'Petropar', ENX: 'Enex', GSR: 'Enex' };
   var PAL = { 'Petropar': '#2B47E6', 'Shell': '#E8B800', 'Petrobras': '#0A8F5F', 'Copetrol': '#2A27D6', 'Puma': '#D8061B', 'Energy': '#1A1A1A', 'ECOP': '#F18C17', 'Petrosur': '#4A52D0', 'Petrochaco': '#47659A', 'Petromax': '#D2010B', 'Compasa': '#EE141F', 'Enex': '#0B57B8', 'Fuelpar': '#C9BE00', 'HN Petróleos': '#F2B705', 'Integral': '#E3C800', '3MG': '#0A47A8', 'Copeg': '#EE332A', 'Gas Corona': '#22409A', '3 Fronteras': '#164896', 'Petron': '#D22D34' };
   // Solo los sponsors llevan su logo en el mapa; el resto, pin simple con el color de su marca
   var LOGO = { 'Shell': 'shell', 'Petrobras': 'petrobras' };
@@ -112,7 +112,9 @@ input[type=search]{min-width:220px}
   function dn(d) { return DEPN[d] || tc(d); }
   function n0(v) { return Math.round(v).toLocaleString('es-PY'); }
   function sinAc(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
-  function nomEmb(code, dist) { return EMB[code] || tc(dist || code || 'Otro'); }
+  // El MIC agrupa varias distribuidoras bajo el mismo código de marcador (NIN): se nombra por distribuidora, igual que en /combustible/py
+  var DIST = { 'INVERSIONES SAN ISIDRO S.A.': 'Energy', 'TEGA SA': 'Tega', 'YGUAZU COMBUSTIBLES SA': 'Yguazú', 'SAN LUIS SA - ENERCON': 'Enercon' };
+  function nomEmb(code, dist) { return DIST[(dist || '').trim()] || (code === 'NIN' ? tc(dist || 'Otro') : EMB[code] || tc(dist || code || 'Otro')); }
   function col(n) { if (PAL[n]) return PAL[n]; var k = 0; for (var i = 0; i < n.length; i++) k = (k * 31 + n.charCodeAt(i)) >>> 0; return PAL[n] = EXTRA[k % EXTRA.length]; }
   function logo(n) { return LOGO[n] ? IMG + '/img/emb/' + LOGO[n] + '.png?v=3' : ''; }
 
