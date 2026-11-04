@@ -60,6 +60,8 @@ input[type=search]{min-width:220px}
 .pin .ini{font:700 13px Barlow,Arial,sans-serif}
 .pin i{position:absolute;left:14px;top:29px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:12px solid var(--c)}
 .pin.cp .pb{border-style:dashed}
+.pin2{width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--c);border:3px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,.4);margin-top:2px}
+.pin2.cp{opacity:.75}
 .pin.dk .pb{background:#1A1A1A;border-color:#FEDB03}.pin.dk i{border-top-color:#FEDB03}
 .lgo.dk{background:#1A1A1A;border-radius:4px}
 .cl{background:var(--nv);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 13px Barlow,Arial,sans-serif;border:3px solid rgba(255,255,255,.85);box-shadow:0 2px 6px rgba(0,0,0,.3)}
@@ -99,7 +101,8 @@ input[type=search]{min-width:220px}
   var DATA_URL = window.EST_DATA_URL || '/estaciones.php', PRECIOS_URL = window.EST_PRECIOS_URL || '/mic-extra.php', IMG = window.EST_IMG || '';
   var EMB = { BR: 'Shell', PTBR: 'Petrobras', CPG: 'Copeg', TMG: '3MG', COR: 'Gas Corona', CPT: 'Copetrol', PCH: 'Petrochaco', PMX: 'Petromax', PSR: 'Petrosur', PUM: 'Puma', INT: 'Integral', AXN: 'Axion', CPA: 'Compasa', ECO: 'ECOP', FLP: 'Fuelpar', FRT: '3 Fronteras', HDN: 'HN Petróleos', PTN: 'Petron', PTP: 'Petropar', ENX: 'Enex', GSR: 'Enex', NIN: 'Energy' };
   var PAL = { 'Petropar': '#2B47E6', 'Shell': '#E8B800', 'Petrobras': '#0A8F5F', 'Copetrol': '#2A27D6', 'Puma': '#D8061B', 'Energy': '#1A1A1A', 'ECOP': '#F18C17', 'Petrosur': '#4A52D0', 'Petrochaco': '#47659A', 'Petromax': '#D2010B', 'Compasa': '#EE141F', 'Enex': '#0B57B8', 'Fuelpar': '#C9BE00', 'HN Petróleos': '#F2B705', 'Integral': '#E3C800', '3MG': '#0A47A8', 'Copeg': '#EE332A', 'Gas Corona': '#22409A', '3 Fronteras': '#164896', 'Petron': '#D22D34' };
-  var LOGO = { 'Petropar': 'petropar', 'Shell': 'shell', 'Petrobras': 'petrobras', 'Copetrol': 'copetrol', 'Puma': 'puma', 'Energy': 'energy', 'ECOP': 'ecop', 'Petrosur': 'petrosur', 'Petrochaco': 'petrochaco', 'Petromax': 'petromax', 'Compasa': 'compasa', 'Enex': 'enex', 'Fuelpar': 'fuelpar', 'Integral': 'integral', 'HN Petróleos': 'hn-petroleos', '3 Fronteras': '3-fronteras', 'Copeg': 'copeg', '3MG': '3mg', 'Gas Corona': 'gas-corona', 'Petron': 'petron' };
+  // Solo los sponsors llevan su logo en el mapa; el resto, pin simple con el color de su marca
+  var LOGO = { 'Shell': 'shell', 'Petrobras': 'petrobras' };
   var PROD = { GTIII: 'Diésel tipo III', GTI: 'Diésel tipo I', N90: 'Nafta 90', N95: 'Nafta 95', NA97: 'Nafta 97' };
   var EXTRA = ['#26A6B8', '#8E3FA0', '#8D6E63', '#5E9A2E', '#E65A2E', '#4C5BB0', '#7A7F87'];
   function $(i) { return document.getElementById(i); }
@@ -136,7 +139,9 @@ input[type=search]{min-width:220px}
   function icono(n, cp) {
     var k = n + (cp ? '|cp' : ''); if (ICON[k]) return ICON[k];
     var lg = logo(n), c = col(n), ini = esc(n.replace(/[^A-Za-z0-9ÁÉÍÓÚÑ]/g, '').slice(0, 2).toUpperCase());
-    var in_ = lg ? '<img src="' + lg + '" alt="">' : '<span class="ini" style="color:' + c + '">' + ini + '</span>';
+    if (!lg) return ICON[k] = L.divIcon({ className: '', iconSize: [22, 30], iconAnchor: [11, 30], popupAnchor: [0, -26],
+      html: '<div class="pin2' + (cp ? ' cp' : '') + '" style="--c:' + c + '"></div>' });
+    var in_ = '<img src="' + lg + '" alt="">';
     return ICON[k] = L.divIcon({ className: '', iconSize: [40, 44], iconAnchor: [20, 44], popupAnchor: [0, -40],
       html: '<div class="pin' + (cp ? ' cp' : '') + (n === 'Energy' ? ' dk' : '') + '" style="--c:' + c + '"><div class="pb">' + in_ + '</div><i></i></div>' });
   }
