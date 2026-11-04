@@ -50,6 +50,17 @@
     '.pv-brands b{display:block;font:400 22px/1 "Bebas Neue",sans-serif;color:#0F213D;letter-spacing:.5px;margin-bottom:4px}.pv-brands p{margin:0;color:#4A5B6C;font:500 14px/1.45 Barlow,Arial,sans-serif}',
     '@media(max-width:860px){.pv-news,.pv-row,.pv-foro,.pv-brands .wrap{grid-template-columns:1fr}.pv-lead h2{font-size:26px}.pv-mast h1{font-size:32px}}',
     '@media(max-width:420px){.pv-sec a{grid-template-columns:96px 1fr}.pv-sec img{width:96px;height:64px}}',
+    '.pv-mapa{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:center;background:#0F213D;color:#fff;text-decoration:none;border-radius:14px;padding:26px 30px;margin:0 0 26px;overflow:hidden;position:relative}',
+    '.pv-mapa:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 50%,rgba(118,196,110,.18),transparent 60%);pointer-events:none}',
+    '.pv-mapa-e{display:block;font:700 12px Barlow,Arial,sans-serif;letter-spacing:2.5px;text-transform:uppercase;color:#76C46E;margin-bottom:6px}',
+    '.pv-mapa h2{margin:0 0 8px;font:400 44px/1 "Bebas Neue",sans-serif;letter-spacing:.5px;color:#fff}',
+    '.pv-mapa p{margin:0 0 14px;color:#C9D6E3;font:500 17px/1.45 Barlow,Arial,sans-serif;max-width:560px}',
+    '.pv-mapa-b{display:inline-block;background:#3A963E;color:#fff;font:700 16px Barlow,Arial,sans-serif;padding:11px 18px;border-radius:8px}.pv-mapa:hover .pv-mapa-b{background:#2E7D32}',
+    '.pv-mapa-p{position:relative;height:150px}',
+    '.pv-mapa-p i{position:absolute;width:58px;height:44px;background:#fff;border-radius:10px;border:3px solid #76C46E;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(0,0,0,.35);left:calc(6% + var(--i) * 15%);top:calc(50% + (var(--i) - 2.5) * (var(--i) - 2.5) * 6px - 40px)}',
+    '.pv-mapa-p i:after{content:"";position:absolute;bottom:-12px;left:50%;margin-left:-7px;border-left:7px solid transparent;border-right:7px solid transparent;border-top:11px solid #76C46E}',
+    '.pv-mapa-p img{max-width:44px;max-height:30px;object-fit:contain}',
+    '@media(max-width:700px){.pv-mapa{grid-template-columns:1fr;padding:20px 18px;gap:6px}.pv-mapa h2{font-size:34px}.pv-mapa p{font-size:15.5px}.pv-mapa-p{height:96px;order:-1}.pv-mapa-p i{width:46px;height:36px;top:calc(50% + (var(--i) - 2.5) * (var(--i) - 2.5) * 4px - 30px)}.pv-mapa-p img{max-width:36px;max-height:24px}}',
     '@media(max-width:560px){.pv-mast .wrap{padding-top:10px;padding-bottom:10px;gap:10px}.pv-mast h1{font-size:28px}.pv-mast .wrap>p{display:none}#v-inicio main.wrap{padding-top:12px}.pv-news{margin-top:0!important}.pv-lead a{display:flex;flex-direction:column}.pv-lead .pv-cat{order:1;margin-top:0}.pv-lead h2{order:2;font-size:24px!important;margin:2px 0 10px}.pv-lead img{order:3;margin:0 0 10px}.pv-lead p{order:4;font-size:16px}.pv-lead .pv-by{order:5}}',
     // v5 · portada con fotos y avisos más finos
     '@media(max-width:560px){.pv-row{gap:12px;margin:0 0 20px}.pv-box{padding:14px 16px;border-radius:10px}.pv-data h3,.pv-sub h3{font-size:24px;margin:0 0 4px}.pv-data p,.pv-src,.pv-sub ul{display:none}.pv-row>*{min-width:0}.pv-kpi{gap:16px;margin:0 0 10px;flex-wrap:nowrap}.pv-kpi>*{flex:1;min-width:0}.pv-kpi b{font-size:28px}.pv-kpi,.pv-kpi *{line-height:1.3!important}.pv-kpi span{font-size:11.5px;display:block}.pv-kpi br+*,.pv-kpi small{display:none}.pv-chips{flex-wrap:nowrap;overflow-x:auto;gap:6px;margin:0;padding-bottom:2px;-webkit-overflow-scrolling:touch}.pv-chips a{font-size:12.5px;padding:6px 10px;white-space:nowrap}.pv-sub>div,.pv-sub>p{font-size:14px!important;margin:0 0 8px!important}.pv-sub label,.pv-sub .lbl{margin:0 0 4px!important}.pv-sub form{flex-wrap:nowrap;max-width:100%}.pv-sub form label,.pv-sub form .lbl{display:none!important}.pv-sub input[type=email]{min-width:0;flex:1 1 auto;width:auto;padding:9px 10px;font-size:14px}.pv-sub button,.pv-sub input[type=submit]{padding:9px 12px!important;font-size:14px!important}.pv-sub small{font-size:11.5px;margin-top:6px}}',
@@ -141,6 +152,10 @@
     if (grid) grid.style.display = 'none';
     if (ds2) ds2.style.display = 'none'; // reemplazado por el bloque de datos de arriba
 
+    // 7b · mapa interactivo de estaciones (página propia /estaciones)
+    var lgs = ['shell', 'copetrol', 'petropar', 'petrobras', 'puma', 'enex'];
+    var mapa = el('<a class="pv-mapa" href="/estaciones"><div class="pv-mapa-t"><span class="pv-mapa-e">Nuevo · Red de estaciones</span><h2>Mapa interactivo de estaciones</h2><p>Las 2.883 estaciones de servicio de Paraguay en un mapa: buscá por emblema, departamento o ciudad y llegá con un toque.</p><span class="pv-mapa-b">Abrir el mapa →</span></div><div class="pv-mapa-p" aria-hidden="true">' + lgs.map(function (l, i) { return '<i style="--i:' + i + '"><img src="/img/emb/' + l + '.png?v=3" alt=""></i>'; }).join('') + '</div></a>');
+    main.insertBefore(mapa, row);
     // 8 · qué es cada marca
     var foot = $('footer.foot');
     document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href="#suscribite"]'); if (!a) return; e.preventDefault(); var t = document.getElementById('suscribite'); if (!t) return; var hd = document.querySelector('header.top'), off = 16; if (hd && /sticky|fixed/.test(getComputedStyle(hd).position)) off += hd.getBoundingClientRect().height; window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - off, behavior: 'smooth' }); });
