@@ -291,5 +291,16 @@
     "autor": "Ana Paula Scacciaferro",
     "img": "img/2026-11-03-ueno-estaciones-cobros-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-11-04-petroleo-cae-dos-dias-diesel",
+    "estado": "borrador",
+    "fecha": "2026-11-04",
+    "cat": "Mercado y precios",
+    "titulo": "El petróleo cayó casi 9 % en dos días: qué tiene que pasar para que baje el diésel en Paraguay",
+    "bajada": "El Brent pasó de USD 113 a USD 103,60 entre el viernes y el martes. Petropar mantiene sus precios hasta fin de mes y los privados todavía no se mueven. Qué mirar desde la estación.",
+    "autor": "Fernando Berdichevsky",
+    "img": "img/2026-11-04-petroleo-cae-dos-dias-diesel-1.jpg",
+    "pais": "py"
   }
 ]
