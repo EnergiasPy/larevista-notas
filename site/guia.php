@@ -114,7 +114,7 @@ summary b{flex:1}.tag{font-size:12px;font-weight:bold;padding:3px 8px;border-rad
 details .ed{padding:0 12px 12px}.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.kp div{background:#F4F6F9;border-left:4px solid #3A963E;padding:10px;border-radius:6px}.kp b{display:block;font-size:22px}
 @media(max-width:600px){.g{grid-template-columns:1fr}.kp{grid-template-columns:1fr}}
 </style><datalist id="rubros"><?php foreach ($TYPES as $t) echo '<option value="' . $h($t) . '">'; ?></datalist>
-<p style="float:right;font-size:13px"><a href="/med.php">Medidor</a> · <a href="/?r=<?= time() ?>#proveedores" target="_blank">Ver la guía</a> · <a href="?salir=1">Salir</a></p>
+<p style="float:right;font-size:13px"><a href="/" style="font-weight:bold">← Ir a la revista</a> · <a href="/med.php">Medidor</a> · <a href="/?r=<?= time() ?>#proveedores" target="_blank">Ver la guía</a> · <a href="?salir=1">Salir</a></p>
 <h1>Guía de proveedores · admin</h1><p class="sub">Todas las empresas de la guía. Destacada = plan pago: sale primera, con logo, sello y contacto a la vista. Si deja de pagar, tocá "Pasar a básica" (sigue en la guía, sin logo ni destacado) o poné una fecha de vencimiento y baja sola.</p>
 <?php if ($msg) echo '<p class="msg' . (strpos($msg, 'Falta') === 0 || strpos($msg, 'La fecha') === 0 ? ' err' : '') . '">' . $h($msg) . '</p>'; ?>
 <div class="kp"><div><b><?= count($items) ?></b><span class="sub">empresas en la guía</span></div><div><b><?= $nDest ?></b><span class="sub">destacadas (pagas)</span></div><div><b><?= count($pend) ?></b><span class="sub">inscripciones por aprobar</span></div></div>

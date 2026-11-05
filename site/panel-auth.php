@@ -71,7 +71,8 @@ body{font:16px Arial,sans-serif;color:#0F213D;background:#F4F6F9;margin:0;paddin
 h1{font-size:20px;margin:0 0 6px}p{font-size:14px;color:#4A5B6C;line-height:1.45}label{display:block;font-size:13px;color:#4A5B6C;margin:14px 0 4px}
 input{width:100%;box-sizing:border-box;font:16px Arial;padding:10px;border:1px solid #C9D3DE;border-radius:6px}button{width:100%;margin-top:16px;font:bold 16px Arial;padding:12px;border:0;border-radius:6px;background:#3A963E;color:#fff;cursor:pointer}
 .l{background:none;color:#0F213D;text-decoration:underline;font:14px Arial;padding:6px;margin-top:10px}.e{background:#FDECEC;color:#8A1C1C;padding:10px;border-radius:6px;font-size:14px}.ok{background:#E8F4E8;color:#1F5E22;padding:10px;border-radius:6px;font-size:14px}
-</style><div class="c">' . $cuerpo . '</div>';
+.vr{max-width:380px;margin:-4vh auto 0;text-align:center;font-size:14px}.vr a{color:#0F213D;font-weight:bold;text-decoration:none}
+</style><div class="c">' . $cuerpo . '</div><p class="vr"><a href="/">← Volver a la revista</a></p>';
   exit;
 }
 
