@@ -313,5 +313,16 @@
     "autor": "Fernando Berdichevsky",
     "img": "img/2026-11-04-cada-cliente-oportunidad-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-11-05-deflacion-octubre-gasoil",
+    "estado": "borrador",
+    "fecha": "2026-11-05",
+    "cat": "Mercado y precios",
+    "titulo": "Octubre cerró con deflación, pero el gasoil subió 5,4 %: el combustible fue de lo poco que se encareció",
+    "bajada": "Según el Banco Central, los precios bajaron 0,1 % en el mes. Mientras alimentos y autos se abarataron, el diésel empujó hacia arriba. Qué significa para la estación.",
+    "autor": "NdR",
+    "img": "img/2026-11-05-deflacion-octubre-gasoil-1.jpg",
+    "pais": "py"
   }
 ]
