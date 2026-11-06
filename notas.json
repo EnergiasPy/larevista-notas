@@ -324,5 +324,16 @@
     "autor": "NdR",
     "img": "img/2026-11-05-deflacion-octubre-gasoil-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-11-06-petroleo-bajo-100-diesel",
+    "estado": "borrador",
+    "fecha": "2026-11-06",
+    "cat": "Mercado y precios",
+    "titulo": "El petróleo bajó de los USD 100 y borró la prima de guerra: ¿llega el alivio al diésel?",
+    "bajada": "El Brent cayó más de 8 % el miércoles, tras las elecciones en Estados Unidos, y perdió casi USD 19 por barril en tres jornadas. Qué tiene que pasar para que se note en el surtidor paraguayo.",
+    "autor": "Ana Paula Scacciaferro",
+    "img": "img/2026-11-06-petroleo-bajo-100-diesel-1.jpg",
+    "pais": "py"
   }
 ]
