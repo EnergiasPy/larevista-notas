@@ -368,5 +368,16 @@
     "autor": "NdR",
     "img": "img/2026-11-08-ueno-pagos-avance-deudas-1.jpg",
     "pais": "py"
+  },
+  {
+    "id": "2026-11-08-alliana-agenda-combustibles",
+    "estado": "borrador",
+    "fecha": "2026-11-08",
+    "pais": "py",
+    "cat": "Regulación",
+    "titulo": "Combustibles: la agenda que hereda el nuevo gobierno",
+    "bajada": "Pedro Alliana recibe el diésel congelado hasta fin de mes, un dólar en alza y un cambio en la mezcla de biodiésel previsto para enero. Qué decisiones tocan al surtidor y cuándo.",
+    "autor": "Ana Paula Scacciaferro",
+    "img": "img/2026-11-08-alliana-agenda-combustibles-1.jpg"
   }
 ]
