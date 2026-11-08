@@ -10,11 +10,16 @@ function gh_get($path, $ttl = 300) {
   $ctx = stream_context_create(['http' => ['timeout' => 6, 'header' => "User-Agent: energiaslatam\r\nAccept: application/vnd.github.raw\r\n"]]);
   $d = @file_get_contents(GH_API . $path . '?ref=main', false, $ctx);
   if ($d === false) $d = @file_get_contents(GH_RAW . $path . '?t=' . time(), false, stream_context_create(['http' => ['timeout' => 6]]));
+  // Un JSON roto o un mensaje de error de GitHub no reemplaza a la copia buena guardada
+  if ($d !== false && $d !== '' && substr($path, -5) === '.json' && !is_array(json_decode($d, true))) $d = false;
+  if ($d !== false && $d !== '' && $path === 'notas.json' && !isset(json_decode($d, true)[0])) $d = false;
   if ($d !== false && $d !== '') { @file_put_contents($f, $d); return $d; }
   return is_file($f) ? file_get_contents($f) : '';
 }
 function notas_todas() { $j = json_decode(gh_get('notas.json'), true); return is_array($j) ? $j : []; }
 function nota_por_id($id) { foreach (notas_todas() as $n) if (($n['id'] ?? '') === $id) return $n; return null; }
+// Si la nota no está en la copia guardada (recién publicada o caché vieja), vuelve a leer notas.json una vez sin caché
+function nota_por_id_fresca($id) { $j = json_decode(gh_get('notas.json', 0), true); if (is_array($j)) foreach ($j as $n) if (($n['id'] ?? '') === $id) return $n; return null; }
 function nota_cuerpo($id) { return gh_get('notas/' . $id . '.html', 3600); }
 
 // Notas originales escritas dentro de index.html (section data-view="nota-<slug>")

@@ -7,6 +7,7 @@ require __DIR__ . '/notas-lib.php';
 $id = isset($_GET['id']) ? preg_replace('/[^a-z0-9\-]/', '', strtolower($_GET['id'])) : '';
 $n = $id ? nota_por_id($id) : null;
 if (!$n && $id) { $E = notas_estaticas(); if (isset($E[$id])) $n = $E[$id]; }
+if (!$n && $id) $n = nota_por_id_fresca($id);
 if (!$n) { header('Location: /', true, 302); exit; }
 
 $H = @file_get_contents(__DIR__ . '/index.html');
