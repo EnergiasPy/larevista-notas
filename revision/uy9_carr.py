@@ -41,7 +41,7 @@ for i,(l,c) in enumerate([('URUGUAY:',W),('EL GASOIL',W),('DEBERÍA',G),('SUBIR 
     ax.text(66,280+i*142,l,fontfamily=BB,fontsize=108 if i<3 else 96,color=c,va='center')
 ax.add_patch(Rectangle((70,830),140,7,color=G))
 for i,l in enumerate(['El Gobierno congeló los precios','de noviembre. Quién paga la diferencia']):
-    ax.text(70,905+i*62,l,fontfamily=B,fontweight='bold',fontsize=42,color=W,va='center')
+    ax.text(70,905+i*62,l,fontfamily=B,fontweight='bold',fontsize=38,color=W,va='center')
 ax.text(70,1095,'y qué anticipa para la región',fontfamily=B,fontweight='semibold',fontsize=27,color=M,va='center')
 save2(fig,1)
 fig,ax=base(2,'PRECIOS DE NOVIEMBRE')
