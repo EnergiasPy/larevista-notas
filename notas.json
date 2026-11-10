@@ -445,5 +445,16 @@
     "bajada": "El Gobierno de José Antonio Kast confirmó el aumento y propuso limitar a $ 20 por litro las próximas alzas durante 90 días. Los camioneros cortaron la Ruta 5 en el sur y una confederación convocó a paro nacional.",
     "autor": "NdR",
     "img": "img/2026-11-09-chile-alza-diesel-tope-camioneros-1.jpg"
+  },
+  {
+    "id": "2026-11-10-mopc-registro-autogeneracion-renovable",
+    "estado": "borrador",
+    "fecha": "2026-11-10",
+    "pais": "py",
+    "cat": "Electricidad y renovables",
+    "titulo": "¿Generás tu propia energía? El MOPC habilitó el registro para autogeneradores renovables de hasta 1 MW",
+    "bajada": "Quienes producen electricidad con paneles solares, eólica, biomasa o geotermia para consumo propio ya pueden inscribirse sin necesidad de licencia. Qué piden, cómo se hace y qué permite el nuevo régimen.",
+    "autor": "Fernando Berdichevsky",
+    "img": "img/2026-11-10-mopc-registro-autogeneracion-renovable-1.jpg"
   }
 ]
