@@ -39,12 +39,15 @@ def big3(ax,y,items,fs=62):
 ID='2026-11-10-mopc-registro-autogeneracion-renovable'
 def save2(fig,k): save(fig,f'{ID}-c{k}')
 fig,ax=base(1,'LA ESTACIÓN DEL FUTURO · PARAGUAY')
-for i,(l,c) in enumerate([('¿GENERÁS TU',W),('PROPIA ENERGÍA?',W),('YA HAY',G),('REGISTRO',G)]):
-    ax.text(66,280+i*142,l,fontfamily=BB,fontsize=104,color=c,va='center')
-ax.add_patch(Rectangle((70,830),140,7,color=G))
-for i,l in enumerate(['El MOPC habilitó la inscripción para','autogeneradores renovables de hasta 1 MW']):
-    ax.text(70,905+i*62,l,fontfamily=B,fontweight='bold',fontsize=38,color=W,va='center')
-ax.text(70,1095,'Quiénes, cómo y qué permite',fontfamily=B,fontweight='semibold',fontsize=27,color=M,va='center')
+ph=Image.open('/mnt/user-data/attachments/ba48a484-4b4b-549d-9611-4438eea46fb5/2a6800cd-image.png').convert('RGB')
+pw=1080; phh=int(ph.height*pw/ph.width)
+ax.imshow(ph.resize((pw,phh)),extent=(0,1080,140+phh,140),zorder=1)
+rb(ax,20,140+phh-56,310,40,BG,8); ax.text(34,140+phh-36,'Imagen generada con IA',fontfamily=B,fontweight='semibold',fontsize=19,color=W,va='center',zorder=3)
+yy=140+phh+90
+for i,(l,c) in enumerate([('¿GENERÁS TU PROPIA ENERGÍA?',W),('YA HAY REGISTRO HASTA 1 MW',G)]):
+    ax.text(66,yy+i*92,l,fontfamily=BB,fontsize=72,color=c,va='center')
+ax.text(70,yy+205,'El MOPC habilitó la inscripción.',fontfamily=B,fontweight='bold',fontsize=34,color=W,va='center')
+ax.text(70,yy+255,'Quiénes, cómo y qué permite.',fontfamily=B,fontweight='semibold',fontsize=30,color=M,va='center')
 save2(fig,1)
 fig,ax=base(2,'QUIÉNES SE INSCRIBEN')
 y=title(ax,['HASTA 1 MW','DE POTENCIA'])
