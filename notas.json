@@ -467,5 +467,16 @@
     "bajada": "El alivio de R$ 0,89 por litro que vencía el lunes 9 sigue 30 días más, con un costo estimado de R$ 3.570 millones. Qué cambia en la frontera con Paraguay.",
     "autor": "NdR",
     "img": "img/2026-11-10-brasil-prorroga-impuesto-cero-gasolina-1.jpg"
+  },
+  {
+    "id": "2026-11-10-chile-paro-camioneros-ruta5",
+    "estado": "borrador",
+    "fecha": "2026-11-10",
+    "pais": "cl",
+    "cat": "Región",
+    "titulo": "Chile: empezó el paro de camioneros con cortes en la Ruta 5, pero los grandes gremios no se suman",
+    "bajada": "La Confederación Fuerza del Norte cortó rutas en Tarapacá y en el Biobío contra el alza de los combustibles. La CNDC y la CNTC no adhirieron y el aumento de $ 40 igual rige desde el jueves.",
+    "autor": "Ana Paula Scacciaferro",
+    "img": "img/2026-11-10-chile-paro-camioneros-ruta5-1.jpg"
   }
 ]
