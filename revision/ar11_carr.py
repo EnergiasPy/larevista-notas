@@ -37,12 +37,14 @@ def big3(ax,y,items,fs=62):
 ID='2026-11-11-argentina-shell-edenor-manzano-mercuria'
 def save2(fig,k): save(fig,f'{ID}-c{k}')
 fig,ax=base(1,'LA ESTACIÓN DEL FUTURO · ARGENTINA')
-for i,(l,c) in enumerate([('ARGENTINA:',W),('LAS ESTACIONES',W),('SHELL SUMAN',G),('SOCIOS LOCALES',G)]):
-    ax.text(66,280+i*142,l,fontfamily=BB,fontsize=104,color=c,va='center')
-ax.add_patch(Rectangle((70,830),140,7,color=G))
-for i,l in enumerate(['Edenor y el grupo de José Luis Manzano','entran con Mercuria en 892 estaciones']):
-    ax.text(70,905+i*62,l,fontfamily=B,fontweight='bold',fontsize=38,color=W,va='center')
-ax.text(70,1095,'Miércoles 11 de noviembre',fontfamily=B,fontweight='semibold',fontsize=27,color=M,va='center')
+ph=Image.open('/mnt/user-data/attachments/ba48a484-4b4b-549d-9611-4438eea46fb5/33e2a9d1-image.png').convert('RGB')
+phh=700; cw=int(ph.height*1080/phh); x0=(ph.width-cw)//2+40; ph=ph.crop((x0,0,x0+cw,ph.height))
+ax.imshow(ph.resize((1080,phh)),extent=(0,1080,140+phh,140),zorder=1)
+rb(ax,20,140+phh-56,240,40,BG,8); ax.text(34,140+phh-36,'Foto de archivo',fontfamily=B,fontweight='semibold',fontsize=19,color=W,va='center',zorder=3)
+yy=140+phh+75
+for i,(l,c) in enumerate([('LAS ESTACIONES SHELL',W),('SUMAN SOCIOS LOCALES',G)]):
+    ax.text(66,yy+i*88,l,fontfamily=BB,fontsize=80,color=c,va='center')
+ax.text(70,yy+190,'Edenor y el grupo Manzano entran con Mercuria.',fontfamily=B,fontweight='bold',fontsize=30,color=W,va='center')
 save2(fig,1)
 fig,ax=base(2,'QUIÉN TIENE QUÉ')
 y=title(ax,['LOS NUEVOS','DUEÑOS'])
@@ -58,7 +60,11 @@ cards(ax,[('Junio','Mercuria acuerda comprar el negocio de Raízen'),('Unos USD 
 save2(fig,4)
 fig,ax=base(5,'LA MARCA')
 y=title(ax,['SHELL SIGUE','EN EL SURTIDOR'])
-cards(ax,[('Bajo licencia','La opera Signar Energy'),('Para el cliente','No cambia nada a la vista'),('Lo que cambia','Quién decide detrás de casi 900 estaciones')],y+60,h=140)
+ph=Image.open('/mnt/user-data/attachments/ba48a484-4b4b-549d-9611-4438eea46fb5/814ce186-image.png').convert('RGB')
+phh=int(ph.height*960/ph.width); ax.imshow(ph.resize((960,phh)),extent=(60,1020,y+40+phh,y+40),zorder=1)
+rb(ax,76,y+40+phh-52,250,38,BG,8); ax.text(90,y+40+phh-33,'Imagen ilustrativa',fontfamily=B,fontweight='semibold',fontsize=19,color=W,va='center',zorder=3)
+for j,t in enumerate(['La marca sigue, bajo licencia, a cargo de Signar Energy.','Para el cliente no cambia nada a la vista.','Lo que cambia es quién decide detrás de 892 estaciones.']):
+    ax.text(70,y+115+phh+j*52,t,fontfamily=B,fontweight='semibold',fontsize=29,color=W if j==0 else M,va='center')
 save2(fig,5)
 fig,ax=base(6,'UN GRUPO QUE CRECE')
 y=title(ax,['LUZ, GAS Y','COMBUSTIBLES'])

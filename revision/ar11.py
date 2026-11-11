@@ -31,5 +31,5 @@ ax.text(80,872,'Datos de las empresas involucradas, al 11 de noviembre de 2026.'
 ax.add_patch(Rectangle((0,967),1600,100,color=NV))
 ax.text(80,1017,'LA ESTACIÓN',fontfamily=BB,fontsize=40,color='white',va='center'); ax.text(294,1017,'DEL FUTURO',fontfamily=BB,fontsize=40,color='#6DBB78',va='center')
 ax.text(1520,1017,'energiaslatam.com',fontfamily=B,fontweight='semibold',fontsize=24,color='white',va='center',ha='right')
-fig.savefig('/tmp/ar11.png',facecolor='white'); Image.open('/tmp/ar11.png').convert('RGB').save(R+ID+'-1.jpg',quality=88); plt.close(fig)
+fig.savefig('/tmp/ar11.png',facecolor='white'); Image.open('/tmp/ar11.png').convert('RGB').save(R+ID+'-2.jpg',quality=88); plt.close(fig)
 print('ok')
