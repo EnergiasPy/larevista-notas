@@ -65,12 +65,16 @@ y=title(ax,['MÁS','COMPETENCIA'])
 cards(ax,[('Menos espera','60 días alcanzan para coordinar la transición'),('Sin cortes','Evitar interrupciones de la actividad'),('El argumento del MIC','Libertad de actividad económica y de competencia')],y+60,h=140)
 save2(fig,6)
 fig,ax=base(7,'LA MIRADA DE APESA')
-y=title(ax,['"UN PASO','IMPORTANTÍSIMO"'])
-rb(ax,60,y+50,960,330,CARD); ax.add_patch(Rectangle((60,y+50),10,330,color=G))
-for j,t in enumerate(['"Es un paso importantísimo para','obtener condiciones más justas y','equilibradas para el operador."']):
-    ax.text(100,y+115+j*58,t,fontfamily=B,fontweight='bold',fontsize=38,color=W,va='center')
-ax.text(100,y+320,'Víctor Yambay, presidente de APESA',fontfamily=B,fontweight='semibold',fontsize=28,color=G,va='center')
-cards(ax,[('Para APESA, 30 días eran suficientes','Pero el gremio está conforme con el resultado'),('"Se esperan muchos cambios de emblema"','Por costos, caída de ventas y desigualdades')],y+420,h=140)
+ph=Image.open('/tmp/claude-0/-home-claude/ba48a484-4b4b-549d-9611-4438eea46fb5/scratchpad/yam/g_07.jpg').convert('RGB').crop((0,0,740,760))
+phh=int(760*1080/740); ax.imshow(ph.resize((1080,phh)),extent=(0,1080,150+phh*0.62,150),zorder=1) if False else None
+hh=560; cr=ph.crop((0,0,740,560)); ax.imshow(cr,extent=(170,910,150+hh,150),zorder=1)
+rb(ax,186,150+hh-56,370,40,BG,8); ax.text(200,150+hh-36,'Foto: Energías Paraguay 2026',fontfamily=B,fontweight='semibold',fontsize=19,color=W,va='center',zorder=3)
+yy=150+hh+70
+for j,t in enumerate(['"ES UN PASO IMPORTANTÍSIMO','PARA EL OPERADOR"']):
+    ax.text(66,yy+j*84,t,fontfamily=BB,fontsize=74,color=W if j==0 else G,va='center')
+ax.text(70,yy+190,'Víctor Yambay, presidente de APESA',fontfamily=B,fontweight='bold',fontsize=32,color=W,va='center')
+for j,t in enumerate(['Para APESA, 30 días de aviso eran suficientes,','pero el gremio está conforme con el resultado.','Espera muchos cambios de emblema.']):
+    ax.text(70,yy+260+j*46,t,fontfamily=B,fontweight='semibold',fontsize=28,color=M,va='center')
 save2(fig,7)
 fig,ax=base(8,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
 y=title(ax,['MÁS PODER','PARA NEGOCIAR'])
