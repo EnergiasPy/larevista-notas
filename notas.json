@@ -546,17 +546,6 @@
     "img": "img/2026-11-12-uruguay-transportistas-combustible-contratos-1.jpg"
   },
   {
-    "id": "2026-11-13-ande-congela-tarifa-suspende-cortes-ueno",
-    "estado": "publicada",
-    "fecha": "2026-11-13",
-    "pais": "py",
-    "cat": "Electricidad y renovables",
-    "titulo": "La ANDE congela su tarifa por un año y suspende los cortes por falta de pago hasta fin de diciembre",
-    "bajada": "Las medidas por la crisis de ueno alcanzan a casi todos los clientes: deudas en 24 cuotas sin intereses para baja tensión y un reclamo para los pagos que no figuran. Qué tiene que revisar la estación.",
-    "autor": "Fernando Berdichevsky",
-    "img": "img/2026-11-13-ande-congela-tarifa-suspende-cortes-ueno-3.jpg"
-  },
-  {
     "id": "2026-11-13-diesel-isc-50-decreto-petropar-baja",
     "estado": "borrador",
     "fecha": "2026-11-13",
@@ -566,5 +555,16 @@
     "bajada": "El presidente Alliana firmó un decreto que recorta 50 % el impuesto selectivo al consumo del diésel desde este viernes hasta el 31 de diciembre. Los privados acompañan. Qué tiene que revisar la estación.",
     "autor": "NdR",
     "img": "img/2026-11-13-diesel-isc-50-decreto-petropar-baja-1.jpg"
+  },
+  {
+    "id": "2026-11-13-ande-congela-tarifa-suspende-cortes-ueno",
+    "estado": "publicada",
+    "fecha": "2026-11-13",
+    "pais": "py",
+    "cat": "Electricidad y renovables",
+    "titulo": "La ANDE congela su tarifa por un año y suspende los cortes por falta de pago hasta fin de diciembre",
+    "bajada": "Las medidas por la crisis de ueno alcanzan a casi todos los clientes: deudas en 24 cuotas sin intereses para baja tensión y un reclamo para los pagos que no figuran. Qué tiene que revisar la estación.",
+    "autor": "Fernando Berdichevsky",
+    "img": "img/2026-11-13-ande-congela-tarifa-suspende-cortes-ueno-3.jpg"
   }
 ]
