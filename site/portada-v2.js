@@ -50,6 +50,19 @@
     '.pv-brands b{display:block;font:400 22px/1 "Bebas Neue",sans-serif;color:#0F213D;letter-spacing:.5px;margin-bottom:4px}.pv-brands p{margin:0;color:#4A5B6C;font:500 14px/1.45 Barlow,Arial,sans-serif}',
     '@media(max-width:860px){.pv-news,.pv-row,.pv-foro,.pv-brands .wrap{grid-template-columns:1fr}.pv-lead h2{font-size:26px}.pv-mast h1{font-size:32px}}',
     '@media(max-width:420px){.pv-sec a{grid-template-columns:96px 1fr}.pv-sec img{width:96px;height:64px}}',
+    '.pv-duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:0 0 26px}',
+    '.pv-duo .pv-mapa{margin:0;grid-template-columns:1fr;gap:4px;align-content:center}',
+    '.pv-duo .pv-mapa-p{height:100px;order:-1}',
+    '.pv-duo .pv-mapa h2{font-size:38px}',
+    '.pv-apesa{position:relative;display:flex;flex-direction:column;justify-content:center;gap:10px;background:#fff;border:1px solid #DCE3EA;border-left:10px solid #3B4BA0;border-bottom:5px solid #D7263D;border-radius:14px;padding:24px 28px;text-decoration:none!important;color:#0F213D!important;box-shadow:0 2px 8px rgba(15,33,61,.06);transition:box-shadow .2s}',
+    '.pv-apesa:hover{box-shadow:0 6px 18px rgba(15,33,61,.14)}',
+    '.pv-apesa-g{position:absolute;top:10px;right:14px;font:600 10px Barlow,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#8A99A8}',
+    '.pv-apesa img{height:92px;width:auto;max-width:100%;object-fit:contain;align-self:flex-start}',
+    '.pv-apesa h2{margin:4px 0 0;font:400 38px/1 "Bebas Neue",sans-serif;letter-spacing:.5px;color:#0F213D}.pv-apesa h2 span{color:#D7263D}',
+    '.pv-apesa p{margin:0;font:700 13px/1.4 Barlow,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#4A5B6C}',
+    '.pv-apesa-b{align-self:flex-start;margin-top:4px;background:#3A963E;color:#fff;font:700 16px Barlow,Arial,sans-serif;padding:11px 18px;border-radius:8px}.pv-apesa:hover .pv-apesa-b{background:#2E7D32}',
+    '@media(max-width:860px){.pv-duo{grid-template-columns:1fr}}',
+    '@media(max-width:700px){.pv-apesa{padding:20px 18px}.pv-apesa img{height:64px}.pv-apesa h2{font-size:32px}.pv-apesa p{font-size:11.5px}.pv-duo .pv-mapa h2{font-size:34px}}',
     '.pv-mapa{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:center;background:#0F213D;color:#fff;text-decoration:none;border-radius:14px;padding:26px 30px;margin:0 0 26px;overflow:hidden;position:relative}',
     '.pv-mapa:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 50%,rgba(118,196,110,.18),transparent 60%);pointer-events:none}',
     '.pv-mapa-e{display:block;font:700 12px Barlow,Arial,sans-serif;letter-spacing:2.5px;text-transform:uppercase;color:#76C46E;margin-bottom:6px}',
@@ -84,7 +97,8 @@
     '.pb5 .r5.bronce img{max-height:34px!important;height:auto!important;width:auto!important;max-width:110px!important}',
     '.r5 .lvl,.r5i .tag5{font-size:9px!important;top:3px!important}',
     '@media(max-width:860px){.pv-news{grid-template-columns:1fr}.pv-lead h2{font-size:25px}.pv-sec a{display:grid;grid-template-columns:120px 1fr;gap:12px}.pv-sec img{aspect-ratio:1/1}.pv-sec .pv-cat{margin:0 0 4px}.pv-sec strong{font-size:16px}.pv-more{grid-template-columns:1fr 1fr;gap:14px}.pv-more strong{font-size:14px}}',
-    '@media(max-width:560px){.oroh5 .r5{height:96px!important}.oroh5 .r5i{height:92px!important;padding:8px 16px!important;gap:12px!important;justify-content:space-between!important;box-sizing:border-box!important}.oroh5 .r5i .lgw{flex:0 1 auto!important;max-width:55%!important;overflow:visible!important;display:flex!important;align-items:center!important}.oroh5 .r5i .lgw img,.oroh5 .r5i img{max-height:56px!important;max-width:100%!important;object-fit:contain!important;object-position:left center!important}.oroh5 .r5i b{text-align:right!important}.oroh5 .r5i small{display:none!important}.oroh5 .r5i b{font-size:16px!important}.pb5 .r5.bronce{height:72px!important}.pb5 .r5.bronce .r5i{height:68px!important}.pb5 .r5.bronce img{max-height:42px!important}}'
+    '@media(max-width:560px){.oroh5 .r5{height:96px!important}.oroh5 .r5i{height:92px!important;padding:8px 16px!important;gap:12px!important;justify-content:space-between!important;box-sizing:border-box!important}.oroh5 .r5i .lgw{flex:0 1 auto!important;max-width:55%!important;overflow:visible!important;display:flex!important;align-items:center!important}.oroh5 .r5i .lgw img,.oroh5 .r5i img{max-height:56px!important;max-width:100%!important;object-fit:contain!important;object-position:left center!important}.oroh5 .r5i b{text-align:right!important}.oroh5 .r5i small{display:none!important}.oroh5 .r5i b{font-size:16px!important}.pb5 .r5.bronce{height:72px!important}.pb5 .r5.bronce .r5i{height:68px!important}.pb5 .r5.bronce img{max-height:42px!important}}',
+    '.pv-lead img,.pv-sec img,.pv-more img{aspect-ratio:3/2!important;height:auto!important;object-fit:contain!important;object-position:center!important;background:#F0F4F8!important}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -155,7 +169,11 @@
     // 7b · mapa interactivo de estaciones (página propia /estaciones)
     var lgs = ['shell', 'petrobras'];
     var mapa = el('<a class="pv-mapa" href="/estaciones"><div class="pv-mapa-t"><span class="pv-mapa-e">Nuevo · Red de estaciones</span><h2>Mapa interactivo de estaciones</h2><p>Las 2.883 estaciones de servicio de Paraguay en un mapa: buscá por emblema, departamento o ciudad y llegá con un toque.</p><span class="pv-mapa-b">Abrir el mapa →</span></div><div class="pv-mapa-p" aria-hidden="true">' + lgs.map(function (l, i) { return '<i style="--i:' + i + '"><img src="/img/emb/' + l + '.png?v=3" alt=""></i>'; }).join('') + '</div></a>');
-    main.insertBefore(mapa, row);
+    var duo = el('<div class="pv-duo"></div>'); duo.appendChild(mapa);
+    var ape = el('<a class="pv-apesa" href="/apesa.html"><span class="pv-apesa-g">Institucional</span><img src="/img/apesa-logo.jpg" alt="APESA"><h2>Asociate y sé parte de <span>APESA</span></h2><p>Asociación de Propietarios y Operadores de Estaciones de Servicios y Afines</p><span class="pv-apesa-b">Quiero asociarme →</span></a>');
+    ape.addEventListener('click', function () { try { gtag('event', 'apesa_portada_click'); } catch (x) {} });
+    duo.appendChild(ape);
+    main.insertBefore(duo, row);
     // 8 · qué es cada marca
     var foot = $('footer.foot');
     document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href="#suscribite"]'); if (!a) return; e.preventDefault(); var t = document.getElementById('suscribite'); if (!t) return; var hd = document.querySelector('header.top'), off = 16; if (hd && /sticky|fixed/.test(getComputedStyle(hd).position)) off += hd.getBoundingClientRect().height; window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - off, behavior: 'smooth' }); });
