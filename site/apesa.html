@@ -38,6 +38,7 @@ h2{font:400 30px/1 'Bebas Neue',sans-serif;margin:26px 0 8px}
 .btn{display:inline-block;background:var(--gr);color:#fff;text-decoration:none;font-weight:700;font-size:18px;padding:15px 30px;border-radius:6px}
 .btn:hover{background:#2f7d33}
 .pend{display:inline-block;background:#FFF4D6;color:#7A5A00;border:1px dashed #C99A00;padding:12px 18px;border-radius:6px;font-weight:700}
+.ct{margin-top:16px;font-size:15px;color:#C9D4DF;line-height:1.6}.ct a{color:#fff;font-weight:700}
 .nota{font-size:14px;color:var(--mu);border-top:1px solid #DDE4EC;margin-top:26px;padding-top:16px}
 .nota a{color:var(--nv)}
 </style></head><body>
@@ -56,14 +57,14 @@ h2{font:400 30px/1 'Bebas Neue',sans-serif;margin:26px 0 8px}
 <li>Fortalecer los lazos entre los operadores de todo el país.</li>
 <li>Trabajar para que el trato con las distribuidoras sea más justo.</li>
 </ul>
-<div class="cta"><b>Quiero asociarme</b><p>Escribile a APESA y te cuentan cómo sumarte.</p>
+<div class="cta"><b>Quiero asociarme</b><p>Escribile a APESA por WhatsApp o por mail y te cuentan cómo sumarte.</p>
 <span id="cta"><span class="pend">[Falta el contacto de APESA]</span></span></div>
 <p class="nota">Este es un espacio institucional cedido sin costo a APESA. No es contenido editorial de La Estación del Futuro. Leé la entrevista a Víctor Yambay: <a href="/n/2026-11-12-mic-cambio-emblema-60-dias-resolucion-857">"Es un paso importantísimo para obtener condiciones más justas"</a>.</p>
 </div></div></div>
 <script>
 // Completar con el WhatsApp de APESA (solo números, con 595) para activar el botón
-var APESA_WA='';
+var APESA_WA='595981148945';
 if(APESA_WA){var m=encodeURIComponent('Hola, soy operador de una estación de servicio y quiero asociarme a APESA. Vi el aviso en La Estación del Futuro.');
-document.getElementById('cta').innerHTML='<a class="btn" href="https://wa.me/'+APESA_WA+'?text='+m+'" onclick="window.gtag&&gtag(\'event\',\'apesa_asociarme\')">Escribir a APESA por WhatsApp</a>';}
+document.getElementById('cta').innerHTML='<a class="btn" href="https://wa.me/'+APESA_WA+'?text='+m+'" onclick="window.gtag&&gtag(\'event\',\'apesa_asociarme\',{canal:\'whatsapp\'})">Escribir a APESA por WhatsApp</a><div class="ct">Contacto: Claudia Maqueda · 0981 148 945<br><a href="mailto:maquegonsrl@outlook.com?subject='+encodeURIComponent('Quiero asociarme a APESA')+'" onclick="window.gtag&&gtag(\'event\',\'apesa_asociarme\',{canal:\'mail\'})">maquegonsrl@outlook.com</a></div>';}
 </script>
 </body></html>
