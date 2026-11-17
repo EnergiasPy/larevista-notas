@@ -698,5 +698,16 @@
   "autor": "NdR",
   "img": "img/2026-11-17-autogas-cae-estaciones-industria-glp-1.jpg",
   "pais": "py"
+ },
+ {
+  "id": "2026-11-17-peru-grifos-inventario-diario-osinergmin-sunat",
+  "estado": "borrador",
+  "fecha": "2026-11-17",
+  "cat": "Región",
+  "titulo": "En Perú, el grifo que no declara su stock no puede comprar combustible",
+  "bajada": "Desde mayo las estaciones peruanas cargan su inventario todos los días en la plataforma de Osinergmin, y la que no lo hace queda bloqueada para comprar en planta. Desde febrero se suma el registro de cada movimiento ante la SUNAT. Lo que en Paraguay se declara una vez por mes, allá va a ser diario.",
+  "autor": "Ana Paula Scacciaferro",
+  "img": "img/2026-11-17-peru-grifos-inventario-diario-osinergmin-sunat-1.jpg",
+  "pais": "pe"
  }
 ]
