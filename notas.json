@@ -742,5 +742,16 @@
   "autor": "Fernando Berdichevsky",
   "img": "img/2026-11-18-itaipu-tarifa-vence-31-diciembre-anexo-c-1.jpg",
   "pais": "py"
+ },
+ {
+  "id": "2026-11-18-ecuador-margen-estacion-congelado",
+  "estado": "borrador",
+  "fecha": "2026-11-18",
+  "pais": "ec",
+  "cat": "Región",
+  "titulo": "Cuánto gana una estación de servicio en Ecuador: 12 centavos por galón, congelados hace 23 años",
+  "bajada": "El margen del diésel no se actualiza desde hace 23 años y una petrolera con dos décadas en el país puso en venta sus 110 estaciones. El gremio compara: en Colombia son 33 centavos.",
+  "autor": "Fernando Berdichevsky",
+  "img": "img/2026-11-18-ecuador-margen-estacion-congelado-1.jpg"
  }
 ]
