@@ -44,3 +44,17 @@ function notas_estaticas() {
   }
   return $cache;
 }
+
+// Autores: slug de la página /autor/<slug> y cómo se declaran a los buscadores
+function autor_slug($a) {
+  $a = trim((string)$a);
+  if ($a === '' || $a === 'NdR' || $a === 'La Estación del Futuro') return 'redaccion';
+  $s = strtr(mb_strtolower($a, 'UTF-8'), ['á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u','ñ'=>'n','ü'=>'u']);
+  return trim(preg_replace('/[^a-z0-9]+/', '-', $s), '-');
+}
+// Firmas que son empresas (contenido de marca): se declaran como organización, no como persona
+const AUTORES_ORG = ['Gulf Paraguay'];
+function autor_info($a) {
+  $slug = autor_slug($a); $red = ($slug === 'redaccion'); $org = $red || in_array(trim((string)$a), AUTORES_ORG, true);
+  return ['slug' => $slug, 'red' => $red, 'tipo' => $org ? 'Organization' : 'Person', 'nombre' => $red ? 'Redacción de Energías LATAM' : trim((string)$a), 'url' => 'https://energiaslatam.com/autor/' . $slug];
+}

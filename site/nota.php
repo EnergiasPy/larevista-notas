@@ -15,10 +15,14 @@ if ($H === false) { header('Location: /#n/' . $id, true, 302); exit; }
 
 $e = function ($s) { return htmlspecialchars(strip_tags((string)$s), ENT_QUOTES, 'UTF-8'); };
 $url = 'https://energiaslatam.com/n/' . $id;
-$tit = $e($n['titulo']) . ' · La Estación del Futuro';
+$tit = $e($n['titulo']) . ' · Energías LATAM';
 $des = $e($n['bajada']);
 $img = !empty($n['img_abs']) ? $n['img_abs'] : (!empty($n['img']) ? GH_RAW . $n['img'] : 'https://energiaslatam.com/img/og-energiaslatam.jpg');
 $est = !empty($n['estatica']);
+// Fecha y hora de publicación (hora de Asunción). Si la nota no trae "hora", se usa 08:00.
+$hora = (isset($n['hora']) && preg_match('/^\d\d:\d\d$/', $n['hora'])) ? $n['hora'] : '08:00';
+$iso = $n['fecha'] . 'T' . $hora . ':00-03:00';
+$au = autor_info($n['autor'] ?? '');
 
 $rep = [
   '/<title>.*?<\/title>/s' => '<title>' . $tit . '</title>',
@@ -40,14 +44,17 @@ $H = preg_replace('/<meta property="og:image:(width|height)" content="[^"]*">\s*
 $ld = [
   '@context' => 'https://schema.org', '@type' => 'NewsArticle',
   'headline' => strip_tags($n['titulo']), 'description' => strip_tags($n['bajada']),
-  'image' => [$img], 'datePublished' => $n['fecha'], 'dateModified' => $n['fecha'],
-  'author' => ['@type' => ($n['autor'] === 'NdR' ? 'Organization' : 'Person'), 'name' => ($n['autor'] === 'NdR' ? 'La Estación del Futuro' : $n['autor'])],
+  'image' => [$img], 'datePublished' => $iso, 'dateModified' => $iso,
+  'author' => ['@type' => $au['tipo'], 'name' => $au['nombre'], 'url' => $au['url']],
   'publisher' => ['@type' => 'Organization', 'name' => 'Energías LATAM', 'logo' => ['@type' => 'ImageObject', 'url' => 'https://energiaslatam.com/android-chrome-512x512.png']],
   'mainEntityOfPage' => $url,
 ];
+// index.html ya trae el canonical de la portada: se reemplaza por el de la nota (no puede haber dos)
+$H = preg_replace('/<link rel="canonical" href="[^"]*">/', '<link rel="canonical" href="' . $url . '">', $H, 1, $cn);
 $head = '<base href="/">' . "\n"
-  . '<link rel="canonical" href="' . $url . '">' . "\n"
-  . '<meta property="article:published_time" content="' . $e($n['fecha']) . '">' . "\n"
+  . ($cn ? '' : '<link rel="canonical" href="' . $url . '">' . "\n")
+  . '<meta property="article:published_time" content="' . $iso . '">' . "\n"
+  . '<meta property="article:modified_time" content="' . $iso . '">' . "\n"
   . ($n['estado'] !== 'publicada' ? '<meta name="robots" content="noindex,nofollow">' . "\n" : '')
   . ($est
       ? '<script>if(!location.hash)history.replaceState(null,"","/n/' . $id . '#nota-' . $id . '");</script>' . "\n"
@@ -59,7 +66,7 @@ $H = preg_replace('/<meta charset="utf-8">/', '<meta charset="utf-8">' . "\n" . 
 $body = $est ? '' : nota_cuerpo($id);
 if ($body !== '') {
   $body = preg_replace('/src="img\//', 'src="' . GH_RAW . 'img/', $body);
-  $pre = '<article class="nota" id="pre-nota" style="max-width:760px;margin:24px auto;padding:0 16px"><h1>' . $e($n['titulo']) . '</h1><p class="bajada">' . $des . '</p><p class="byline">Por <b>' . $e($n['autor']) . '</b> · ' . $e($n['fecha']) . '</p><div class="nota-body">' . $body . '</div></article>'
+  $pre = '<article class="nota" id="pre-nota" style="max-width:760px;margin:24px auto;padding:0 16px"><h1>' . $e($n['titulo']) . '</h1><p class="bajada">' . $des . '</p><p class="byline">Por <a href="' . $au['url'] . '"><b>' . $e($n['autor']) . '</b></a> · <time datetime="' . $iso . '">' . $e($n['fecha']) . ' ' . $hora . '</time></p><div class="nota-body">' . $body . '</div></article>'
     . '<script>(function(){var p=document.getElementById("pre-nota");if(p)p.remove();})();</script>';
   $H = preg_replace('/<\/body>(?![\s\S]*<\/body>)/', $pre . "\n</body>", $H, 1);
 }
