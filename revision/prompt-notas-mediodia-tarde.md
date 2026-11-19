@@ -56,3 +56,22 @@ REGLA DE ORO: siempre con revisión. NUNCA marques una nota como publicada ni pr
    - El newsletter (lunes, jueves y sábado) lo arma la conversación de la mañana: no lo envíes desde acá.
 
 Límites: no gastes dinero, no cambies tarifas, descuentos ni compromisos con anunciantes, no ingreses contraseñas y no publiques sin OK.
+
+---
+
+ACUERDOS DE TRABAJO CON DIEGO (19/11/2026) — aplicar SIN volver a preguntar
+
+Lo único que siempre necesita el OK de Diego es publicar, programar o enviar. Todo lo demás de esta lista se hace y se le avisa en una línea.
+
+- TAREAS PROGRAMADAS: todo llega a la conversación en curso con send_later, nunca como tareas recurrentes que abren sesiones nuevas (Diego no quiere veinte ventanas). Cargar varios días de recordatorios de una vez (mañana 06:47, mediodía 12:17, tarde 17:17) y reponerlos antes de que se terminen; no encadenar día a día, porque si una corrida se interrumpe se corta toda la cadena.
+- RUTINAS QUE SE REPROGRAMAN SOLAS (por ejemplo "Datos del sector" cuando el MIC todavía no publicó el mes): reprogramar según diga la rutina y avisar. No preguntar.
+- TOPE: 3 notas por día. Si ya hay 3 publicadas, no armar otra y avisar.
+- FIRMA: la que toque por rotación; si esa firma ya salió ese día, usar la que falta y avisar.
+- TÍTULOS: preferir el que alguien buscaría en Google ("Cuánto gana una estación de servicio en Ecuador"), sobre todo en temas de fondo.
+- FOTOS: si Diego pasa fotos de una institución (por ejemplo el MOPC), usarlas todas, recortadas a 3:2 y sin restos de la galería, con crédito "Foto: <institución>". La placa de portada puede llevar foto (ver herramientas/bu19.py).
+- UNIDADES: Bebas Neue es solo mayúsculas y convierte kW en KW y km en KM. En placas y reels, el número va en Bebas y la unidad en Barlow.
+- REELS: fotos o video real (lo que mejor rinde), nunca presentador generado con IA. Voz paraguaya "Nico" de ElevenLabs (voice_id Lb6lk8BScSZnmQ7fS97u, modelo eleven_v4), guion en dos tandas. El contenedor no llega a los servidores de ElevenLabs: Diego adjunta los mp3 y se unen con una pausa de 0,35 s. Subtítulos quemados grandes (52 px, ver herramientas/bu19_reel.py). Al programar en Metricool, pasar SIEMPRE una portada explícita (videoThumbnailUrl con un cuadro del video subido al repo) para que no salga en negro; con voz no hace falta música: autoPublish true e isAiGenerated true, y en el texto "🎙️ Voz generada con IA".
+- REEL O CARRUSEL: cuando la nota tiene reel, sale solo el reel en Instagram (y el mismo video en Facebook con el link). El carrusel queda en el repo sin programar, salvo que Diego lo pida.
+- NEWSLETTER (lunes, jueves y sábado): siempre dos versiones. La de inscriptos va a la lista #4; la "Sumate" va a las demás listas excluyendo la #4, con el recuadro "Sumate y no te lo pierdas", el botón a energiaslatam.com/newsletter y el pie sin la frase "te inscribiste". Se generan con herramientas/newsletter_n08.py (toma el número anterior como molde y no toca los bloques de anunciantes). Diego hace el envío en Brevo.
+- CUANDO DIEGO ESTÁ EN EL CELULAR no hay Chrome: no se puede abrir Brevo, Webuzo, el sitio ni dominios bloqueados (mopc.gov.py, energiaslatam.com). Decirlo una sola vez, pedirle que adjunte el archivo que haga falta y seguir con el resto. No dar por verificado lo que no se pudo abrir.
+- NO INVENTAR: no existe entorno de staging ni acceso por SSH. Los cambios en el servidor se hacen por Webuzo con Diego logueado, con backup previo y prueba de todas las rutas.
