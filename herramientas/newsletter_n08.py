@@ -74,3 +74,24 @@ h=h.replace('las 2.883 del país','las 2.880 del país')
 assert 'Hasta el jueves,' in h; h=h.replace('Hasta el jueves,','Hasta el sábado,')
 open(R+'site/newsletter-n8-1911.html','w',encoding='utf-8').write(h)
 print('ok', len(h),'bytes')
+
+# 7) variante "sumate" para las listas que todavia no estan inscriptas (pedido de Diego 19/11):
+#    mismo contenido + recuadro de invitacion arriba y otro antes del cierre, y pie sin la frase "te inscribiste".
+CTA='https://energiaslatam.com/newsletter?utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign=n08sumate'
+caja=('\n<div style="margin:16px 0 4px 0;padding:18px 20px;background:#EAF6EA;border-left:4px solid #3A963E;border-radius:4px;font-family:Arial,Helvetica,sans-serif">\n'
+ '<div style="font-size:18px;font-weight:bold;color:#0F213D;line-height:1.3">Sumate y no te lo pierdas</div>\n'
+ '<div style="margin-top:8px;font-size:14px;line-height:1.55;color:#33475B">Esta es una edición de La Estación del Futuro, el newsletter del sector de combustibles y estaciones de servicio. Si querés recibirlo gratis cada lunes, jueves y sábado, anotate con un clic.</div>\n'
+ f'<a href="{CTA}" style="display:inline-block;margin-top:14px;background:#3A963E;color:#ffffff;text-decoration:none;font-weight:bold;font-size:15px;padding:12px 22px;border-radius:4px">Quiero recibirlo gratis</a>\n</div>')
+s=h
+ancla='</p></td></tr>\n<tr><td style="padding:4px 28px 18px 28px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #E3E8EE'
+assert s.count(ancla)==1
+s=s.replace(ancla,'</p>'+caja+ancla[4:])
+# segundo llamado, justo antes de la despedida
+desp='<tr><td style="padding:0 28px 26px 28px;font-size:15px;line-height:1.5">Hasta el sábado,'
+assert s.count(desp)==1
+s=s.replace(desp,'<tr><td style="padding:0 28px 22px 28px">'+caja.replace('margin:16px 0 4px 0','margin:0')+'</td></tr>\n'+desp)
+pie='Recibís este mail porque te inscribiste en Energías Paraguay o en energiaslatam.com.'
+assert s.count(pie)==1
+s=s.replace(pie,'Recibís este mail porque tu contacto forma parte de la comunidad de Energías Paraguay.')
+open(R+'site/newsletter-n8-1911-sumate.html','w',encoding='utf-8').write(s)
+print('ok sumate', len(s),'bytes')
