@@ -753,5 +753,16 @@
   "bajada": "El margen del diésel no se actualiza desde hace 23 años y una petrolera con dos décadas en el país puso en venta sus 110 estaciones. El gremio compara: en Colombia son 33 centavos.",
   "autor": "NdR",
   "img": "img/2026-11-18-ecuador-margen-estacion-congelado-1.jpg"
+ },
+ {
+  "id": "2026-11-19-donde-cargan-buses-electricos-san-lorenzo",
+  "estado": "borrador",
+  "fecha": "2026-11-19",
+  "pais": "py",
+  "cat": "Electricidad y renovables",
+  "titulo": "Dónde cargan los 30 buses eléctricos del Estado paraguayo",
+  "bajada": "La base de San Lorenzo tiene seis cargadores rápidos de 180 kW y 1.500 kW de infraestructura eléctrica. Cada bus rinde 60 kilómetros: por eso no carga de noche, carga en ruta.",
+  "autor": "Fernando Berdichevsky",
+  "img": "img/2026-11-19-donde-cargan-buses-electricos-san-lorenzo-1.jpg"
  }
 ]
