@@ -764,5 +764,16 @@
   "bajada": "La base de San Lorenzo tiene seis cargadores rápidos de 180 kW y 1.500 kW de infraestructura eléctrica. Cada bus rinde 60 kilómetros: por eso no carga de noche, carga en ruta.",
   "autor": "Fernando Berdichevsky",
   "img": "img/2026-11-19-donde-cargan-buses-electricos-san-lorenzo-1.jpg"
+ },
+ {
+  "id": "2026-11-19-brasil-estaciones-biometano-camiones-ultragaz",
+  "estado": "borrador",
+  "fecha": "2026-11-19",
+  "cat": "Región",
+  "titulo": "Estaciones de biometano para camiones: Ultragaz planea 20 en las rutas de Brasil",
+  "bajada": "La distribuidora de gas licuado abrió las dos primeras en una autopista de São Paulo: R$ 4 millones cada una, sin gasoducto y con carga en 8 a 12 minutos. Qué deja para Paraguay, donde el autogas viene cayendo.",
+  "autor": "NdR",
+  "img": "img/2026-11-19-brasil-estaciones-biometano-camiones-ultragaz-1.jpg",
+  "pais": "br"
  }
 ]
