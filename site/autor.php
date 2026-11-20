@@ -54,7 +54,21 @@ h1{font:400 clamp(38px,6vw,56px)/1 'Bebas Neue',sans-serif;margin:0 0 8px}
 a{color:#2E7D32}
 .ft{text-align:center;color:var(--mu);font-size:14px;padding:0 16px 40px}.ft a{color:var(--nv)}
 @media(max-width:560px){main{margin:0;border-radius:0;padding:24px 18px}}
-</style></head>
+</style><!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1448149717477443');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+</head>
 <body><div class="top"></div><div class="top2"></div>
 <header><div class="hw"><a href="/"><img src="/logo-latam-v2-512.png" alt="Energías LATAM"></a><a href="/"><b>ENERGÍAS <span>LATAM</span></b><small>De los creadores de Energías Paraguay</small></a></div></header>
 <main>
