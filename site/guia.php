@@ -50,12 +50,34 @@ $P = [];
 $csv = $dir . '/proveedor.csv';
 if (is_file($csv) && ($fh = fopen($csv, 'r'))) {
   $cab = fgetcsv($fh);
+  $nCab = $cab ? count($cab) : 0;
+  $esMail = function ($v) { return (bool)filter_var(trim($v), FILTER_VALIDATE_EMAIL); };
+  $esTel = function ($v) { $v = trim($v); return (bool)preg_match('/^\+?[\d\s().\-]{6,22}$/', $v) && preg_match_all('/\d/', $v) >= 6; };
   while (($r = fgetcsv($fh)) !== false) {
     if (!$cab || count($r) < 2) continue;
     $x = []; foreach ($cab as $i => $c) $x[mb_strtolower(trim($c))] = $r[$i] ?? '';
     $get = function ($claves) use ($x) { foreach ($x as $k => $v) foreach ($claves as $c) if (strpos($k, $c) !== false && $v !== '') return $v; return ''; };
     $p = ['fecha' => $x['fecha'] ?? '', 'n' => $get(['empresa', 'nombre']), 't' => $get(['tipo', 'rubro']), 'tel' => $get(['tel']), 'mail' => $get(['mail', 'correo']), 'o' => $get(['ofrece', 'servicio', 'producto'])];
+    $kViejo = substr(sha1($p['fecha'] . '|' . $p['n'] . '|' . $p['mail']), 0, 12);
+    // Filas viejas corridas de columna (se guardaban sin respetar el encabezado): se reconoce cada dato por su contenido
+    $corrida = count($r) !== $nCab || ($p['mail'] !== '' && !$esMail($p['mail'])) || ($p['tel'] !== '' && !$esTel($p['tel']));
+    if ($corrida) {
+      $v = array_values(array_map('trim', $r));
+      $p = ['fecha' => $v[0] ?? '', 'n' => $v[1] ?? '', 't' => '', 'tel' => '', 'mail' => '', 'o' => ''];
+      $resto = [];
+      foreach (array_slice($v, 2) as $val) {
+        if ($val === '') continue;
+        if ($p['mail'] === '' && $esMail($val)) $p['mail'] = $val;
+        elseif ($p['tel'] === '' && $esTel($val)) $p['tel'] = $val;
+        elseif ($p['t'] === '' && in_array($val, $TYPES, true)) $p['t'] = $val;
+        else $resto[] = $val;
+      }
+      usort($resto, function ($a, $b) { return mb_strlen($b) <=> mb_strlen($a); });
+      $p['o'] = $resto[0] ?? '';
+      if ($p['t'] === '' && isset($resto[1]) && mb_strlen($resto[1]) <= 60) $p['t'] = $resto[1];
+    }
     $p['k'] = substr(sha1($p['fecha'] . '|' . $p['n'] . '|' . $p['mail']), 0, 12);
+    if ($kViejo !== $p['k'] && isset($Dc[$kViejo]) && !isset($Dc[$p['k']])) $Dc[$p['k']] = $Dc[$kViejo]; // conserva lo ya aprobado o rechazado
     $P[$p['k']] = $p;
   }
   fclose($fh);

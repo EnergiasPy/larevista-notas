@@ -122,6 +122,15 @@ foreach ($_POST as $k => $v) {
   $k = trim(mb_substr(preg_replace('/[^\p{L}\p{N} _\-\/().]/u', '', (string)$k), 0, 60));
   if ($k !== '' && $v !== '') $campos[$k] = $v;
 }
+// Nombres de campo prolijos: PHP cambia los espacios por "_" y la etiqueta de un <select> llega pegada
+// a todas sus opciones ("TipoAlimentos_y_bebidasAutomotriz..."), así que se deja solo "Tipo".
+$norm = [];
+foreach ($campos as $k => $v) {
+  $k2 = trim(preg_replace('/\s+/u', ' ', str_replace('_', ' ', $k)));
+  if (preg_match('/^tipo/iu', $k2)) $k2 = 'Tipo';
+  if ($k2 !== '' && !isset($norm[$k2])) $norm[$k2] = $v;
+}
+$campos = $norm;
 if (!$campos) { http_response_code(400); echo '{"ok":false,"error":"vacio"}'; exit; }
 
 $mail = '';
@@ -149,13 +158,31 @@ $informe = null;
 if ($tipo === 'informe' && $mail) { $nm = ''; foreach ($campos as $k => $v) if (preg_match('/^nombre/iu', $k)) { $nm = $v; break; } $pp = isset($_POST['Pais']) && in_array($_POST['Pais'], ['py', 'uy', 'cl', 'pe', 'bo'], true) ? $_POST['Pais'] : 'py'; $informe = brevo_informe($mail, $nm, $pp); if ($informe !== true) @file_put_contents($dir . '/errores.log', date('c') . ' ' . $informe . "\n", FILE_APPEND); }
 if (($tipo === 'newsletter' || $tipo === 'informe') && $mail && !$ya) { $brevo = brevo_alta($mail, $campos); if ($brevo !== true && $brevo !== 'sin-clave') @file_put_contents($dir . '/errores.log', date('c') . ' ' . $brevo . "\n", FILE_APPEND); }
 
-// Copia en planilla (CSV) por tipo
+// Copia en planilla (CSV) por tipo. Cada valor va en la columna de su campo: si falta un campo queda vacío
+// y si aparece uno nuevo se agrega la columna al final (antes se escribían en fila y se corrían de lugar).
 $csv = $dir . '/' . $tipo . '.csv';
-$nuevo = !file_exists($csv);
-$fh = @fopen($csv, 'a');
-if ($fh) {
-  if ($nuevo) fputcsv($fh, array_merge(['fecha'], array_keys($campos)));
-  fputcsv($fh, array_merge([$fecha], array_values($campos)));
-  fclose($fh);
+$fh = @fopen($csv, 'c+');
+if ($fh && flock($fh, LOCK_EX)) {
+  $cab = fgetcsv($fh);
+  if (!$cab || $cab === [null]) {
+    ftruncate($fh, 0); rewind($fh);
+    $cab = array_merge(['fecha'], array_keys($campos));
+    fputcsv($fh, $cab);
+  } else {
+    $cabN = array_map(function ($c) { $c = trim(preg_replace('/\s+/u', ' ', str_replace('_', ' ', (string)$c))); return preg_match('/^tipo/iu', $c) ? 'Tipo' : $c; }, $cab);
+    $faltan = array_values(array_diff(array_keys($campos), $cabN));
+    if ($faltan || $cabN !== $cab) {
+      $filas = []; while (($r = fgetcsv($fh)) !== false) $filas[] = $r;
+      $cab = array_merge($cabN, $faltan);
+      ftruncate($fh, 0); rewind($fh); fputcsv($fh, $cab);
+      foreach ($filas as $r) fputcsv($fh, $r);
+    } else { $cab = $cabN; }
+    fseek($fh, 0, SEEK_END);
+  }
+  $fila = [];
+  foreach ($cab as $c) $fila[] = ($c === 'fecha') ? $fecha : ($campos[$c] ?? '');
+  fputcsv($fh, $fila);
+  fflush($fh); flock($fh, LOCK_UN);
 }
+if ($fh) fclose($fh);
 echo json_encode(['ok' => true, 'ya' => $ya, 'informe' => $informe === true ? true : ($informe === null ? null : false), 'mail' => $enviado === true, 'brevo' => $brevo === true ? true : ($brevo === null ? null : false)]);
