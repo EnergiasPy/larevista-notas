@@ -36,7 +36,7 @@ def num(fig,ax,x,y,big,uni,fs,col,ufs=None,dy=8):
 
 # ---------- PLACA 1: que pide por punto de carga ----------
 fig,ax=hdr('PARAGUAY · ELECTROMOVILIDAD','QUÉ PIDE PETROPAR PARA CADA PUNTO DE CARGA','Licitación de cargadores para vehículos eléctricos en estaciones de servicio')
-tiles=[('90','kW','Cargador rápido con tres salidas (CCS2, GB/T y Tipo 2)',GR),
+tiles=[('90','kW','Cargador rápido, con tres salidas de carga',GR),
        ('150','kVA','Transformador propio y puesto de media tensión',NV),
        ('45','días hábiles','Plazo de entrega, según la corrección anunciada',NV),
        ('G. 13.994','millones','Monto estimado: unos USD 2,2 millones',RD)]
