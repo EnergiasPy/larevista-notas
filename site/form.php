@@ -2,6 +2,7 @@
 // form.php · La Estación del Futuro (energiaslatam.com)
 // Recibe newsletter, guía de proveedores y pre-registro; avisa por mail y guarda copia.
 header('Content-Type: application/json; charset=utf-8');
+date_default_timezone_set('America/Asuncion'); // la fecha del mail y de la planilla va en hora de Paraguay
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); echo '{"ok":false}'; exit; }
 
 $DEST = ['info@energiasparaguay.com.py', 'info@energiaslatam.com'];
