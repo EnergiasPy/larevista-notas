@@ -60,7 +60,7 @@ foot(fig,ax,'Cálculo propio: energía dividida por potencia. Es un mínimo teó
 
 # ---------- PLACA 2: la cuenta
 fig,ax=hdr('LA CUENTA','¿EL CAFÉ AYUDA A PAGAR EL CARGADOR?','Un ejercicio simple para un punto de carga rápida de 150 kW')
-tiles=[('G. 265','millones','Presupuesto del punto de carga, con transformador',NV),
+tiles=[('G. 265','millones','Presupuesto del punto, con transformador',NV),
        ('G. 30.000','por recarga','30 kWh, con un margen supuesto de G. 1.000',GR),
        ('5','recargas por día','Para recuperar la inversión en cinco años',RD),
        ('+ TIENDA','','El gasto del cliente en la tienda mejora la cuenta',NV)]
