@@ -933,5 +933,16 @@
   "img": "img/2026-11-21-ranking-ventas-combustibles-octubre-2026-1.jpg",
   "pais": "py",
   "hora": "12:34"
+ },
+ {
+  "id": "2026-11-21-cuanto-gana-estacion-de-servicio-argentina-margen",
+  "estado": "borrador",
+  "fecha": "2026-11-21",
+  "cat": "Región",
+  "titulo": "Cuánto gana una estación de servicio en Argentina: 8 % del surtidor y 350.000 litros para cubrir los costos",
+  "bajada": "A la estación argentina le quedan unos 12 centavos de dólar por litro, y el margen no está regulado. Los gremios dicen que hoy hace falta vender tres veces más que antes para sostenerse.",
+  "autor": "NdR",
+  "img": "img/2026-11-21-cuanto-gana-estacion-de-servicio-argentina-margen-1.jpg",
+  "pais": "ar"
  }
 ]
