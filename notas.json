@@ -921,5 +921,16 @@
   "img": "img/2026-11-21-media-hora-para-cargar-estaciones-cliente-electrico-1.jpg",
   "pais": "py",
   "hora": "08:26"
+ },
+ {
+  "id": "2026-11-21-ranking-ventas-combustibles-octubre-2026",
+  "estado": "borrador",
+  "fecha": "2026-11-21",
+  "cat": "Mercado y precios",
+  "titulo": "Ranking de ventas de combustibles de octubre: Petropar lidera y el gasoil cae 15 %",
+  "bajada": "En octubre se vendieron 300,5 millones de litros, 6,8 % menos que en septiembre. Petropar tuvo 21,6 % del mercado y fue la única de las cinco primeras que creció en un año. Las naftas se sostuvieron.",
+  "autor": "Fernando Berdichevsky",
+  "img": "img/2026-11-21-ranking-ventas-combustibles-octubre-2026-1.jpg",
+  "pais": "py"
  }
 ]
