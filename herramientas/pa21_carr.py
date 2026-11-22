@@ -101,7 +101,7 @@ save(fig,6)
 fig,ax=base(7,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
 y=title(ax,['TRES COSAS','PARA REVISAR'],y0=205,size=88,step=98)
 cards(ax,[('Pedí la lista nueva por escrito','Cambiá cartel y surtidores el mismo día'),
-          ('El stock vendido hasta el viernes','Se compró con impuesto completo: hablalo con la distribuidora'),
+          ('El stock comprado antes de la baja','Se compró con impuesto completo: hablalo con la distribuidora'),
           ('Anotá el 1 de enero','Si no hay prórroga, el impuesto sube G. 340 por litro')],y+40,h=150,gap=24)
 ax.text(70,1150,'Leé la nota completa en energiaslatam.com',fontfamily=B,fontweight='bold',fontsize=32,color=G,va='center')
 ax.text(70,1205,'Seguinos para la noticia del sector todos los días.',fontfamily=B,fontweight='semibold',fontsize=27,color=W,va='center')
