@@ -957,5 +957,16 @@
   "img": "img/2026-11-22-cuantos-litros-vende-estacion-de-servicio-paraguay-1.jpg",
   "pais": "py",
   "hora": "07:57"
+ },
+ {
+  "id": "2026-11-22-cuanto-gana-estacion-de-servicio-chile-margen",
+  "estado": "borrador",
+  "fecha": "2026-11-22",
+  "cat": "Región",
+  "titulo": "Cuánto gana una estación de servicio en Chile: 75 pesos por litro y un dato oficial frenado en 2024",
+  "bajada": "El margen de comercialización de la gasolina en Santiago es de unos siete centavos de dólar por litro, a repartir entre la distribuidora y la estación. En otras regiones casi se duplica.",
+  "autor": "NdR",
+  "img": "img/2026-11-22-cuanto-gana-estacion-de-servicio-chile-margen-1.jpg",
+  "pais": "cl"
  }
 ]
