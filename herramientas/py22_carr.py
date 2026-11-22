@@ -10,7 +10,7 @@ for f in ['BebasNeue-Regular.ttf','Barlow-Regular.ttf','Barlow-SemiBold.ttf','Ba
 BB='Bebas Neue'; B='Barlow'; BC='Barlow Condensed'; BG='#0F213D'; W='#F4F6F9'; M='#9FB3C8'; G='#76C46E'; CARD='#17305A'; RD='#E2484F'
 R='/home/claude/larevista-notas/img/social/'; O='/home/claude/out/py22/'; os.makedirs(O,exist_ok=True)
 ID='2026-11-22-cuantos-litros-vende-estacion-de-servicio-paraguay'
-N=7; BR=['#D52B1E','#FFFFFF','#0038A8']
+N=8; BR=['#D52B1E','#FFFFFF','#0038A8']
 def rb(ax,x,y,w,h,c,r=14): ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle=f'round,pad=0,rounding_size={r}',color=c,lw=0))
 def base(n,kicker):
     fig=plt.figure(figsize=(10.8,13.5),dpi=100,facecolor=BG); ax=fig.add_axes([0,0,1,1]); ax.set_xlim(0,1080); ax.set_ylim(1350,0); ax.axis('off')
@@ -89,12 +89,21 @@ ax.text(70,1180,'Por eso una caída de 15 % en el gasoil',fontfamily=B,fontweigh
 ax.text(70,1226,'se siente tanto.',fontfamily=B,fontsize=27,color=M,va='center')
 save(fig,6)
 
-fig,ax=base(7,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
+fig,ax=base(7,'EL NEGOCIO NO ES SOLO EL COMBUSTIBLE')
+y=title(ax,['MEJORÁ','LA TIENDA'],y0=205,size=100,step=108)
+cards(ax,[('Punto de retiro de encomiendas','Abrís muchas horas y estás sobre el camino'),
+          ('Pago de servicios, giros y recargas','El que paga una factura vuelve todos los meses'),
+          ('Café y comida lista','Una parada de dos minutos pasa a ser de diez'),
+          ('Baños limpios, wifi y dónde sentarse','Para el que viaja pesan tanto como el precio')],y+30,h=140,gap=20)
+ax.text(70,1200,'Más motivos para entrar: más clientes y más litros.',fontfamily=B,fontweight='bold',fontsize=29,color=G,va='center')
+save(fig,7)
+
+fig,ax=base(8,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
 y=title(ax,['MEDÍ TUS','LITROS'],y0=205,size=96,step=104)
 cards(ax,[('Comparate con tu emblema','Si vendés más que el promedio, negociá con ese dato'),
           ('Litros por día, no solo facturación','El volumen es lo que paga los costos fijos'),
-          ('Con poco volumen, sumá otros ingresos','Pesan más la tienda, el lubricentro y los servicios')],y+40,h=150,gap=24)
+          ('Sumá un servicio y medilo','Empezá por uno y mirá cuánta gente trae')],y+40,h=150,gap=24)
 ax.text(70,1150,'Leé la nota completa en energiaslatam.com',fontfamily=B,fontweight='bold',fontsize=32,color=G,va='center')
 ax.text(70,1205,'Seguinos para la noticia del sector todos los días.',fontfamily=B,fontweight='semibold',fontsize=27,color=W,va='center')
-save(fig,7)
+save(fig,8)
 print('ok')
