@@ -901,14 +901,15 @@
  },
  {
   "id": "2026-11-21-cuanto-le-cuesta-al-estado-la-baja-del-diesel",
-  "estado": "borrador",
+  "estado": "publicada",
   "fecha": "2026-11-22",
   "cat": "Mercado y precios",
   "titulo": "Cuánto le cuesta al Estado la baja del diésel: US$ 9,5 millones en impuestos",
   "bajada": "La DNIT confirmó que el Estado deja de recaudar unos US$ 9,5 millones para bajar G. 300 el litro de diésel. La rebaja rige hasta el 31 de diciembre y el impuesto vuelve a subir el 1 de enero si no se prorroga.",
   "autor": "Ana Paula Scacciaferro",
   "img": "img/2026-11-21-cuanto-le-cuesta-al-estado-la-baja-del-diesel-1.jpg",
-  "pais": "py"
+  "pais": "py",
+  "hora": "19:22"
  },
  {
   "id": "2026-11-21-media-hora-para-cargar-estaciones-cliente-electrico",
