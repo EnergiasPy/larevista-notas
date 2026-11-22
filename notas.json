@@ -945,5 +945,16 @@
   "img": "img/2026-11-21-cuanto-gana-estacion-de-servicio-argentina-margen-1.jpg",
   "pais": "ar",
   "hora": "17:28"
+ },
+ {
+  "id": "2026-11-22-cuantos-litros-vende-estacion-de-servicio-paraguay",
+  "estado": "borrador",
+  "fecha": "2026-11-22",
+  "cat": "Combustibles y EESS",
+  "titulo": "Cuántos litros vende una estación de servicio en Paraguay: 104.000 por mes, y Petropar el doble",
+  "bajada": "Con 300,5 millones de litros en octubre y 2.880 estaciones habilitadas, el promedio es de unos 3.400 litros por día. La cuenta, emblema por emblema, con los datos del MIC.",
+  "autor": "Fernando Berdichevsky",
+  "img": "img/2026-11-22-cuantos-litros-vende-estacion-de-servicio-paraguay-1.jpg",
+  "pais": "py"
  }
 ]
