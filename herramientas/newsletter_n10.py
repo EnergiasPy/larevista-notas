@@ -15,9 +15,9 @@ def sub1(pat,rep,s,flags=re.S):
     return out
 
 DEST='2026-11-21-ranking-ventas-combustibles-octubre-2026'
-TAMBIEN=['2026-11-22-cuantos-litros-vende-estacion-de-servicio-paraguay','2026-11-21-cuanto-le-cuesta-al-estado-la-baja-del-diesel',
-         '2026-11-21-cuanto-gana-estacion-de-servicio-argentina-margen']
-MAS=['2026-11-22-cuanto-gana-estacion-de-servicio-chile-margen']
+TAMBIEN=['2026-11-23-bajara-el-combustible-en-paraguay-petroleo-dolar','2026-11-22-cuantos-litros-vende-estacion-de-servicio-paraguay',
+         '2026-11-21-cuanto-le-cuesta-al-estado-la-baja-del-diesel']
+MAS=['2026-11-21-cuanto-gana-estacion-de-servicio-argentina-margen','2026-11-22-cuanto-gana-estacion-de-servicio-chile-margen']
 for i in [DEST]+TAMBIEN+MAS: assert N[i]['estado']=='publicada', i
 
 # 1) encabezado
@@ -25,12 +25,13 @@ h=h.replace('<title>La Estación del Futuro · N° 9</title>','<title>La Estaci�
 assert 'NEWSLETTER · N° 9 · SÁBADO 21 DE NOVIEMBRE 2026' in h
 h=h.replace('NEWSLETTER · N° 9 · SÁBADO 21 DE NOVIEMBRE 2026','NEWSLETTER · N° 10 · LUNES 23 DE NOVIEMBRE 2026')
 h=sub1(r'(?<=<div style="display:none;max-height:0;overflow:hidden">).*?(?=</div>)',
- f'Ranking de octubre: Petropar lidera y el gasoil cayó 15 % en un mes. Además, cuántos litros vende una estación paraguaya y cuánto gana una en Argentina y en Chile.',h)
+ f'Ranking de octubre: Petropar lidera y el gasoil cayó 15 % en un mes. Además, por qué el dólar frena la baja de diciembre y cuántos litros vende una estación paraguaya.',h)
 h=sub1(r'(?<=<p style="margin:0 0 6px 0;font-size:16px;line-height:1.55">).*?(?=</p></td></tr>)',
- 'Octubre dejó dos datos para mirar con lupa: el gasoil cayó 15 % en un solo mes y, de las cinco marcas que más venden, solo Petropar despachó más que hace un año. Esta edición abre con el ranking completo del MIC y sigue con una cuenta que sale de esos mismos números: cuántos litros vende, en promedio, cada estación del país. También van el costo fiscal de la baja del diésel y cuánto le queda por litro a una estación en la Argentina y en Chile.',h)
+ 'Octubre dejó dos datos para mirar con lupa: el gasoil cayó 15 % en un solo mes y, de las cinco marcas que más venden, solo Petropar despachó más que hace un año. Esta edición abre con el ranking completo del MIC y sigue con una cuenta que sale de esos mismos números: cuántos litros vende, en promedio, cada estación del país. También va la pregunta de la semana, si el combustible baja en diciembre: el petróleo cayó 21 %, pero el dólar volvió a subir. Y, además, el costo fiscal de la baja del diésel y cuánto le queda por litro a una estación en la Argentina y en Chile.',h)
 
 # 2) lo mas importante en 30 segundos
 B=[('📊','Ranking de octubre:',f'se vendieron <b>300,5 millones</b> de litros, 6,8{NB}% menos que en septiembre. Petropar lideró con <b>21,6{NB}%</b> del mercado y el gasoil tipo III cayó <b>15,1{NB}%</b> en un mes.'),
+   ('💵','¿Baja en diciembre?:',f'el petróleo cayó <b>21{NB}%</b> desde fin de octubre, pero el dólar pasó de G. 6.200 a <b>G. 6.390</b> en diez días. El barril en guaraníes bajó solo <b>12{NB}%</b>.'),
    ('⛽','Litros por estación:','una estación paraguaya vende en promedio unos <b>104.000 litros</b> por mes; una de Petropar, unos <b>215.000</b>. La cuenta, emblema por emblema.'),
    ('💰','Diésel:','la rebaja del impuesto le cuesta al Estado unos <b>US$ 9,5 millones</b> en dos meses. Rige hasta el 31 de diciembre: sin prórroga, en enero el impuesto vuelve a subir <b>G. 340</b> por litro.'),
    ('🇦🇷','Argentina:',f'a la estación le queda cerca del <b>8{NB}%</b> del surtidor, y los gremios dicen que hoy hacen falta unos <b>350.000 litros</b> para cubrir los costos.'),
