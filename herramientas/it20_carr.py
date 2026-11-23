@@ -48,7 +48,7 @@ for i,(l,c2,s) in enumerate([('¿CUÁNDO SE ACABA',W,112),('EL EXCEDENTE',W,128)
 ax.add_patch(Rectangle((70,740),140,7,color=G))
 for i,l in enumerate(['La central calcula que Paraguay usará','toda su parte en meses de 2029 y 2030.','Antes, la fecha era 2034.']):
     ax.text(70,820+i*52,l,fontfamily=B,fontweight='semibold',fontsize=38,color=W,va='center')
-ax.text(70,1022,'Y la tarifa vence en 41 días,',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,1022,'Y la tarifa vence en 38 días,',fontfamily=B,fontsize=30,color=M,va='center')
 ax.text(70,1064,'con director nuevo.',fontfamily=B,fontsize=30,color=M,va='center')
 save(fig,1)
 

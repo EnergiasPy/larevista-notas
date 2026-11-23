@@ -46,7 +46,7 @@ ax.text(1260,300+150+52,'+16,23 %',fontfamily=BB,fontsize=70,color=GR,va='center
 ax.text(80,650,'Con ese ritmo, la central calcula que Paraguay usará toda su parte en varios meses de 2029 y 2030.',fontfamily=B,fontweight='bold',fontsize=24,color=NV,va='center')
 ax.text(80,690,'Hasta ahora, la fecha que se manejaba era 2034.',fontfamily=B,fontweight='semibold',fontsize=24,color=MU,va='center')
 rb(ax,80,742,1440,62,NV,10)
-ax.text(120,773,'LA TARIFA DE ITAIPÚ VENCE EL 31 DE DICIEMBRE: FALTAN 41 DÍAS',fontfamily=BB,fontsize=36,color='#6DBB78',va='center')
+ax.text(120,773,'LA TARIFA DE ITAIPÚ VENCE EL 31 DE DICIEMBRE: FALTAN 38 DÍAS',fontfamily=BB,fontsize=36,color='#6DBB78',va='center')
 foot(fig,ax,'Datos: Itaipú Binacional, informe de producción y suministro de la Dirección Técnica de la margen derecha.','-1.jpg',ysrc=878)
 
 # ---------- PLACA 2: los dos techos ----------
