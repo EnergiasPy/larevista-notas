@@ -31,7 +31,7 @@ h=sub1(r'(?<=<p style="margin:0 0 6px 0;font-size:16px;line-height:1.55">).*?(?=
 
 # 2) lo mas importante en 30 segundos
 B=[('📊','Ranking de octubre:',f'se vendieron <b>300,5 millones</b> de litros, 6,8{NB}% menos que en septiembre. Petropar lideró con <b>21,6{NB}%</b> del mercado y el gasoil tipo III cayó <b>15,1{NB}%</b> en un mes.'),
-   ('💵','¿Baja en diciembre?:',f'el petróleo cayó <b>21{NB}%</b> desde fin de octubre, pero el dólar pasó de G. 6.200 a <b>G. 6.390</b> en diez días. El barril en guaraníes bajó solo <b>12{NB}%</b>.'),
+   ('💵','Diciembre:',f'el petróleo cayó <b>21{NB}%</b> desde fin de octubre, pero el dólar pasó de G. 6.200 a <b>G. 6.390</b> en diez días. El barril en guaraníes bajó solo <b>12{NB}%</b>.'),
    ('⛽','Litros por estación:','una estación paraguaya vende en promedio unos <b>104.000 litros</b> por mes; una de Petropar, unos <b>215.000</b>. La cuenta, emblema por emblema.'),
    ('💰','Diésel:','la rebaja del impuesto le cuesta al Estado unos <b>US$ 9,5 millones</b> en dos meses. Rige hasta el 31 de diciembre: sin prórroga, en enero el impuesto vuelve a subir <b>G. 340</b> por litro.'),
    ('🇦🇷','Argentina:',f'a la estación le queda cerca del <b>8{NB}%</b> del surtidor, y los gremios dicen que hoy hacen falta unos <b>350.000 litros</b> para cubrir los costos.'),
