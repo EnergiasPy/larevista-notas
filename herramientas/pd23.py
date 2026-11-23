@@ -8,7 +8,7 @@ plt.rcParams['text.parse_math']=False
 for f in ['BebasNeue-Regular.ttf','Barlow-Regular.ttf','Barlow-SemiBold.ttf','Barlow-Bold.ttf','BarlowCondensed-Bold.ttf']: fm.fontManager.addfont(f)
 BB='Bebas Neue'; B='Barlow'; NV='#0C1A29'; RD='#C0252D'; GR='#3A7D44'; MU='#4A5B6C'; SO='#F0F4F8'
 def rb(ax,x,y,w,h,c,r=10): ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle=f'round,pad=0,rounding_size={r}',color=c,lw=0))
-ID='2026-11-23-va-a-bajar-combustible-diciembre-petroleo-dolar'; R='/home/claude/larevista-notas/img/'
+ID='2026-11-23-bajara-el-combustible-en-paraguay-petroleo-dolar'; R='/home/claude/larevista-notas/img/'
 BR=('#D52B1E','#FFFFFF','#0038A8')
 def hdr(k,t,b):
     fig=plt.figure(figsize=(16,10.67),dpi=100,facecolor='white'); ax=fig.add_axes([0,0,1,1]); ax.set_xlim(0,1600); ax.set_ylim(1067,0); ax.axis('off')

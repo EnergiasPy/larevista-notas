@@ -9,7 +9,7 @@ plt.rcParams['text.parse_math']=False
 for f in ['BebasNeue-Regular.ttf','Barlow-Regular.ttf','Barlow-SemiBold.ttf','Barlow-Bold.ttf','BarlowCondensed-Bold.ttf']: fm.fontManager.addfont(f)
 BB='Bebas Neue'; B='Barlow'; BC='Barlow Condensed'; BG='#0F213D'; W='#F4F6F9'; M='#9FB3C8'; G='#76C46E'; CARD='#17305A'; RD='#E2484F'
 R='/home/claude/larevista-notas/img/social/'; O='/home/claude/out/pd23/'; os.makedirs(O,exist_ok=True)
-ID='2026-11-23-va-a-bajar-combustible-diciembre-petroleo-dolar'
+ID='2026-11-23-bajara-el-combustible-en-paraguay-petroleo-dolar'
 N=6; BR=['#D52B1E','#FFFFFF','#0038A8']
 def rb(ax,x,y,w,h,c,r=14): ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle=f'round,pad=0,rounding_size={r}',color=c,lw=0))
 def base(n,kicker):
