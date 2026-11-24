@@ -47,15 +47,15 @@ fig,ax=base(1,'REGIÓN · MÉXICO')
 for i,(l,c2,sz) in enumerate([('CUÁNTO GANA',W,150),('UNA GASOLINERA',W,128),('EN MÉXICO',G,150)]):
     ax.text(66,300+i*150,l,fontfamily=BB,fontsize=sz,color=c2,va='center')
 ax.add_patch(Rectangle((70,740),140,7,color=G))
-for i,l in enumerate(['1,50 pesos por litro de diésel.','Y un precio de venta con techo.']):
+for i,l in enumerate(['1,50 pesos brutos por litro de diésel.','Y un precio de venta con techo.']):
     ax.text(70,820+i*54,l,fontfamily=B,fontweight='semibold',fontsize=38,color=W,va='center')
-ax.text(70,1000,'Para empatar hay que vender casi',fontfamily=B,fontsize=30,color=M,va='center')
-ax.text(70,1042,'400.000 litros por mes.',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,1000,'El punto de equilibrio se estima en',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,1042,'390.000 litros por mes.',fontfamily=B,fontsize=30,color=M,va='center')
 save(fig,1)
 
 fig,ax=base(2,'EL MARGEN')
 y=title(ax,['OCHO CENTAVOS','DE DÓLAR POR LITRO'],y0=210,size=84,step=94)
-big3(fig,ax,y,[('1,50|pesos','Margen por litro de diésel, más IVA'),('2|pesos','Lo que superaba a comienzos de año'),('1,55|pesos','Costo de operación estimado en Hermosillo')],fs=68)
+big3(fig,ax,y,[('1,50|pesos','Margen bruto por litro de diésel'),('2|pesos','Lo que superaba a comienzos de año'),('1,55|pesos','Costo de operación estimado en Hermosillo')],fs=68)
 ax.text(70,1180,'Con eso se pagan flete, sueldos,',fontfamily=B,fontweight='bold',fontsize=30,color=W,va='center')
 ax.text(70,1226,'almacenamiento y financiamiento. Datos de Onexpo.',fontfamily=B,fontsize=27,color=M,va='center')
 save(fig,2)
@@ -71,7 +71,7 @@ save(fig,3)
 
 fig,ax=base(4,'EL VOLUMEN')
 y=title(ax,['EL NÚMERO QUE DECIDE:','LOS LITROS'],y0=210,size=78,step=90)
-big3(fig,ax,y,[('200.000|litros','Por mes o menos: la mayoría pierde'),('300.000|litros','Desde ahí el equilibrio es alcanzable'),('390.000|litros','Punto de equilibrio promedio del país')],fs=68)
+big3(fig,ax,y,[('200.000|litros','Por mes o menos: la mayoría pierde'),('300.000|litros','Desde ahí el equilibrio es alcanzable'),('390.000|litros','Punto de equilibrio promedio estimado')],fs=68)
 ax.text(70,1180,'Lo dijo un expresidente de Onexpo,',fontfamily=B,fontweight='bold',fontsize=30,color=W,va='center')
 ax.text(70,1226,'el gremio de las estaciones mexicanas.',fontfamily=B,fontsize=27,color=M,va='center')
 save(fig,4)
@@ -86,7 +86,7 @@ save(fig,5)
 
 fig,ax=base(6,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
 y=title(ax,['TRES COSAS','PARA MIRAR'],y0=205,size=100,step=108)
-cards(ax,[('El margen dice poco sin los litros','México: casi 400.000 por mes. Paraguay: 104.000'),
+cards(ax,[('El margen dice poco sin los litros','México: equilibrio en 390.000. Paraguay vende 104.000'),
           ('Un precio con techo se paga con margen','Miralo cuando se discuta un acuerdo de precios'),
           ('Lo que no es combustible gana peso','Tienda, servicios y pagos sostienen la cuenta')],y+40,h=150,gap=24)
 save(fig,6)

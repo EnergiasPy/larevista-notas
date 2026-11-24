@@ -45,9 +45,9 @@ def num(fig,ax,x,y,big,uni,fs,col,ufs=None,dy=8):
 
 
 fig,ax=hdr('REGIÓN · MÉXICO','CUÁNTO GANA UNA GASOLINERA EN MÉXICO','Margen chico, precio con techo y un punto de equilibrio que exige volumen')
-tiles=[('1,50','pesos por litro','Margen del diésel, más IVA (unos USD 0,08)',RD),
+tiles=[('1,50','pesos por litro','Margen bruto del diésel (unos USD 0,08)',RD),
        ('24','pesos','Techo acordado para el litro de gasolina Magna',NV),
-       ('390.000','litros','Por mes para no perder, promedio nacional',GR),
+       ('390.000','litros','Punto de equilibrio mensual estimado',GR),
        ('14.325','estaciones','El 62 % lleva la marca Pemex',NV)]
 for i,(big,uni,sub,col) in enumerate(tiles):
     x=80+(i%2)*735; y=290+(i//2)*222
@@ -55,5 +55,5 @@ for i,(big,uni,sub,col) in enumerate(tiles):
     num(fig,ax,x+40,y+82,big,uni,86,col,ufs=36,dy=10)
     ax.text(x+42,y+158,sub,fontfamily=B,fontweight='semibold',fontsize=21,color=MU,va='center')
 rb(ax,80,742,1440,62,NV,10)
-ax.text(120,773,'EN PARAGUAY, LA ESTACIÓN PROMEDIO VENDE UNOS 104.000 LITROS POR MES',fontfamily=BB,fontsize=36,color='#6DBB78',va='center')
+ax.text(120,773,'EN PARAGUAY, LA ESTACIÓN PROMEDIO VENDIÓ UNOS 104.000 LITROS EN OCTUBRE',fontfamily=BB,fontsize=36,color='#6DBB78',va='center')
 foot(fig,ax,'Datos: Onexpo, Profeco, PetroIntelligence y, para Paraguay, cuenta propia con datos del MIC.','-1.jpg',ysrc=878)
