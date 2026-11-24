@@ -43,8 +43,8 @@ def num(fig,ax,x,y,big,uni,fs,col,ufs=None,dy=8):
 
 
 
-fig,ax=hdr('COMBUSTIBLES Y EESS · PARAGUAY','GULF LLEGA A PARAGUAY CON 30 ESTACIONES','El desembarco de la marca, de la mano de ANJOR, en cuatro números')
-tiles=[('30','estaciones','Cambian de emblema en el arranque',NV),
+fig,ax=hdr('COMBUSTIBLES Y EESS · PARAGUAY','GULF EN PARAGUAY: 30 CAMBIOS DE EMBLEMA PREVISTOS','El desembarco de la marca, de la mano de ANJOR, en cuatro números')
+tiles=[('30','estaciones','Cambio de emblema previsto, primera etapa',NV),
        ('1 %','de la red','Sobre 2.880 estaciones habilitadas en el país',GR),
        ('3','países','Paraguay, Uruguay y Bolivia, con licencia de ANJOR',NV),
        ('1.000','estaciones','La meta regional de Gulf para 2030',RD)]

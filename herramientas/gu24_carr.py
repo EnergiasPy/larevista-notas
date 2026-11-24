@@ -53,8 +53,8 @@ ax.text(70,1042,'a las 18:00 en Asunción.',fontfamily=B,fontsize=30,color=M,va=
 save(fig,1)
 
 fig,ax=base(2,'EL ARRANQUE')
-y=title(ax,['TREINTA BOCAS','PARA EMPEZAR'],y0=210,size=88,step=98)
-big3(fig,ax,y,[('30|estaciones','Cambian de emblema en el arranque'),('1 %','De una red de 2.880 estaciones habilitadas'),('0','Estaciones sin bandera hay en Paraguay')],fs=68)
+y=title(ax,['TREINTA BOCAS','EN LA PRIMERA ETAPA'],y0=210,size=88,step=98)
+big3(fig,ax,y,[('30|estaciones','Cambios de emblema previstos, primera etapa'),('1 %','De una red de 2.880 estaciones habilitadas'),('0','Estaciones sin bandera hay en Paraguay')],fs=68)
 ax.text(70,1180,'Cada estación que suma un emblema nuevo',fontfamily=B,fontweight='bold',fontsize=30,color=W,va='center')
 ax.text(70,1226,'sale de otro.',fontfamily=B,fontsize=27,color=M,va='center')
 save(fig,2)
