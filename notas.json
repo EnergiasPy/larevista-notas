@@ -986,13 +986,14 @@
  },
  {
   "id": "2026-11-24-gulf-paraguay-30-estaciones-anjor-lanzamiento",
-  "estado": "borrador",
+  "estado": "publicada",
   "fecha": "2026-11-24",
   "cat": "Combustibles y EESS",
   "titulo": "Gulf llega a Paraguay con 30 estaciones: quién está detrás y qué significa para el operador",
   "bajada": "La marca se presenta hoy en Asunción de la mano de ANJOR, que tiene la licencia para Paraguay, Uruguay y Bolivia. El arranque equivale a cerca del 1 % de la red del país y la prioridad es sumar estaciones que ya existen.",
   "autor": "Ana Paula Scacciaferro",
   "img": "img/2026-11-24-gulf-paraguay-30-estaciones-anjor-lanzamiento-1.jpg",
-  "pais": "py"
+  "pais": "py",
+  "hora": "06:58"
  }
 ]
