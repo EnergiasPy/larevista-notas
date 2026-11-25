@@ -44,11 +44,11 @@ def num(fig,ax,x,y,big,uni,fs,col,ufs=None,dy=8):
 
 
 
-fig,ax=hdr('COMBUSTIBLES Y EESS · PARAGUAY','US$ 300 MILLONES PARA LA OBRA PÚBLICA EN DICIEMBRE','Lo que anunció el Gobierno y lo que mueve detrás')
-tiles=[('300','millones de US$','El desembolso anunciado para diciembre',GR),
+fig,ax=hdr('COMBUSTIBLES Y EESS · PARAGUAY','HASTA US$ 300 MILLONES PARA OBRAS VIALES','US$ 150 millones disponibles y otros US$ 150 sujetos al Congreso')
+tiles=[('150','millones de US$','Disponibles: pagos de noviembre y diciembre',GR),
+       ('150','millones de US$','Un crédito que todavía depende del Congreso',RD),
        ('931','millones de US$','La inversión en obras prevista para 2027',NV),
-       ('300','contratos','De obra pública alcanzados, según la cámara',NV),
-       ('300.000','empleos','Directos en el sector, según los gremios',NV)]
+       ('300','contratos','De obra pública alcanzados, según la cámara',NV)]
 for i,(big,uni,sub,col) in enumerate(tiles):
     x=80+(i%2)*735; y=290+(i//2)*222
     rb(ax,x,y,705,200,SO,10); ax.add_patch(Rectangle((x,y),8,200,color=col))

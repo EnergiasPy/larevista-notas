@@ -44,10 +44,10 @@ def save(fig,k):
 
 
 fig,ax=base(1,'LA ESTACIÓN DEL FUTURO · PARAGUAY')
-for i,(l,c2,sz) in enumerate([('US$ 300',W,150),('MILLONES PARA',W,112),('LA OBRA PÚBLICA',G,112)]):
+for i,(l,c2,sz) in enumerate([('HASTA US$ 300',W,128),('MILLONES PARA',W,128),('OBRAS VIALES',G,128)]):
     ax.text(66,300+i*150,l,fontfamily=BB,fontsize=sz,color=c2,va='center')
 ax.add_patch(Rectangle((70,740),140,7,color=G))
-for i,l in enumerate(['El Gobierno los desembolsa','en diciembre.']):
+for i,l in enumerate(['US$ 150 millones disponibles.','Otros US$ 150 dependen del Congreso.']):
     ax.text(70,820+i*54,l,fontfamily=B,fontweight='semibold',fontsize=38,color=W,va='center')
 ax.text(70,1000,'¿Qué gana una estación de servicio?',fontfamily=B,fontsize=30,color=M,va='center')
 save(fig,1)
