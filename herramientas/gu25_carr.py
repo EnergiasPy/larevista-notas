@@ -69,7 +69,7 @@ save(fig,3)
 fig,ax=base(4,'LA RED')
 y=title(ax,['LOS NÚMEROS','QUE MOSTRÓ GULF'],y0=210,size=92,step=102)
 cards(ax,[('Argentina: 126 bocas','Licencia renovada por otras 200'),
-          ('Chile: 105 en plan','Brasil: 350 en plan'),
+          ('Chile: 105 en plan','Brasil: más de 350 en plan'),
           ('México: 200 bocas','Estados Unidos: estaciones en 22 estados'),
           ('Paraguay: 30 en la primera etapa','Cambios de emblema previstos')],y+30,h=140,gap=20)
 save(fig,4)
@@ -78,7 +78,7 @@ fig,ax=base(5,'EL PEDIDO DE ANJOR')
 y=title(ax,['SUMAR LITROS','PARA NEGOCIAR'],y0=210,size=100,step=108)
 ax.text(70,y+90,'«Ser independiente no significa',fontfamily=B,fontweight='bold',fontsize=46,color=W,va='center')
 ax.text(70,y+150,'tener que estar solos.»',fontfamily=B,fontweight='bold',fontsize=46,color=W,va='center')
-ax.text(70,y+220,'Lucas Velazco, Grupo ANJOR',fontfamily=B,fontsize=30,color=G,va='center')
+ax.text(70,y+220,'Lucas Velasco, presidente de ANJOR',fontfamily=B,fontsize=30,color=G,va='center')
 cards(ax,[('La fuerza está fragmentada','Propuso sumar litros, estaciones y presencia'),
           ('Pensar el negocio a diez años','Fue su cierre ante los operadores')],y+300,h=150,gap=24)
 save(fig,5)
