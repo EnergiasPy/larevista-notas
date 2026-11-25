@@ -1,4 +1,4 @@
-# Carrusel 1080x1350 · Paraguay · Bolivia · diésel a Bs 20,57 · 24/11/2026
+# Carrusel 1080x1350 · Paraguay · Bolivia · diésel a Bs 20,57 · 25/11/2026
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
@@ -48,9 +48,9 @@ fig,ax=base(1,'REGIÓN · BOLIVIA')
 for i,(l,c2,sz) in enumerate([('BOLIVIA SUBE',W,138),('EL DIÉSEL',W,138),('A BS 20,57',G,138)]):
     ax.text(66,275+i*168,l,fontfamily=BB,fontsize=sz,color=c2,va='center')
 ax.add_patch(Rectangle((70,740),140,7,color=G))
-for i,l in enumerate(['14,6 % más desde este martes.','Unos USD 1,75 por litro.']):
+for i,l in enumerate(['14,6 % más desde el martes 24.','Unos USD 1,75 por litro.']):
     ax.text(70,820+i*54,l,fontfamily=B,fontweight='semibold',fontsize=38,color=W,va='center')
-ax.text(70,1000,'Hace un año costaba Bs 3,72.',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,1000,'El transporte evalúa un paro.',fontfamily=B,fontsize=30,color=M,va='center')
 save(fig,1)
 
 fig,ax=base(2,'EL AJUSTE')
@@ -80,7 +80,7 @@ fig,ax=base(5,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
 y=title(ax,['MÁS CARO QUE','EN PARAGUAY'],y0=205,size=100,step=108)
 cards(ax,[('Bolivia: unos USD 1,75 por litro','Paraguay: diésel común a unos USD 1,40'),
           ('La frontera del Chaco se da vuelta','Antes el combustible barato era el boliviano'),
-          ('Una banda concentra el salto','Dos meses quieto y 14,6 % en una noche')],y+40,h=150,gap=24)
+          ('El transporte evalúa un paro','Los choferes definen medidas el jueves 26')],y+40,h=150,gap=24)
 save(fig,5)
 
 fig,ax=base(6,'LA ESTACIÓN DEL FUTURO')
