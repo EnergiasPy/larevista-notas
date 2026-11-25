@@ -3,8 +3,8 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 ID='2026-11-25-shell-cinco-anos-paraguay-290-estaciones'; R='/home/claude/larevista-notas/'; I=R+'img/'; S=I+'social/'; O='/home/claude/out/sh25/'; SRC=O+'src/'
 h=open('gu24.py').read().split("fig,ax=hdr(")[0].replace('2026-11-24-gulf-paraguay-30-estaciones-anjor-lanzamiento',ID)
 exec(h)
-fig,ax=hdr('CONTENIDO PATROCINADO POR SHELL · PARAGUAY','SHELL CUMPLE CINCO AÑOS EN PARAGUAY','El recorrido de la marca en el país, según la compañía')
-tiles=[('5','años','De presencia en Paraguay',RD),('2021','','Abrió la primera estación',NV),('200','estaciones','Al año siguiente de la apertura',NV),('+290','estaciones','La red de hoy, en todo el país',GR)]
+fig,ax=hdr('CONTENIDO PATROCINADO POR SHELL · PARAGUAY','SHELL: CINCO AÑOS DE SU REGRESO A PARAGUAY','El recorrido de la marca desde 2021, según la compañía')
+tiles=[('5','años','Desde el regreso de la marca al país',RD),('2021','','Primera estación tras el regreso',NV),('200','estaciones','Al año siguiente de la apertura',NV),('+290','estaciones','La red de hoy, en todo el país',GR)]
 for i,(big,uni,sub,col) in enumerate(tiles):
     x=80+(i%2)*735; y=290+(i//2)*222
     rb(ax,x,y,705,200,SO,10); ax.add_patch(Rectangle((x,y),8,200,color=col))
@@ -37,8 +37,8 @@ def slide(bg,lines,out,small=None,start=1000):
 def blurbg(im,top=420):
     bg=cover(im,1080,1920).filter(ImageFilter.GaussianBlur(30)); r=1080/im.size[0]; fg=im.resize((1080,int(im.size[1]*r)),Image.LANCZOS); bg.paste(fg,(0,top)); return bg
 H=BBf(120); T=Bf(54,'Bold'); bgA=blurbg(A); bgB=cover(Bv,1080,1920,fy=.3); bgA2=cover(A,1080,1920,fx=.38)
-slide(bgA,[('SHELL CUMPLE',H,W_),('CINCO AÑOS',H,G),('EN PARAGUAY',H,W_)],O+'f1.png',start=980)
-slide(bgB,[('2021:',H,G),('LA PRIMERA ESTACIÓN',BBf(100),W_)],O+'f2.png',small=['Así empezó la red en el país.'])
+slide(bgA,[('SHELL: CINCO AÑOS',BBf(110),W_),('DE SU REGRESO',BBf(110),G),('A PARAGUAY',BBf(110),W_)],O+'f1.png',start=980)
+slide(bgB,[('2021:',H,G),('PRIMERA ESTACIÓN',BBf(100),W_),('TRAS EL REGRESO',BBf(100),W_)],O+'f2.png',small=['La marca volvió después de 15 años.'])
 slide(bgB,[('200 ESTACIONES',H,W_),('AL AÑO SIGUIENTE',BBf(100),G)],O+'f3.png',small=['Según la compañía.'])
 slide(bgA2,[('MÁS DE 290',H,G),('ESTACIONES HOY',H,W_)],O+'f4.png',small=['En todo el país.'])
 slide(bgB,[('«Se gana un lugar',T,W_),('cada día, en cada',T,W_),('estación.»',T,W_)],O+'f5.png',small=['Néstor Visendaz, CEO de Raízen,','licenciataria de Shell en Paraguay'])
@@ -54,7 +54,7 @@ subprocess.run(['ffmpeg','-v','error','-y']+args+['-i','/home/claude/out/gu25/r2
 subprocess.run(['mv',O+'tmp.mp4',S+ID+'-reel.mp4']); print(T_)
 d=json.load(open('/home/claude/larevista-notas/notas.json'));L=d if isinstance(d,list) else d['notas']
 L[:]=[x for x in L if x['id']!=ID]
-L.append({"id":ID,"estado":"borrador","fecha":"2026-11-25","pais":"py","cat":"Novedades de la industria","titulo":"Shell cumple cinco años en Paraguay: de una estación en 2021 a más de 290","bajada":"Contenido patrocinado por Shell. La marca celebró su aniversario en el Puerto de Asunción con operadores de todo el país. Su licenciataria, Raízen, repasó el crecimiento de la red y agradeció a quienes la sostienen.","autor":"Ana Paula Scacciaferro","img":"img/"+ID+"-2.jpg"})
+L.append({"id":ID,"estado":"borrador","fecha":"2026-11-25","pais":"py","cat":"Novedades de la industria","titulo":"Shell cumple cinco años de su regreso a Paraguay y supera las 290 estaciones, según la compañía","bajada":"Contenido patrocinado por Shell. La marca, que volvió al país en 2021, celebró el aniversario en el Puerto de Asunción con operadores de todo el país. Su licenciataria, Raízen, repasó el crecimiento de la red y agradeció a quienes la sostienen.","autor":"Ana Paula Scacciaferro","img":"img/"+ID+"-2.jpg"})
 json.dump(d,open('/home/claude/larevista-notas/notas.json','w'),ensure_ascii=False,indent=1)
 print(len(re.sub('<[^>]+>',' ',open(f'/home/claude/larevista-notas/notas/{ID}.html').read()).split()))
 sh=Image.new('RGB',(270*7,480+540))
