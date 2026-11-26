@@ -10,7 +10,7 @@ for f in ['BebasNeue-Regular.ttf','Barlow-Regular.ttf','Barlow-SemiBold.ttf','Ba
 BB='Bebas Neue'; B='Barlow'; BC='Barlow Condensed'; BG='#0F213D'; W='#F4F6F9'; M='#9FB3C8'; G='#76C46E'; CARD='#17305A'
 R='/home/claude/larevista-notas/img/social/'; O='/home/claude/out/uy26/'; os.makedirs(O,exist_ok=True); os.makedirs(R,exist_ok=True)
 ID='2026-11-26-autodespacho-uruguay-estaciones-cargar-uno-mismo'
-N=7; BR=['#0038A8','#FFFFFF','#0038A8']
+N=8; BR=['#0038A8','#FFFFFF','#0038A8']
 def rb(ax,x,y,w,h,c,r=14): ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle=f'round,pad=0,rounding_size={r}',color=c,lw=0))
 def base(n,kicker):
     fig=plt.figure(figsize=(10.8,13.5),dpi=100,facecolor=BG); ax=fig.add_axes([0,0,1,1]); ax.set_xlim(0,1080); ax.set_ylim(1350,0); ax.axis('off')
@@ -47,8 +47,8 @@ for i,(l,c2,sz) in enumerate([('¿Y SI EL CLIENTE',W,112),('CARGA SOLO?',W,112),
 ax.add_patch(Rectangle((70,730),140,7,color=G))
 for i,l in enumerate(['El gremio de las estaciones','encargó analizar el autodespacho.']):
     ax.text(70,810+i*54,l,fontfamily=B,fontweight='semibold',fontsize=38,color=W,va='center')
-ax.text(70,990,'No está prohibido: ya hay dos estaciones',fontfamily=B,fontsize=30,color=M,va='center')
-ax.text(70,1032,'uruguayas funcionando así.',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,990,'Acá la autocarga de Enex ya funciona',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,1032,'desde 2024. Allá recién lo discuten.',fontfamily=B,fontsize=30,color=M,va='center')
 save(fig,1)
 
 # 2 · qué pasó
@@ -89,19 +89,29 @@ ax.text(70,1180,'Un año y medio después, Uruguay mira ese camino',fontfamily=B
 ax.text(70,1226,'con una ventaja: allá hizo falta un decreto, acá no.',fontfamily=B,fontsize=27,color=M,va='center')
 save(fig,5)
 
-# 6 · qué significa
-fig,ax=base(6,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
-y=title(ax,['TRES COSAS','PARA MIRAR'],y0=205,size=100,step=108)
-cards(ax,[('No es una moda: es una cuenta','Aparece cuando el litro deja menos y el turno cuesta igual'),
-          ('La playa atendida es un servicio','Si se cobra con atención, hay que saber cuánto vale'),
-          ('El surtidor ya no es todo el negocio','Tienda, carga eléctrica y servicios pesan cada vez más')],y+40,h=150,gap=24)
+# 6 · Paraguay
+fig,ax=base(6,'EN PARAGUAY')
+y=title(ax,['ACÁ YA SE','CARGA SOLO'],y0=210,size=100,step=108)
+cards(ax,[('Enex tiene islas de autocarga desde 2024','En cuatro estaciones de Asunción y San Lorenzo'),
+          ('Se paga antes, desde la app Mi Enex','Producto, monto y medio de pago se eligen al llegar'),
+          ('Salió con G. 400 de descuento por litro','Y doble puntaje: entró como producto comercial')],y+40,h=150,gap=26)
+ax.text(70,1180,'Esa es la diferencia con Uruguay: acá llegó',fontfamily=B,fontweight='bold',fontsize=30,color=W,va='center')
+ax.text(70,1226,'para fidelizar; allá se estudia para bajar costos.',fontfamily=B,fontsize=27,color=M,va='center')
 save(fig,6)
 
-# 7 · cierre
-fig,ax=base(7,'LA ESTACIÓN DEL FUTURO')
+# 7 · qué significa
+fig,ax=base(7,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
+y=title(ax,['TRES COSAS','PARA MIRAR'],y0=205,size=100,step=108)
+cards(ax,[('No es una moda: es una cuenta','Aparece cuando el litro deja menos y el turno cuesta igual'),
+          ('La atención en playa es un servicio','Va incluida en el litro: hay que saber cuánto cuesta'),
+          ('El surtidor ya no es todo el negocio','Tienda, carga eléctrica y servicios pesan cada vez más')],y+40,h=150,gap=24)
+save(fig,7)
+
+# 8 · cierre
+fig,ax=base(8,'LA ESTACIÓN DEL FUTURO')
 y=title(ax,['LEÉ LA NOTA','COMPLETA'],y0=420,size=120,step=128)
 ax.text(70,760,'energiaslatam.com',fontfamily=B,fontweight='bold',fontsize=52,color=G,va='center')
 ax.text(70,860,'Seguinos para la noticia del sector todos los días.',fontfamily=B,fontweight='semibold',fontsize=30,color=W,va='center')
 ax.text(70,920,'¿Dejarías que el cliente cargue solo en tu estación?',fontfamily=B,fontsize=30,color=M,va='center')
-save(fig,7)
-print('ok carrusel 7')
+save(fig,8)
+print('ok carrusel 8')
