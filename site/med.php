@@ -152,25 +152,37 @@ if ($filtroAn === '') {
 
   // ---- Newsletter semanal (lista #4 de Brevo), copia local que se renueva cada 10 minutos ----
   $NLF = $dir . '/newsletter-cache.json'; $NLD = json_decode((string)@file_get_contents($NLF), true) ?: [];
-  if (empty($NLD['ts']) || $NLD['ts'] < time() - 600) {
+  // v2 (26/11): los activos se cuentan contacto por contacto. Antes se hacia totalSubscribers - totalBlacklisted,
+  // y totalSubscribers de Brevo YA viene sin los dados de baja: se restaban dos veces (daba 172 en vez de 177).
+  if (empty($NLD['ts']) || ($NLD['v'] ?? 0) < 2 || $NLD['ts'] < time() - 600) {
     $bk = trim((string)@file_get_contents($dir . '/brevo.key'));
     if ($bk !== '') {
       $bg = function ($u) use ($bk) { $c = stream_context_create(['http' => ['timeout' => 8, 'ignore_errors' => true, 'header' => "api-key: $bk\r\nAccept: application/json\r\n"]]); return json_decode((string)@file_get_contents('https://api.brevo.com/v3' . $u, false, $c), true); };
       $li = $bg('/contacts/lists/4');
-      if (isset($li['totalSubscribers'])) {
-        $altas = []; $off = 0;
-        do { $cs = $bg('/contacts/lists/4/contacts?limit=500&offset=' . $off); $lote = $cs['contacts'] ?? []; foreach ($lote as $ct) if (empty($ct['emailBlacklisted'])) { $f = substr(date('Y-m-d', strtotime($ct['createdAt'] ?? 'now')), 0, 10); $altas[$f] = ($altas[$f] ?? 0) + 1; } $off += 500; } while (count($lote) === 500 && $off < 20000);
-        $NLD = ['ts' => time(), 'total' => (int)$li['totalSubscribers'], 'bajas' => (int)($li['totalBlacklisted'] ?? 0), 'altas' => $altas];
-        @file_put_contents($NLF, json_encode($NLD), LOCK_EX);
+      if (isset($li['totalSubscribers']) || isset($li['uniqueSubscribers'])) {
+        $altas = []; $off = 0; $tot = 0; $bl = 0;
+        do {
+          $cs = $bg('/contacts/lists/4/contacts?limit=500&offset=' . $off); $lote = $cs['contacts'] ?? [];
+          foreach ($lote as $ct) {
+            $tot++;
+            if (!empty($ct['emailBlacklisted'])) { $bl++; continue; }
+            $f = substr(date('Y-m-d', strtotime($ct['createdAt'] ?? 'now')), 0, 10); $altas[$f] = ($altas[$f] ?? 0) + 1;
+          }
+          $off += 500;
+        } while (count($lote) === 500 && $off < 20000);
+        if ($tot > 0) {
+          $NLD = ['v' => 2, 'ts' => time(), 'total' => $tot, 'bajas' => $bl, 'activos' => $tot - $bl, 'altas' => $altas];
+          @file_put_contents($NLF, json_encode($NLD), LOCK_EX);
+        }
       }
     }
   }
   if (!empty($NLD['ts'])) {
-    $act = max(0, $NLD['total'] - $NLD['bajas']); $nuevosP = 0; $nuevosH = $NLD['altas'][$hoy] ?? 0; $DN = [];
+    $act = (int)($NLD['activos'] ?? max(0, $NLD['total'] - $NLD['bajas'])); $nuevosP = 0; $nuevosH = $NLD['altas'][$hoy] ?? 0; $DN = [];
     foreach ($D as $dia => $r) { $v = $NLD['altas'][$dia] ?? 0; $DN[$dia] = ['nl' => $v]; $nuevosP += $v; }
-    echo '<h2>Newsletter semanal</h2><div class="k"><div><b>' . $n($act) . '</b><span>inscriptos activos</span></div><div><b>' . $n($nuevosP) . '</b><span>nuevos en el período</span></div><div><b>' . $n($nuevosH) . '</b><span>nuevos hoy</span></div><div><b>' . $n($NLD['bajas']) . '</b><span>dados de baja</span></div></div>';
+    echo '<h2>Newsletter semanal</h2><div class="k"><div><b>' . $n($act) . '</b><span>inscriptos activos</span></div><div><b>' . $n($nuevosP) . '</b><span>nuevos en el período</span></div><div><b>' . $n($nuevosH) . '</b><span>nuevos hoy</span></div><div><b>' . $n((int)$NLD['bajas']) . '</b><span>dados de baja (total)</span></div></div>';
     echo '<div class="g"><p class="leg">Inscriptos nuevos por día</p>' . grafico($DN, 'nl', '#1F6FB2', 'Inscriptos nuevos por día') . '</div>';
-    echo '<p class="sub">Lista "Newsletter" de Brevo, actualizada ' . date('d/m H:i', $NLD['ts']) . '. "Nuevos" cuenta la fecha en que cada contacto entró a Brevo.</p>';
+    echo '<p class="sub">Lista "Newsletter La Estación del Futuro" (#4) de Brevo, actualizada ' . date('d/m H:i', $NLD['ts']) . ': ' . $n((int)$NLD['total']) . ' contactos en la lista, ' . $n((int)$NLD['bajas']) . ' dados de baja, ' . $n($act) . ' activos. Los activos son los que reciben el envío; en Brevo, "Destinatarios" de una campaña es el número de activos al momento de enviarla y "Entregados" descuenta los rebotes. "Nuevos" cuenta la fecha en que cada contacto entró a Brevo, no la de su baja.</p>';
   }
 
   echo '<h2>Notas más leídas</h2><div class="wrap"><table><tr><th>Nota</th><th>Vistas</th><th>Leídas</th><th>% que la leyó</th></tr>';
