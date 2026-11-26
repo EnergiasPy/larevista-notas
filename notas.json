@@ -1070,13 +1070,14 @@
  },
  {
   "id": "2026-11-26-paro-nacional-transporte-bolivia-lunes-diesel",
-  "estado": "borrador",
+  "estado": "publicada",
   "fecha": "2026-11-26",
   "pais": "bo",
   "cat": "Región",
   "titulo": "Paro nacional de transporte en Bolivia desde el lunes por el diésel a Bs 20,57",
   "bajada": "La Confederación de Choferes resolvió parar por tiempo indefinido desde las 00:00 del lunes 30. No se anunciaron bloqueos de rutas ni cierres de pasos fronterizos.",
   "autor": "Fernando Berdichevsky",
-  "img": "img/2026-11-26-paro-nacional-transporte-bolivia-lunes-diesel-1.jpg"
+  "img": "img/2026-11-26-paro-nacional-transporte-bolivia-lunes-diesel-1.jpg",
+  "hora": "15:59"
  }
 ]
