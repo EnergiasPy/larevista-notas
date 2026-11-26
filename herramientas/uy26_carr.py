@@ -47,8 +47,8 @@ for i,(l,c2,sz) in enumerate([('¿Y SI EL CLIENTE',W,112),('CARGA SOLO?',W,112),
 ax.add_patch(Rectangle((70,730),140,7,color=G))
 for i,l in enumerate(['El gremio de las estaciones','encargó analizar el autodespacho.']):
     ax.text(70,810+i*54,l,fontfamily=B,fontweight='semibold',fontsize=38,color=W,va='center')
-ax.text(70,990,'Acá la autocarga de Enex ya funciona',fontfamily=B,fontsize=30,color=M,va='center')
-ax.text(70,1032,'desde 2024. Allá recién lo discuten.',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,990,'En Paraguay ya funciona en más bocas',fontfamily=B,fontsize=30,color=M,va='center')
+ax.text(70,1032,'que allá. Y sin bajar ninguna app.',fontfamily=B,fontsize=30,color=M,va='center')
 save(fig,1)
 
 # 2 · qué pasó
@@ -92,11 +92,11 @@ save(fig,5)
 # 6 · Paraguay
 fig,ax=base(6,'EN PARAGUAY')
 y=title(ax,['ACÁ YA SE','CARGA SOLO'],y0=210,size=100,step=108)
-cards(ax,[('Enex tiene islas de autocarga desde 2024','En cuatro estaciones de Asunción y San Lorenzo'),
-          ('Se paga antes, desde la app Mi Enex','Producto, monto y medio de pago se eligen al llegar'),
-          ('Salió con G. 400 de descuento por litro','Y doble puntaje: entró como producto comercial')],y+40,h=150,gap=26)
-ax.text(70,1180,'Esa es la diferencia con Uruguay: acá llegó',fontfamily=B,fontweight='bold',fontsize=30,color=W,va='center')
-ax.text(70,1226,'para fidelizar; allá se estudia para bajar costos.',fontfamily=B,fontsize=27,color=M,va='center')
+cards(ax,[('Petrosur: más de seis estaciones','Con equipos de autodespacho ya instalados'),
+          ('Sin app: alcanza con la tarjeta','Se paga con crédito en el propio surtidor'),
+          ('G. 400 menos por litro','Entró como descuento al cliente, no como ahorro')],y+40,h=150,gap=26)
+ax.text(70,1180,'Paraguay ya tiene más bocas con autodespacho',fontfamily=B,fontweight='bold',fontsize=29,color=W,va='center')
+ax.text(70,1226,'que Uruguay, donde el tema recién se discute.',fontfamily=B,fontsize=27,color=M,va='center')
 save(fig,6)
 
 # 7 · qué significa

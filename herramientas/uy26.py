@@ -34,11 +34,11 @@ def num(fig,ax,x,y,big,uni,fs,col,ufs=None,dy=8,pre=None):
     fig.canvas.draw(); bb=t.get_window_extent(); x2=ax.transData.inverted().transform((bb.x1,0))[0]
     ax.text(x2+14,y+dy,uni,fontfamily=B,fontweight='bold',fontsize=ufs or int(fs*0.5),color=col,va='center')
 
-fig,ax=hdr('REGIÓN · URUGUAY','AUTODESPACHO: QUE EL CLIENTE CARGUE SOLO','El gremio uruguayo encargó estudiar si conviene. En Paraguay la autocarga ya funciona desde 2024')
+fig,ax=hdr('REGIÓN · URUGUAY','AUTODESPACHO: QUE EL CLIENTE CARGUE SOLO','El gremio uruguayo encargó estudiar si conviene. En Paraguay el autodespacho ya funciona')
 tiles=[('2','estaciones','Ya funcionan así en Uruguay: Salto y Cerro Largo',RD,None),
        ('3,7','% del parque','Autos eléctricos e híbridos en Uruguay',GR,None),
        ('2025','','Año en que la Argentina lo habilitó por decreto',NV,None),
-       ('4','estaciones','Con islas de autocarga de Enex en Paraguay',GR,None)]
+       ('+6','estaciones','Con autodespacho en Paraguay, de Petrosur',GR,None)]
 for i,(big,uni,sub,col,pre) in enumerate(tiles):
     x=80+(i%2)*735; y=290+(i//2)*222
     rb(ax,x,y,705,200,SO,10); ax.add_patch(Rectangle((x,y),8,200,color=col))
@@ -46,5 +46,5 @@ for i,(big,uni,sub,col,pre) in enumerate(tiles):
     ax.text(x+42,y+158,sub,fontfamily=B,fontweight='semibold',fontsize=21,color=MU,va='center')
 rb(ax,80,742,1440,62,NV,10)
 ax.text(120,773,'EN URUGUAY NO ESTÁ PROHIBIDO: SE PIDE UNA AUTORIZACIÓN A LA URSEA',fontfamily=BB,fontsize=36,color='#6DBB78',va='center')
-foot(fig,ax,'Datos: UNVENU, URSEA, CLAEC, Secretaría de Energía de la Argentina y Enex Paraguay.','-1.jpg',ysrc=878)
+foot(fig,ax,'Datos: UNVENU, URSEA, CLAEC y Secretaría de Energía de la Argentina.','-1.jpg',ysrc=878)
 print('ok placa web')
