@@ -27,3 +27,12 @@ Con backup en la misma carpeta (`*.bak-20261120*`):
   media-kit.html, apesa.html y autor.php. En index.html cuenta además una vista por cada cambio de sección. Sin la parte `<noscript>`.
   Una página nueva tiene que llevar el mismo bloque.
 - privacidad.html: menciona el píxel de Meta (sección de datos, proveedores y cookies) y lleva fecha 20/11/2026.
+
+## Cambios en el servidor del 26/11/2026
+Con backup en la misma carpeta (`med.php.bak-20261126`):
+- med.php: igual al de `site/`. Arregla el conteo de inscriptos al newsletter. El `totalSubscribers` que
+  devuelve Brevo YA viene sin los dados de baja y el panel les restaba además `totalBlacklisted`: mostraba
+  172 en vez de 177. Ahora los activos se cuentan contacto por contacto sobre la lista #4 y el pie aclara
+  la diferencia entre contactos de la lista (182), activos (177), destinatarios de una campaña y entregados.
+  La caché `datos/newsletter-cache.json` se regenera sola por el campo `v` (versión 2).
+- Queda en la carpeta un `med copy 1.php` del 01/11 (10 KB, copia vieja del panel) que conviene borrar.
