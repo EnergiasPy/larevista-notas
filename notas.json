@@ -1058,13 +1058,14 @@
  },
  {
   "id": "2026-11-26-autodespacho-uruguay-estaciones-cargar-uno-mismo",
-  "estado": "borrador",
+  "estado": "publicada",
   "fecha": "2026-11-26",
   "pais": "uy",
   "cat": "Región",
   "titulo": "Autodespacho en Uruguay: las estaciones estudian que el cliente cargue su propio combustible",
   "bajada": "La asamblea de UNVENU le encargó a su Consejo Directivo analizar la viabilidad: allá no está prohibido y ya hay dos estaciones funcionando así. En Paraguay el autodespacho ya anda en más bocas, y sin app.",
   "autor": "Ana Paula Scacciaferro",
-  "img": "img/2026-11-26-autodespacho-uruguay-estaciones-cargar-uno-mismo-1.jpg"
+  "img": "img/2026-11-26-autodespacho-uruguay-estaciones-cargar-uno-mismo-1.jpg",
+  "hora": "12:43"
  }
 ]
