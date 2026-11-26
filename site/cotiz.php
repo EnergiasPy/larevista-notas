@@ -2,6 +2,7 @@
 // cotiz.php · 1 dólar en monedas de la región + petróleo. Fuentes de mercado en tiempo real, cache 30 min.
 // Paraguay: casa de cambios local (compra/venta). Argentina: oficial y blue. Resto: cotización de mercado en vivo.
 header('Content-Type: application/json; charset=utf-8');
+header('X-Robots-Tag: noindex');  // endpoint JSON, no es una pagina: que Google no lo trate como tal
 ini_set('serialize_precision', '-1');
 header('Cache-Control: public, max-age=900');
 $dir = __DIR__ . '/datos/cotiz'; if (!is_dir($dir)) @mkdir($dir, 0755, true);

@@ -2,6 +2,7 @@
 // cotiz.php · 1 dólar en monedas de la región + petróleo, con fuente, fecha del valor y hora de consulta por dato.
 // Cada fuente guarda su último dato válido. Si una consulta falla se sigue mostrando ese dato, marcado como "sin actualizar".
 header('Content-Type: application/json; charset=utf-8');
+header('X-Robots-Tag: noindex');  // endpoint JSON, no es una pagina: que Google no lo trate como tal
 header('Cache-Control: public, max-age=600');
 ini_set('serialize_precision', '-1');
 date_default_timezone_set('America/Asuncion');

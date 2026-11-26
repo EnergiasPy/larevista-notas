@@ -2,6 +2,7 @@
 // estaciones.php · estaciones de servicio de Paraguay con ubicación (fuente pública: mapa del MIC, gis.mic.gov.py)
 // Devuelve una lista compacta para el mapa de /estaciones. No incluye el nombre del operador.
 header('Content-Type: application/json; charset=utf-8');
+header('X-Robots-Tag: noindex');  // endpoint JSON, no es una pagina: que Google no lo trate como tal
 header('Cache-Control: public, max-age=3600');
 $dir = __DIR__ . '/datos/mic'; if (!is_dir($dir)) @mkdir($dir, 0755, true);
 $cache = "$dir/estaciones-mapa.json";
