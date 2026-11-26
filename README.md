@@ -35,4 +35,10 @@ Con backup en la misma carpeta (`med.php.bak-20261126`):
   172 en vez de 177. Ahora los activos se cuentan contacto por contacto sobre la lista #4 y el pie aclara
   la diferencia entre contactos de la lista (182), activos (177), destinatarios de una campaña y entregados.
   La caché `datos/newsletter-cache.json` se regenera sola por el campo `v` (versión 2).
+- cotiz.php, cotiz2.php y estaciones.php: iguales a los de `site/`. Suman `X-Robots-Tag: noindex` porque son
+  endpoints JSON, no paginas, y Search Console los marcaba como "Rastreada: actualmente sin indexar".
+  Webuzo dejo el respaldo con `~` al final del nombre (`cotiz~.php`, `cotiz2~.php`, `estaciones~.php`).
+- .htaccess: dos redirecciones 301 para URLs viejas que Google sigue pidiendo, ANTES de las reglas genericas
+  de `/n/` y `/autor/`, que llevan `[L]`: `/autor/redaccion-la-estacion-del-futuro` -> `/autor/redaccion` y
+  `/nota.html?id=<id>` -> `/n/<id>`. Backup en `.htaccess.bak-20261126`.
 - Queda en la carpeta un `med copy 1.php` del 01/11 (10 KB, copia vieja del panel) que conviene borrar.
