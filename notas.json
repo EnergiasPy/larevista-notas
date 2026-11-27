@@ -1111,7 +1111,18 @@
   "cat": "Región",
   "titulo": "Cuánto cuesta el diésel en Brasil: R$ 7,26 con subsidio, R$ 9,06 sin él",
   "bajada": "El Gobierno brasileño prorrogó por 30 días más la subvención de R$ 2,12 por litro de diésel A. Cuesta entre R$ 8.000 y R$ 10.500 millones y es lo que mantiene el litro brasileño por debajo del paraguayo.",
-  "autor": "Fernando Berdichevsky",
+  "autor": "NdR",
   "img": "img/2026-11-27-cuanto-cuesta-el-diesel-en-brasil-subsidio-prorroga-1.jpg"
+ },
+ {
+  "id": "2026-11-27-baja-el-gas-de-garrafa-paraguay-petropar-nande-gas",
+  "estado": "borrador",
+  "fecha": "2026-11-27",
+  "pais": "py",
+  "cat": "Mercado y precios",
+  "titulo": "Baja el gas de garrafa en Paraguay: G. 600 menos por kilo en el Ñande Gas",
+  "bajada": "Desde este viernes, el GLP de uso doméstico de Petropar cuesta G. 600 menos por kilo y G. 6.000 menos por garrafa de 10 kilos. Las naftas y el diésel quedaron afuera del anuncio: Alliana prometió novedades para el lunes o martes.",
+  "autor": "Fernando Berdichevsky",
+  "img": "img/2026-11-27-baja-el-gas-de-garrafa-paraguay-petropar-nande-gas-1.jpg"
  }
 ]
