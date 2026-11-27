@@ -34,7 +34,7 @@ def num(fig,ax,x,y,big,uni,fs,col,ufs=None,dy=8,pre=None):
     fig.canvas.draw(); bb=t.get_window_extent(); x2=ax.transData.inverted().transform((bb.x1,0))[0]
     ax.text(x2+14,y+dy,uni,fontfamily=B,fontweight='bold',fontsize=ufs or int(fs*0.5),color=col,va='center')
 
-fig,ax=hdr('PARAGUAY · ENERGÍA','GAS DE VACA MUERTA POR EL CHACO','Paraguay le planteó a Milei un gasoducto de 1.050 km hasta Brasil, con la mira puesta en 2032')
+fig,ax=hdr('PARAGUAY · ENERGÍA','MILEI EN PARAGUAY: EL GAS SOBRE LA MESA','Dos proyectos distintos: un gasoducto de 1.050 km hacia Brasil y una conexión para importar de Formosa')
 tiles=[('2.000','millones','Inversión estimada del gasoducto, en dólares',NV,'USD',),
        ('1.050','kilómetros','De ductos entre la Patagonia y Brasil, por el Chaco',NV,None),
        ('2032','','Cuando Paraguay quedaría sin margen eléctrico',RD,None),
