@@ -46,5 +46,5 @@ for i,(big,uni,sub,col,pre) in enumerate(tiles):
     ax.text(x+42,y+158,sub,fontfamily=B,fontweight='semibold',fontsize=21,color=MU,va='center')
 rb(ax,80,742,1440,62,NV,10)
 ax.text(120,773,'NO HUBO DOCUMENTO FIRMADO: POR AHORA ES UNA AGENDA, NO UN CONTRATO',fontfamily=BB,fontsize=33,color='#6DBB78',va='center')
-foot(fig,ax,'Datos: Cancillería de Paraguay, MOPC e Itaipú Binacional. Encuentro del 26 de noviembre de 2026.','-1.jpg',ysrc=878)
+foot(fig,ax,'Datos: Cancillería de Paraguay, MOPC e Itaipú Binacional. Encuentro del 26 de noviembre de 2026.','-2.jpg',ysrc=878)
 print('ok placa web')
