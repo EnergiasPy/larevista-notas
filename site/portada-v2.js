@@ -98,7 +98,20 @@
     '.r5 .lvl,.r5i .tag5{font-size:9px!important;top:3px!important}',
     '@media(max-width:860px){.pv-news{grid-template-columns:1fr}.pv-lead h2{font-size:25px}.pv-sec a{display:grid;grid-template-columns:120px 1fr;gap:12px}.pv-sec img{aspect-ratio:1/1}.pv-sec .pv-cat{margin:0 0 4px}.pv-sec strong{font-size:16px}.pv-more{grid-template-columns:1fr 1fr;gap:14px}.pv-more strong{font-size:14px}}',
     '@media(max-width:560px){.oroh5 .r5{height:96px!important}.oroh5 .r5i{height:92px!important;padding:8px 16px!important;gap:12px!important;justify-content:space-between!important;box-sizing:border-box!important}.oroh5 .r5i .lgw{flex:0 1 auto!important;max-width:55%!important;overflow:visible!important;display:flex!important;align-items:center!important}.oroh5 .r5i .lgw img,.oroh5 .r5i img{max-height:56px!important;max-width:100%!important;object-fit:contain!important;object-position:left center!important}.oroh5 .r5i b{text-align:right!important}.oroh5 .r5i small{display:none!important}.oroh5 .r5i b{font-size:16px!important}.pb5 .r5.bronce{height:72px!important}.pb5 .r5.bronce .r5i{height:68px!important}.pb5 .r5.bronce img{max-height:42px!important}}',
-    '.pv-lead img,.pv-sec img,.pv-more img{aspect-ratio:3/2!important;height:auto!important;object-fit:contain!important;object-position:center!important;background:#F0F4F8!important}'
+    '.pv-lead img,.pv-sec img,.pv-more img{aspect-ratio:3/2!important;height:auto!important;object-fit:contain!important;object-position:center!important;background:#F0F4F8!important}',
+    // banner propio "Tu publicidad acá", debajo de la nota del día (clic medido por /ir.php?d=anuncia)
+    '.pv-anuncia{display:block;margin-top:22px;padding:20px 22px;border:2px dashed #3A963E;border-radius:6px;background:#0F213D;color:#fff;text-decoration:none;animation:pvAnPulso 2.6s ease-in-out infinite}',
+    '.pv-anuncia:hover{background:#15294A;border-color:#6DBB78;animation:none}',
+    '.pv-anuncia .k{display:block;font:700 13px/1 "Barlow Condensed",Arial,sans-serif;letter-spacing:2px;color:#6DBB78;text-transform:uppercase}',
+    '.pv-anuncia .k i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#6DBB78;margin-right:8px;vertical-align:1px;animation:pvAnPunto 1.3s steps(1,end) infinite}',
+    '.pv-anuncia b{display:block;margin-top:6px;font:700 30px/1.1 Barlow,Arial,sans-serif;letter-spacing:.3px;color:#fff}',
+    '.pv-anuncia .s{display:block;margin-top:8px;font:500 15px/1.45 Barlow,Arial,sans-serif;color:#C9D4DF}',
+    '.pv-anuncia .cta{display:inline-block;margin-top:14px;background:#3A963E;color:#fff;font:700 15px/1 Barlow,Arial,sans-serif;padding:11px 18px;border-radius:4px}',
+    '.pv-anuncia:hover .cta{background:#45AE4A}',
+    '@keyframes pvAnPulso{0%,100%{box-shadow:0 0 0 0 rgba(58,150,62,0)}50%{box-shadow:0 0 0 5px rgba(58,150,62,.22)}}',
+    '@keyframes pvAnPunto{0%,49%{opacity:1}50%,100%{opacity:.15}}',
+    '@media(prefers-reduced-motion:reduce){.pv-anuncia,.pv-anuncia .k i{animation:none}}',
+    '@media(max-width:860px){.pv-anuncia b{font-size:25px}.pv-anuncia{padding:18px}}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -185,6 +198,10 @@
     var pub = (notas || []).filter(function (n) { return n.estado === 'publicada'; }).sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
     var n0 = pub[0], sec = pub.slice(1, 3), mas = pub.slice(3, 7); if (!n0) return;
     news.appendChild(el('<article class="pv-lead"><a href="/n/' + esc(n0.id) + '"><img src="' + esc(img(n0)) + '" alt="" loading="eager"><span class="pv-cat">' + esc(n0.cat) + '</span><h2>' + esc(n0.titulo) + '</h2><p>' + esc(n0.bajada) + '</p><span class="pv-by">Por ' + esc(n0.autor) + ' · ' + fecha(n0.fecha) + '</span></a></article>'));
+    news.querySelector('.pv-lead').appendChild(el('<a class="pv-anuncia" href="/ir.php?d=anuncia&amp;o=portada" target="_blank" rel="noopener" aria-label="Anunciá en Energías LATAM: escribinos por WhatsApp">'
+      + '<span class="k"><i></i>Espacio disponible</span><b>Tu publicidad acá</b>'
+      + '<span class="s">Llegá a los dueños y operadores de estaciones de servicio de Paraguay y la región.</span>'
+      + '<span class="cta">Escribinos por WhatsApp</span></a>'));
     var s = el('<div class="pv-sec"></div>');
     sec.forEach(function (n) { s.appendChild(el('<a href="/n/' + esc(n.id) + '"><img src="' + esc(img(n)) + '" alt="" loading="lazy"><span><span class="pv-cat">' + esc(n.cat) + '</span><strong>' + esc(n.titulo) + '</strong><span class="pv-by">' + fecha(n.fecha) + '</span></span></a>')); });
     news.appendChild(s);

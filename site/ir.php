@@ -6,6 +6,8 @@
 $DEST = [
   'gulf' => 'https://energiaslatam.com/n/2026-10-30-gulf-lanzamiento-paraguay', // registro cerrado el 31/10: lleva a la nota
   'gulf-nota' => 'https://energiaslatam.com/n/2026-10-30-gulf-lanzamiento-paraguay',
+  // banner propio "Tu publicidad acá" de la portada (27/11/2026)
+  'anuncia' => 'https://wa.me/595984040224?text=' . rawurlencode('Hola, quiero anunciar en Energías LATAM.'),
 ];
 $dir = __DIR__ . '/datos';
 if (!is_dir($dir)) { @mkdir($dir, 0750); @file_put_contents($dir . '/.htaccess', "Require all denied\nDeny from all\n"); }

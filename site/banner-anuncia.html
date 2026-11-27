@@ -1,0 +1,19 @@
+<!-- REFERENCIA. El banner propio "Tu publicidad acá" NO se pega en index.html:
+     la portada la arma portada-v2.js, que vuelve a dibujar .pv-lead en cada carga.
+     Está implementado ahí (CSS en el array de estilos y el <a> después de armar la nota del día)
+     y el clic pasa por /ir.php?d=anuncia&o=portada, que lo cuenta en med.php
+     ("Enlaces medidos") y redirige a WhatsApp.
+
+     Para cambiar el texto o los colores: site/portada-v2.js, buscar "pv-anuncia".
+     Para cambiar el destino o el mensaje de WhatsApp: site/ir.php, clave 'anuncia'.
+     Al subir portada-v2.js al servidor hay que subir también la versión en index.html
+     (portada-v2.js?v=NN), porque el archivo se cachea una semana.
+
+     Este es el marcado que produce, solo para tenerlo a la vista: -->
+<a class="pv-anuncia" href="/ir.php?d=anuncia&amp;o=portada" target="_blank" rel="noopener"
+   aria-label="Anunciá en Energías LATAM: escribinos por WhatsApp">
+  <span class="k"><i></i>Espacio disponible</span>
+  <b>Tu publicidad acá</b>
+  <span class="s">Llegá a los dueños y operadores de estaciones de servicio de Paraguay y la región.</span>
+  <span class="cta">Escribinos por WhatsApp</span>
+</a>
