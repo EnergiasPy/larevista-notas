@@ -11,8 +11,8 @@ ID='2026-11-27-cuanto-cuesta-el-diesel-en-brasil-subsidio-prorroga'; R='/home/cl
 fig=plt.figure(figsize=(16,10.67),dpi=100,facecolor='white'); ax=fig.add_axes([0,0,1,1]); ax.set_xlim(0,1600); ax.set_ylim(1067,0); ax.axis('off')
 for i,c in enumerate(('#009C3B','#FFDF00','#002776')): ax.add_patch(Rectangle((0,i*6),1600,6,color=c))
 ax.text(80,72,'REGIÓN · BRASIL',fontfamily=B,fontweight='semibold',fontsize=20,color=GR,va='center')
-ax.text(76,148,'CUÁNTO CUESTA EL DIÉSEL EN BRASIL',fontfamily=BB,fontsize=62,color=NV,va='center')
-ax.text(80,214,'El Gobierno prorrogó 30 días más la subvención de R$ 2,12 por litro de diésel A',fontfamily=B,fontsize=23,color=MU,va='center')
+ax.text(76,148,'DIÉSEL EN BRASIL: EL S10 PROMEDIA R$ 7,26',fontfamily=BB,fontsize=62,color=NV,va='center')
+ax.text(80,214,'Hacienda anunció 30 días más de subsidio de R$ 2,12 por litro de diésel A',fontfamily=B,fontsize=23,color=MU,va='center')
 ax.add_patch(Rectangle((80,240),80,5,color=RD))
 
 # dos columnas: con y sin subsidio
@@ -22,7 +22,7 @@ def precio(x,w,k,big,sub,col,bg):
     ax.text(x+40,428,big,fontfamily=BB,fontsize=96,color=col,va='center')
     ax.text(x+40,502,sub,fontfamily=B,fontweight='semibold',fontsize=21,color=NV if bg==SO else 'white',va='center')
 precio(80,700,'PRECIO MEDIO DEL S10 (15 AL 21/11)','R$ 7,26','por litro, con la subvención vigente',GR,SO)
-precio(820,700,'SIMULACIÓN SIN LA SUBVENCIÓN','R$ 9,06','traslado íntegro de los R$ 1,80 en el surtidor',RD,SO)
+precio(820,700,'SIMULACIÓN, NO UN PRECIO MEDIDO','R$ 9,06','si el subsidio se trasladara por completo',RD,SO)
 ax.text(80,578,'+19,8 %',fontfamily=BB,fontsize=46,color=RD,va='center')
 ax.text(258,578,'subió el precio medio del diésel S10 frente al mismo período del año pasado.',fontfamily=B,fontweight='semibold',fontsize=21,color=NV,va='center')
 

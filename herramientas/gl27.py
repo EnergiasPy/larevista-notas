@@ -29,7 +29,7 @@ card(1060,460,'NAFTAS Y DIÉSEL','SIN CAMBIOS','el anuncio no los alcanza:','hab
 # franja: donde pega
 rb(ax,80,590,1440,212,NV,10)
 ax.text(120,640,'CÓMO SE REPARTE EL GLP EN PARAGUAY (ENERO A SEPTIEMBRE)',fontfamily=BB,fontsize=32,color='#6DBB78',va='center')
-for i,(seg,val,off,det) in enumerate([('GARRAFAS','30.275',172,'el canal que baja de precio'),
+for i,(seg,val,off,det) in enumerate([('GARRAFAS','30.275',172,'donde baja el Ñande Gas'),
                                       ('ESTACIONES DE SERVICIO','18.823',168,'autogas: cayó 11,3 % en un año'),
                                       ('INDUSTRIAS','11.222',158,'el único segmento que crece')]):
     x=120+i*470

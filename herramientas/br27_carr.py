@@ -37,10 +37,10 @@ def save2(fig,k): save(fig,f'{ID}-c{k}')
 
 # 1 portada
 fig,ax=base(1,'LA ESTACIÓN DEL FUTURO · BRASIL')
-for i,(l,c) in enumerate([('BRASIL ESTIRA',W),('EL SUBSIDIO',W),('AL DIÉSEL:',G),('30 DÍAS MÁS',G)]):
+for i,(l,c) in enumerate([('DIÉSEL EN BRASIL:',W),('EL S10 PROMEDIA',W),('R$ 7,26',G),('POR LITRO',G)]):
     ax.text(66,280+i*142,l,fontfamily=BB,fontsize=100,color=c,va='center')
 ax.add_patch(Rectangle((70,830),140,7,color=G))
-for i,l in enumerate(['R$ 2,12 por litro de diésel A:','sin eso, el litro iría a R$ 9,06']):
+for i,l in enumerate(['Hacienda anunció 30 días más','del subsidio de R$ 2,12 por litro']):
     ax.text(70,905+i*62,l,fontfamily=B,fontweight='bold',fontsize=40,color=W,va='center')
 ax.text(70,1095,'Qué cambia en la frontera',fontfamily=B,fontweight='semibold',fontsize=27,color=M,va='center')
 save2(fig,1)
@@ -48,13 +48,13 @@ save2(fig,1)
 # 2 cuanto cuesta
 fig,ax=base(2,'EL PRECIO EN LA BOMBA')
 y=title(ax,['CUÁNTO CUESTA','EL DIÉSEL'])
-big3(ax,y,[('R$ 7,26','precio medio del S10, 15 al 21/11 (ANP)'),('R$ 9,06','lo que costaría sin la subvención'),('+19,8 %','subió el precio medio nacional en un año')],fs=66,col=[G,RD,RD])
+big3(ax,y,[('R$ 7,26','precio medio del S10, 15 al 21/11 (ANP)'),('R$ 9,06','simulación sin subsidio, no un precio medido'),('+19,8 %','subió el precio medio nacional en un año')],fs=66,col=[G,RD,RD])
 save2(fig,2)
 
 # 3 que se prorrogo
 fig,ax=base(3,'LA MEDIDA')
 y=title(ax,['QUÉ','SE PRORROGÓ'])
-cards(ax,[('R$ 2,12 por litro','Subvención sobre el diésel A, el combustible puro'),('R$ 1,80 en el surtidor','Con el corte obligatorio de 15 % de biodiésel'),('30 días más','La portaria sale este viernes en el Diario Oficial')],y+60)
+cards(ax,[('R$ 2,12 por litro','Subvención sobre el diésel A, el combustible puro'),('R$ 1,80 en el surtidor','Con el corte obligatorio de 15 % de biodiésel'),('30 días más','Anunciado por Hacienda; la portaria, sin verificar')],y+60)
 save2(fig,3)
 
 # 4 lo que cuesta

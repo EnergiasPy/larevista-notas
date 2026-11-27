@@ -81,7 +81,7 @@ save(fig,3)
 # ---- 4 donde pega ----
 fig,ax=base(4,'EL MERCADO DEL GLP')
 y=title(ax,['DÓNDE PEGA','Y DÓNDE NO'])
-big3(ax,y,[('30.275','toneladas en garrafas: el canal que baja de precio'),('18.823','toneladas en estaciones: el autogas cayó 11,3 %'),('11.222','toneladas en industrias: el único que crece')],fs=62,col=[G,RD,W])
+big3(ax,y,[('30.275','toneladas en garrafas: donde baja el Ñande Gas'),('18.823','toneladas en estaciones: el autogas cayó 11,3 %'),('11.222','toneladas en industrias: el único que crece')],fs=62,col=[G,RD,W])
 save(fig,4)
 
 # ---- 5 el dato estructural ----
@@ -93,7 +93,7 @@ save(fig,5)
 # ---- 6 que significa ----
 fig,ax=base(6,'QUÉ SIGNIFICA PARA LA ESTACIÓN')
 y=title(ax,['TRES COSAS','PARA REVISAR'])
-cards(ax,[('Si vendés garrafas','Se movió el precio de referencia del mercado'),('Si despachás autogas','Tu surtidor no cambió: mirá si baja el granel'),('El fin de semana del 5','Feriado el 7 y Ruta 2 cerrada a los cisternas')],y+60)
+cards(ax,[('Si vendés garrafas','Bajó Petropar, no todo el mercado'),('Si despachás autogas','Tu surtidor no cambió: mirá si baja el granel'),('El fin de semana del 5','Feriado el 7 y Ruta 2 cerrada a los cisternas')],y+60)
 save(fig,6)
 
 # ---- 7 cierre ----
