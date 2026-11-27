@@ -1116,13 +1116,14 @@
  },
  {
   "id": "2026-11-27-baja-el-gas-de-garrafa-paraguay-petropar-nande-gas",
-  "estado": "borrador",
+  "estado": "publicada",
   "fecha": "2026-11-27",
   "pais": "py",
   "cat": "Mercado y precios",
   "titulo": "Baja el gas de garrafa en Paraguay: G. 600 menos por kilo en el Ñande Gas",
   "bajada": "Desde este viernes, el GLP de uso doméstico de Petropar cuesta G. 600 menos por kilo y G. 6.000 menos por garrafa de 10 kilos. Las naftas y el diésel quedaron afuera del anuncio: Alliana prometió novedades para el lunes o martes.",
   "autor": "Fernando Berdichevsky",
-  "img": "img/2026-11-27-baja-el-gas-de-garrafa-paraguay-petropar-nande-gas-1.jpg"
+  "img": "img/2026-11-27-baja-el-gas-de-garrafa-paraguay-petropar-nande-gas-1.jpg",
+  "hora": "13:07"
  }
 ]
