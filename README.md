@@ -42,3 +42,14 @@ Con backup en la misma carpeta (`med.php.bak-20261126`):
   de `/n/` y `/autor/`, que llevan `[L]`: `/autor/redaccion-la-estacion-del-futuro` -> `/autor/redaccion` y
   `/nota.html?id=<id>` -> `/n/<id>`. Backup en `.htaccess.bak-20261126`.
 - Queda en la carpeta un `med copy 1.php` del 01/11 (10 KB, copia vieja del panel) que conviene borrar.
+
+## Cambios en el servidor del 27/11/2026
+Banner propio "Tu publicidad acá" debajo de la nota del día, en la portada:
+- portada-v2.js: igual al de `site/`. Trae el CSS y el marcado del banner (clase `pv-anuncia`).
+  Respaldo automático de Webuzo con `~` al final del nombre.
+- ir.php: igual al de `site/`. Suma el destino `anuncia`, que redirige a WhatsApp con un mensaje
+  predefinido y deja el clic contado en med.php ("Enlaces medidos"). Respaldo con `~`.
+- index.html: única diferencia, `portada-v2.js?v=15` -> `?v=16`. Hay que subir la versión cada vez
+  que se toque portada-v2.js, porque el servidor lo cachea una semana (max-age=604800).
+  Backup en `index.bak-20261127.html`.
+- index.html NO está en el repo: vive solo en el servidor.
