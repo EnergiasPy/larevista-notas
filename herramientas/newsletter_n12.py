@@ -15,13 +15,12 @@ def sub1(pat,rep,s,flags=re.S):
     return out
 
 DEST='2026-11-27-baja-el-gas-de-garrafa-paraguay-petropar-nande-gas'
-TAMBIEN=['2026-11-27-b100-biodiesel-puro-barcazas-paraguay-resolucion-908',
-         '2026-11-27-gasoducto-bioceanico-vaca-muerta-chaco-paraguay-milei',
-         '2026-11-26-paro-nacional-transporte-bolivia-lunes-diesel']
-MAS=['2026-11-26-autodespacho-uruguay-estaciones-cargar-uno-mismo']
-# si Diego publica Caacupé antes del envío, se agrega acá:
 CAACUPE='2026-11-27-restricciones-ruta-2-caacupe-camiones-combustible'
-if N[CAACUPE]['estado']=='publicada': MAS.insert(0,CAACUPE)
+TAMBIEN=[CAACUPE,
+         '2026-11-27-b100-biodiesel-puro-barcazas-paraguay-resolucion-908',
+         '2026-11-27-gasoducto-bioceanico-vaca-muerta-chaco-paraguay-milei']
+MAS=['2026-11-26-paro-nacional-transporte-bolivia-lunes-diesel',
+     '2026-11-26-autodespacho-uruguay-estaciones-cargar-uno-mismo']
 PEND=[i for i in [DEST]+TAMBIEN+MAS if N[i]['estado']!='publicada']
 if PEND: print('OJO, todavia en borrador:',PEND)
 
@@ -37,6 +36,7 @@ h=sub1(r'(?<=<p style="margin:0 0 6px 0;font-size:16px;line-height:1.55">).*?(?=
 # 2) lo mas importante en 30 segundos
 B=[('⛽','Gas de garrafa:','Petropar bajó <b>G. 600 por kilo</b> el Ñande Gas, <b>G. 6.000</b> la garrafa de 10 kilos. Naftas y diésel no entraron en el anuncio.'),
    ('🗓️','Lo que viene:','Alliana dijo que la rebaja <b>"no va a ser la última"</b> y prometió nuevos anuncios de precios para el <b>lunes o el martes</b>.'),
+   ('🚧','Ruta 2:','del <b>sábado 5 al martes 8</b> no entran camiones de combustible entre San Lorenzo e Itacurubí por Caacupé. Son <b>70 horas</b> sin reposición en el pico de ventas del año: la carga hay que pedirla esta semana.'),
    ('🚢','B100:','el MIC habilitó el <b>biodiésel puro</b> para abastecer embarcaciones, con puestos de suministro en muelles y atracaderos. La mezcla del surtidor no cambia: B7 hasta el 31 de diciembre.'),
    ('🇦🇷','Gas argentino:','tras la visita de Milei, Paraguay puso sobre la mesa dos proyectos: un gasoducto de <b>1.050 km</b> y <b>USD 2.000 millones</b> por el Chaco, y una conexión desde Formosa. De ninguno se anunció el inicio de obras.'),
    ('🇧🇴','Bolivia:','la Confederación de Choferes anunció <b>paro nacional indefinido desde las 00:00 del lunes 30</b> por la suba del diésel a Bs 20,57. No se anunciaron bloqueos ni cierres de pasos.'),
