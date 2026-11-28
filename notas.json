@@ -1082,14 +1082,15 @@
  },
  {
   "id": "2026-11-27-restricciones-ruta-2-caacupe-camiones-combustible",
-  "estado": "borrador",
+  "estado": "publicada",
   "fecha": "2026-11-28",
   "pais": "py",
   "cat": "Combustibles y EESS",
   "titulo": "Restricciones en la Ruta 2 por Caacupé: 70 horas sin camiones de combustible",
   "bajada": "La Resolución 1756 del MOPC saca a los pesados de la PY02 entre San Lorenzo e Itacurubí desde las 12:00 del sábado 5 hasta las 10:00 del martes 8. Los transportes de combustible están nombrados expresamente.",
   "autor": "Fernando Berdichevsky",
-  "img": "img/2026-11-27-restricciones-ruta-2-caacupe-camiones-combustible-1.jpg"
+  "img": "img/2026-11-27-restricciones-ruta-2-caacupe-camiones-combustible-1.jpg",
+  "hora": "07:47"
  },
  {
   "id": "2026-11-27-gasoducto-bioceanico-vaca-muerta-chaco-paraguay-milei",
